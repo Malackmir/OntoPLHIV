@@ -181,7 +181,7 @@ jobs:
           echo "=== Verification du dossier local ==="
 
           if [ ! -d PLHIV ]; then
-            echo "ERREUR : le dossier PLHIV/ est absent du depot."
+            echo "ERREUR : le dossier PLHIV/ est absent du depot local."
             exit 1
           fi
 
