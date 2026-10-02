@@ -30,13 +30,13 @@ jobs:
           ls -la
 
           echo "=== Verification du dossier ontologies ==="
-          if [ ! -d ontologies ]; then
+          if [ ! -d PLHIV ]; then
             echo "ERREUR : le dossier ontologies/ est absent."
             echo "Verifiez la structure du depot OntoPLHIV."
             exit 1
           fi
 
-          find ontologies -type f -print
+          find PLHIV -type f -print
 
       - name: Installer Python
         uses: actions/setup-python@v6
@@ -148,18 +148,18 @@ jobs:
 
           echo "=== Verification du dossier local ==="
 
-          if [ ! -d ontologies ]; then
+          if [ ! -d PLHIV ]; then
             echo "ERREUR : le dossier ontologies/ est absent du depot."
             exit 1
           fi
 
-          find ontologies -type f -print
+          find PLHIV -type f -print
 
           echo "=== Synchronisation vers le VPS ==="
 
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
-            ontologies/ \
+            PLHIV/ \
             "$VPS_USER@$VPS_HOST:/var/www/ontologies/"
 
           echo "Deploiement des ontologies termine."
