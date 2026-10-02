@@ -69,7 +69,7 @@ jobs:
 
           echo "=== 1. Verification du dossier local ==="
           if [ ! -d ontologies ]; then
-            echo "ERREUR : le dossier ontologies/ est absent du dépôt."
+            echo "ERREUR : le dossier PLHIV/ est absent du dépôt."
             exit 1
           fi
           find ontologies -maxdepth 2 -type f -print
@@ -81,7 +81,7 @@ jobs:
             "$VPS_USER@$VPS_HOST" \
             'test -d /var/www/ontologies &&
              test -w /var/www/ontologies'
-             
+
           echo "=== 2. Verification de la connexion SSH ==="
           rsync -az --delete \
             --exclude='.git/' \
