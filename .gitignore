@@ -1,0 +1,16 @@
+# Environnements Python
+.venv/
+venv/
+__pycache__/
+
+# Fichiers système et éditeur
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Clés et secrets
+.env
+*.pem
+id_rsa
+github_actions_ontologies
+github_actions_ontologies.pub
