@@ -36,8 +36,8 @@ jobs:
           ls -la
 
           echo "=== Verification du script de validation ==="
-          if [ ! -f test/validate_plhiv.py ]; then
-            echo "ERREUR : test/validate_plhiv.py est introuvable."
+          if [ ! -f tests/validate_plhiv.py ]; then
+            echo "ERREUR : tests/validate_plhiv.py est introuvable."
             exit 1
           fi
 
@@ -68,11 +68,11 @@ jobs:
             python -m pip install rdflib
           fi
 
-      - name: Executer test/validate_plhiv.py
+      - name: Executer tests/validate_plhiv.py
         run: |
           set -eu
           echo "=== Validation des ontologies RDF/OWL ==="
-          python test/validate_plhiv.py
+          python tests/validate_plhiv.py
           echo "Validation terminee avec succes."
 
   # ==========================================
