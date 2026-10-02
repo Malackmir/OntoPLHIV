@@ -167,9 +167,8 @@ jobs:
             -o IdentitiesOnly=yes \
             -o StrictHostKeyChecking=yes \
             "$VPS_USER@$VPS_HOST" \
-            'test -d /var/www/ontologies/OntoPLHIV &&
-             test -w /var/www/ontologies/OntoPLHIV &&
-             echo "Repertoire distant accessible en ecriture"'
+            'mkdir -p /var/www/ontologies/OntoPLHIV &&
+             test -w /var/www/ontologies/OntoPLHIV'
 
       - name: Deployer les ontologies PLHIV
         env:
@@ -197,6 +196,12 @@ jobs:
           VPS_USER: ${{ secrets.VPS_USER }}
         run: |
           set -eu
+
+          echo "=== Copie vers le VPS ==="
+          rsync -avz \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
+            PLHIV/ \
+            "$VPS_USER@$VPS_HOST:/var/www/ontologies/OntoPLHIV/"
 
           ssh \
             -i ~/.ssh/deploy_key \
