@@ -67,13 +67,6 @@ jobs:
         run: |
           set -eu
 
-          echo "=== 1. Verification du dossier local ==="
-          if [ ! -d OntoPLHIV ]; then
-            echo "ERREUR : le dossier OntoPLHIV/ est absent du depot."
-            exit 1
-          fi
-          find OntoPLHIV -maxdepth 2 -type f -print
-
           echo "=== 2. Verification de la connexion SSH ==="
           ssh -i ~/.ssh/deploy_key \
             -o IdentitiesOnly=yes \
