@@ -33,14 +33,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Verifier le dossier des ontologies
-        run: |
-          if [ ! -d ontologies ]; then
-            echo "ERREUR : dossier ontologies/ introuvable."
-            exit 1
-          fi
-          find ontologies -maxdepth 2 -type f -print
-
       - name: Valider RDF et Turtle
         run: python tests/validate_plhiv.py
 
@@ -55,37 +47,18 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Installer rsync
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y rsync
+        run: sudo apt-get update && sudo apt-get install -y rsync
 
       - name: Configurer SSH
         env:
           VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
           VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
         run: |
-          set -eu
-
-          if [ -z "$VPS_SSH_KEY" ]; then
-            echo "ERREUR : le secret VPS_SSH_KEY est vide ou absent."
-            exit 1
-          fi
-
-          if [ -z "$VPS_KNOWN_HOSTS" ]; then
-            echo "ERREUR : le secret VPS_KNOWN_HOSTS est vide ou absent."
-            exit 1
-          fi
-
           install -m 700 -d ~/.ssh
-
           printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-
           printf '%s\n' "$VPS_KNOWN_HOSTS" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
-
-          ssh-keygen -y -f ~/.ssh/deploy_key > /dev/null
-          echo "Configuration SSH terminee."
 
       - name: Deployer les ontologies
         env:
@@ -94,78 +67,35 @@ jobs:
         run: |
           set -eu
 
-          echo "=== 1. Verification des variables ==="
-          if [ -z "$VPS_HOST" ] || [ -z "$VPS_USER" ]; then
-            echo "ERREUR : VPS_HOST ou VPS_USER est vide ou absent."
-            exit 1
-          fi
-
-          echo "Hote VPS configure."
-          echo "Utilisateur SSH configure."
-
-          echo "=== 2. Verification du dossier local ==="
+          echo "=== 1. Verification du dossier local ==="
           if [ ! -d ontologies ]; then
-            echo "ERREUR : le dossier ontologies/ est absent du depot."
+            echo "ERREUR : le dossier ontologies/ est absent du dépôt."
             exit 1
           fi
-
           find ontologies -maxdepth 2 -type f -print
 
-          echo "=== 3. Test de connexion SSH ==="
-          if ! ssh -v \
-            -i ~/.ssh/deploy_key \
-            -o IdentitiesOnly=yes \
-            -o StrictHostKeyChecking=yes \
-            -o ConnectTimeout=15 \
-            "$VPS_USER@$VPS_HOST" \
-            'echo "Connexion SSH OK"'; then
-            echo "ERREUR : connexion SSH impossible."
-            echo "Verifier VPS_HOST, VPS_USER, la cle et known_hosts."
-            exit 1
-          fi
-
-          echo "=== 4. Verification du dossier distant ==="
-          if ! ssh \
-            -i ~/.ssh/deploy_key \
+          echo "=== 2. Verification de la connexion SSH ==="
+          ssh -i ~/.ssh/deploy_key \
             -o IdentitiesOnly=yes \
             -o StrictHostKeyChecking=yes \
             "$VPS_USER@$VPS_HOST" \
-            'if [ ! -d /var/www/ontologies ]; then
-               echo "ERREUR : dossier distant absent."
-               exit 2
-             fi
-             if [ ! -w /var/www/ontologies ]; then
-               echo "ERREUR : dossier distant non accessible en ecriture."
-               exit 3
-             fi
-             ls -ld /var/www/ontologies'; then
-            echo "ERREUR : verification du dossier distant echouee."
-            exit 1
-          fi
-
-          echo "=== 5. Synchronisation avec rsync ==="
-          rsync -avz --delete \
+            'test -d /var/www/ontologies &&
+             test -w /var/www/ontologies'
+             
+          echo "=== 2. Verification de la connexion SSH ==="
+          rsync -az --delete \
             --exclude='.git/' \
-            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15" \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
             ontologies/ \
             "$VPS_USER@$VPS_HOST:/var/www/ontologies/"
-
-          echo "=== 6. Synchronisation terminee ==="
 
       - name: Verifier le deploiement
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
         run: |
-          set -eu
-
-          echo "=== Verification des fichiers sur le VPS ==="
-
-          ssh \
-            -i ~/.ssh/deploy_key \
+          ssh -i ~/.ssh/deploy_key \
             -o IdentitiesOnly=yes \
             -o StrictHostKeyChecking=yes \
             "$VPS_USER@$VPS_HOST" \
             'find /var/www/ontologies -type f -print'
-
-          echo "Verification finale terminee."
