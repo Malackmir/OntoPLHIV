@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   validate:
-    name: Valider les ontologies RDF OWL
+    name: Valider les ontologies
     runs-on: ubuntu-latest
 
     steps:
@@ -29,10 +29,9 @@ jobs:
           pwd
           ls -la
 
-          echo "=== Verification du dossier ontologies ==="
+          echo "=== Verification du dossier PLHIV ==="
           if [ ! -d PLHIV ]; then
-            echo "ERREUR : le dossier ontologies/ est absent."
-            echo "Verifiez la structure du depot OntoPLHIV."
+            echo "ERREUR : le dossier PLHIV/ est absent du depot."
             exit 1
           fi
 
@@ -53,19 +52,56 @@ jobs:
             pip install rdflib
           fi
 
-      - name: Valider les ontologies
+      - name: Valider les ontologies RDF OWL
         run: |
-          if [ ! -f tests/validate_plhiv.py ]; then
-            echo "ERREUR : tests/validate_plhiv.py est introuvable."
-            exit 1
-          fi
+          python - <<'PY'
+          from pathlib import Path
+          from rdflib import Graph
 
-          python tests/validate_plhiv.py
+          root = Path("PLHIV")
+          formats = {
+              ".ttl": "turtle",
+              ".rdf": "xml",
+              ".owl": "xml",
+              ".jsonld": "json-ld",
+          }
+
+          files = [
+              p for p in root.rglob("*")
+              if p.is_file() and p.suffix.lower() in formats
+          ]
+
+          if not files:
+              raise SystemExit(
+                  "ERREUR : aucun fichier RDF/OWL trouve dans PLHIV/"
+              )
+
+          errors = []
+
+          for path in files:
+              try:
+                  graph = Graph()
+                  graph.parse(
+                      str(path),
+                      format=formats[path.suffix.lower()]
+                  )
+                  print(f"OK : {path} ({len(graph)} triplets)")
+              except Exception as exc:
+                  errors.append(path)
+                  print(f"ERREUR : {path} : {exc}")
+
+          if errors:
+              raise SystemExit(
+                  f"Validation echouee : {len(errors)} fichier(s) invalide(s)"
+              )
+
+          print(f"Validation terminee : {len(files)} fichier(s) valide(s)")
+          PY
 
   deploy:
-    name: Deployer sur le VPS Ubuntu
-    runs-on: ubuntu-latest
+    name: Deployer sur le VPS
     needs: validate
+    runs-on: ubuntu-latest
     environment: production
 
     steps:
@@ -84,18 +120,12 @@ jobs:
         run: |
           set -eu
 
-          if [ -z "$VPS_SSH_KEY" ]; then
-            echo "ERREUR : secret VPS_SSH_KEY absent."
-            exit 1
-          fi
-
-          if [ -z "$VPS_KNOWN_HOSTS" ]; then
-            echo "ERREUR : secret VPS_KNOWN_HOSTS absent."
+          if [ -z "$VPS_SSH_KEY" ] || [ -z "$VPS_KNOWN_HOSTS" ]; then
+            echo "ERREUR : secret SSH absent ou vide."
             exit 1
           fi
 
           install -m 700 -d ~/.ssh
-
           printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
 
@@ -103,10 +133,9 @@ jobs:
           chmod 600 ~/.ssh/known_hosts
 
           ssh-keygen -y -f ~/.ssh/deploy_key > /dev/null
-
           echo "Configuration SSH terminee."
 
-      - name: Verifier la connexion et les permissions
+      - name: Verifier la connexion SSH
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
@@ -118,8 +147,6 @@ jobs:
             exit 1
           fi
 
-          echo "=== Test SSH ==="
-
           ssh \
             -i ~/.ssh/deploy_key \
             -o IdentitiesOnly=yes \
@@ -128,7 +155,12 @@ jobs:
             "$VPS_USER@$VPS_HOST" \
             'echo "Connexion SSH OK"'
 
-          echo "=== Verification du repertoire distant ==="
+      - name: Verifier le repertoire distant
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          set -eu
 
           ssh \
             -i ~/.ssh/deploy_key \
@@ -139,7 +171,7 @@ jobs:
              test -w /var/www/ontologies &&
              echo "Repertoire distant accessible en ecriture"'
 
-      - name: Deployer les ontologies
+      - name: Deployer les ontologies PLHIV
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
@@ -149,20 +181,20 @@ jobs:
           echo "=== Verification du dossier local ==="
 
           if [ ! -d PLHIV ]; then
-            echo "ERREUR : le dossier ontologies/ est absent du depot."
+            echo "ERREUR : le dossier PLHIV/ est absent du depot."
             exit 1
           fi
 
           find PLHIV -type f -print
 
-          echo "=== Synchronisation vers le VPS ==="
+          echo "=== Deploiement vers le VPS ==="
 
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
             PLHIV/ \
             "$VPS_USER@$VPS_HOST:/var/www/ontologies/"
 
-          echo "Deploiement des ontologies termine."
+          echo "Deploiement termine."
 
       - name: Verifier les fichiers deployes
         env:
@@ -171,8 +203,6 @@ jobs:
         run: |
           set -eu
 
-          echo "=== Fichiers presents sur le VPS ==="
-
           ssh \
             -i ~/.ssh/deploy_key \
             -o IdentitiesOnly=yes \
@@ -180,4 +210,4 @@ jobs:
             "$VPS_USER@$VPS_HOST" \
             'find /var/www/ontologies -type f -print'
 
-          echo "Deploiement verifie."
+          echo "Verification finale terminee."
