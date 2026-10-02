@@ -68,11 +68,11 @@ jobs:
           set -eu
 
           echo "=== 1. Verification du dossier local ==="
-          if [ ! -d ontologies ]; then
+          if [ ! -d OntoPLHIV ]; then
             echo "ERREUR : le dossier PLHIV/ est absent du dépôt."
             exit 1
           fi
-          find ontologies -maxdepth 2 -type f -print
+          find OntoPLHIV -maxdepth 2 -type f -print
 
           echo "=== 2. Verification de la connexion SSH ==="
           ssh -i ~/.ssh/deploy_key \
@@ -86,7 +86,7 @@ jobs:
           rsync -az --delete \
             --exclude='.git/' \
             -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
-            ontologies/ \
+            OntoPLHIV/ \
             "$VPS_USER@$VPS_HOST:/var/www/ontologies/"
 
       - name: Verifier le deploiement
