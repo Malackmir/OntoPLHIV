@@ -205,4 +205,4 @@ jobs:
             "$VPS_USER@$VPS_HOST" \
             'find /var/www/ontologies/OntoPLHIV -type f -print'
 
-          echo "Verification finale terminee."
+          echo "Verification finale terminee." 
