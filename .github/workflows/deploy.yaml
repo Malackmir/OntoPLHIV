@@ -167,8 +167,8 @@ jobs:
             -o IdentitiesOnly=yes \
             -o StrictHostKeyChecking=yes \
             "$VPS_USER@$VPS_HOST" \
-            'test -d /var/www/ontologies &&
-             test -w /var/www/ontologies &&
+            'test -d /var/www/ontologies/OntoPLHIV &&
+             test -w /var/www/ontologies/OntoPLHIV &&
              echo "Repertoire distant accessible en ecriture"'
 
       - name: Deployer les ontologies PLHIV
@@ -181,18 +181,13 @@ jobs:
           echo "=== Verification du dossier local ==="
 
           if [ ! -d PLHIV ]; then
-            echo "ERREUR : le dossier PLHIV/ est absent du depot local."
+            echo "ERREUR : le dossier PLHIV/ est absent du depot."
             exit 1
           fi
 
           find PLHIV -type f -print
 
           echo "=== Deploiement vers le VPS ==="
-
-          rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
-            PLHIV/ \
-            "$VPS_USER@$VPS_HOST:/var/www/ontologies/"
 
           echo "Deploiement termine."
 
@@ -208,6 +203,6 @@ jobs:
             -o IdentitiesOnly=yes \
             -o StrictHostKeyChecking=yes \
             "$VPS_USER@$VPS_HOST" \
-            'find /var/www/ontologies -type f -print'
+            'find /var/www/ontologies/OntoPLHIV -type f -print'
 
           echo "Verification finale terminee."
