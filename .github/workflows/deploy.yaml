@@ -293,35 +293,40 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y graphviz
 
-      - name: Construire AR2DTool si necessaire
+      - name: Construire AR2DTool avec ses dependances
         shell: bash
         run: |
           set -euo pipefail
 
-          AR2D_JAR="$(
-            find tools/ar2dtool-src -type f \
-              -name 'ar2dtool.jar' -print -quit
-          )"
+          POM="tools/ar2dtool-src/mavenProject/pom.xml"
 
-          if [ -z "$AR2D_JAR" ]; then
-            mvn -B \
-              -f tools/ar2dtool-src/mavenProject/pom.xml \
-              package
-
-            AR2D_JAR="$(
-              find tools/ar2dtool-src -type f \
-                -iname '*ar2dtool*.jar' \
-                ! -iname '*sources*' \
-                ! -iname '*javadoc*' \
-                -print -quit
-            )"
-          fi
-
-          if [ -z "$AR2D_JAR" ]; then
-            echo "ERREUR : JAR AR2DTool introuvable."
+          if [ ! -f "$POM" ]; then
+            echo "::error::POM AR2DTool introuvable : $POM"
             exit 1
           fi
 
+          # Construire proprement le projet et ses dependances.
+          mvn -B -f "$POM" clean package
+
+          # Utiliser le JAR assemble avec les dependances (dont Apache Jena),
+          # et non le JAR standard qui peut provoquer NoClassDefFoundError.
+          AR2D_JAR="$(
+            find tools/ar2dtool-src/mavenProject/target \
+              -type f \
+              -name '*jar-with-dependencies.jar' \
+              ! -iname '*sources*' \
+              ! -iname '*javadoc*' \
+              -print -quit
+          )"
+
+          if [ -z "$AR2D_JAR" ] || [ ! -s "$AR2D_JAR" ]; then
+            echo "::error::JAR AR2DTool avec dependances introuvable."
+            find tools/ar2dtool-src/mavenProject/target \
+              -maxdepth 2 -type f -print || true
+            exit 1
+          fi
+
+          echo "JAR AR2DTool retenu : $AR2D_JAR"
           echo "AR2D_JAR=$AR2D_JAR" >> "$GITHUB_ENV"
 
       - name: Generer les diagrammes RDF
@@ -335,6 +340,8 @@ jobs:
           rankdir=LR;
           nodeNameMode=localname;
           EOF
+
+          COUNT=0
 
           while IFS= read -r -d '' file; do
             rel="${file#PLHIV/}"
@@ -352,12 +359,23 @@ jobs:
               -c tools/ar2dtool.conf \
               -GV
 
-            test -s "$out"
+            if [ ! -s "$out" ]; then
+              echo "::error::Diagramme absent ou vide : $out"
+              exit 1
+            fi
+
+            COUNT=$((COUNT + 1))
           done < <(
             find PLHIV -type f \
               \( -iname '*.ttl' -o -iname '*.rdf' \) \
               -print0
           )
+
+          if [ "$COUNT" -eq 0 ]; then
+            echo "::warning::Aucun fichier TTL ou RDF trouve pour AR2DTool."
+          fi
+
+          echo "Nombre de diagrammes generes : $COUNT"
 
       # ----------------------------------------------
       # 6. ARCHIVER LES LIVRABLES
