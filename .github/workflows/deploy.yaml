@@ -132,43 +132,47 @@ jobs:
         run: |
           set -euo pipefail
 
-          docker pull ghcr.io/dgarijo/widoco:v1.4.24
+          FILE="PLHIV/plhiv.ttl"
+          OUT="generated/documentation/plhiv"
 
-          while IFS= read -r -d '' file; do
-            rel="${file#PLHIV/}"
-            name="${rel%.*}"
-            out="generated/documentation/${name}"
+          # WIDOCO ne doit traiter que PLHIV/plhiv.ttl.
+          if [ ! -s "$FILE" ]; then
+            echo "::error::Le fichier $FILE est absent ou vide."
+            exit 1
+          fi
 
-            echo "Documentation : $file"
-            echo "Sortie : $out"
+          docker pull ghcr.io/dgarijo/widoco:v1.4.25
 
-            test -s "$file"
-            mkdir -p "$out/resources"
-            chmod -R u+rwX "$out"
+          # Supprimer les anciens fichiers pour éviter de conserver une
+          # documentation obsolète ou des fichiers appartenant à un autre utilisateur.
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
 
-            docker run --rm \
-              --user "$(id -u):$(id -g)" \
-              -v "$GITHUB_WORKSPACE/PLHIV:/usr/local/widoco/in:ro" \
-              -v "$GITHUB_WORKSPACE/generated/documentation:/usr/local/widoco/out" \
-              ghcr.io/dgarijo/widoco:v1.4.24 \
-              -ontFile "in/$rel" \
-              -outFolder "out/$name" \
-              -rewriteAll \
-              -uniteSections \
-              -oops \
-              -webVowl
+          echo "Documentation WIDOCO : $FILE"
+          echo "Répertoire de sortie : $OUT"
 
-            # Vérifier la sortie pour éviter de publier une documentation vide.
-            if [ ! -f "$out/index.html" ]; then
-              echo "::error::WIDOCO n'a pas produit $out/index.html pour $file"
-              find "$out" -maxdepth 3 -type f -print || true
-              exit 1
-            fi
-          done < <(
-            find PLHIV -type f \
-              \( -iname '*.ttl' -o -iname '*.owl' -o -iname '*.rdf' \) \
-              -print0
-          )
+          # Ne pas imposer --user : WIDOCO doit pouvoir créer ses fichiers
+          # temporaires dans son répertoire interne /usr/local/widoco.
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE/PLHIV:/usr/local/widoco/in:ro" \
+            -v "$GITHUB_WORKSPACE/generated/documentation:/usr/local/widoco/out" \
+            ghcr.io/dgarijo/widoco:v1.4.25 \
+            -ontFile "in/plhiv.ttl" \
+            -outFolder "out/plhiv" \
+            -rewriteAll \
+            -uniteSections \
+            -oops \
+            -webVowl
+
+          # Vérifier que la documentation a bien été produite.
+          if [ ! -s "$OUT/index.html" ]; then
+            echo "::error::WIDOCO n'a pas généré $OUT/index.html"
+            find "$OUT" -maxdepth 3 -type f -print || true
+            exit 1
+          fi
+
+          echo "Documentation WIDOCO générée avec succès."
+          find "$OUT" -maxdepth 2 -type f -print
 
       # ----------------------------------------------
       # 3. OOPS! + OOPS-REPORT
