@@ -41,8 +41,8 @@ jobs:
             exit 1
           }
 
-          test -f test/validate_plhiv.py || {
-            echo "ERREUR : test/validate_plhiv.py absent."
+          test -f tests/validate_plhiv.py || {
+            echo "ERREUR : tests/validate_plhiv.py absent."
             exit 1
           }
 
@@ -73,7 +73,7 @@ jobs:
       - name: Valider les ontologies RDF OWL
         run: |
           set -euo pipefail
-          python test/validate_plhiv.py
+          python tests/validate_plhiv.py
 
       - name: Installer Java et Maven
         uses: actions/setup-java@v4
@@ -215,10 +215,10 @@ jobs:
         run: |
           set -euo pipefail
 
-          TEST_SUITE="test/testsuite.ttl"
+          TEST_SUITE="tests/testsuite.ttl"
 
           if [ ! -f "$TEST_SUITE" ]; then
-            echo "::warning::Suite test/testsuite.ttl absente."
+            echo "::warning::Suite tests/testsuite.ttl absente."
             echo "Themis sera execute lorsque la suite de tests sera ajoutee."
             exit 0
           fi
