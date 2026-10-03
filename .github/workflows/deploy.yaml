@@ -135,7 +135,6 @@ jobs:
           FILE="PLHIV/plhiv.ttl"
           OUT="generated/documentation/plhiv"
 
-          # WIDOCO ne doit traiter que PLHIV/plhiv.ttl.
           if [ ! -s "$FILE" ]; then
             echo "::error::Le fichier $FILE est absent ou vide."
             exit 1
@@ -143,16 +142,13 @@ jobs:
 
           docker pull ghcr.io/dgarijo/widoco:v1.4.25
 
-          # Supprimer les anciens fichiers pour éviter de conserver une
-          # documentation obsolète ou des fichiers appartenant à un autre utilisateur.
           rm -rf "$OUT"
-          mkdir -p "$OUT"
+          mkdir -p "$OUT/resources"
 
-          echo "Documentation WIDOCO : $FILE"
-          echo "Répertoire de sortie : $OUT"
+          # Autoriser le conteneur WIDOCO à écrire dans le volume.
+          chmod a+rwx "$OUT"
+          chmod a+rwx "$OUT/resources"
 
-          # Ne pas imposer --user : WIDOCO doit pouvoir créer ses fichiers
-          # temporaires dans son répertoire interne /usr/local/widoco.
           docker run --rm \
             -v "$GITHUB_WORKSPACE/PLHIV:/usr/local/widoco/in:ro" \
             -v "$GITHUB_WORKSPACE/generated/documentation:/usr/local/widoco/out" \
@@ -164,12 +160,13 @@ jobs:
             -oops \
             -webVowl
 
-          # Vérifier que la documentation a bien été produite.
           if [ ! -s "$OUT/index.html" ]; then
             echo "::error::WIDOCO n'a pas généré $OUT/index.html"
             find "$OUT" -maxdepth 3 -type f -print || true
             exit 1
           fi
+
+          echo "Documentation générée avec succès."
 
           echo "Documentation WIDOCO générée avec succès."
           find "$OUT" -maxdepth 2 -type f -print
