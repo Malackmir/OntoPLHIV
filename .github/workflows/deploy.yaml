@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  OUTPUT_DIR: OntoPLHIV
+  OUTPUT_DIR: generated
   ONTOLOGY_DIR: PLHIV
 
 jobs:
@@ -49,11 +49,11 @@ jobs:
           echo "=== Ontologies ==="
           find PLHIV -type f -print
 
-          mkdir -p OntoPLHIV/jsonld
-          mkdir -p OntoPLHIV/documentation
-          mkdir -p OntoPLHIV/diagrams
-          mkdir -p OntoPLHIV/reports
-          mkdir -p OntoPLHIV/tests
+          mkdir -p /jsonld
+          mkdir -p /documentation
+          mkdir -p /diagrams
+          mkdir -p /reports
+          mkdir -p /tests
 
       - name: Installer Python
         uses: actions/setup-python@v6
@@ -106,7 +106,7 @@ jobs:
           while IFS= read -r -d '' file; do
             rel="${file#PLHIV/}"
             name="${rel%.*}"
-            out="OntoPLHIV/jsonld/${name}.jsonld"
+            out="/jsonld/${name}.jsonld"
 
             mkdir -p "$(dirname "$out")"
 
@@ -133,7 +133,7 @@ jobs:
           set -euo pipefail
 
           FILE="PLHIV/plhiv.ttl"
-          OUT="OntoPLHIV/documentation/plhiv"
+          OUT="/documentation/plhiv"
 
           if [ ! -s "$FILE" ]; then
             echo "::error::Le fichier $FILE est absent ou vide."
@@ -151,7 +151,7 @@ jobs:
 
           docker run --rm \
             -v "$GITHUB_WORKSPACE/PLHIV:/usr/local/widoco/in:ro" \
-            -v "$GITHUB_WORKSPACE/OntoPLHIV/documentation:/usr/local/widoco/out" \
+            -v "$GITHUB_WORKSPACE//documentation:/usr/local/widoco/out" \
             ghcr.io/dgarijo/widoco:v1.4.25 \
             -ontFile "in/plhiv.ttl" \
             -outFolder "out/plhiv" \
@@ -197,7 +197,7 @@ jobs:
           while IFS= read -r -d '' file; do
             rel="${file#PLHIV/}"
             name="${rel%.*}"
-            out="OntoPLHIV/reports/${name}"
+            out="/reports/${name}"
 
             mkdir -p "$out"
 
@@ -264,13 +264,13 @@ jobs:
             rel="${file#PLHIV/}"
             name="${rel%.*}"
 
-            mkdir -p "OntoPLHIV/tests/$(dirname "$name")"
+            mkdir -p "/tests/$(dirname "$name")"
 
             java -jar "$THEMIS_JAR" \
               -t "$TEST_SUITE" \
               -o "$file" \
               -r junit \
-              > "OntoPLHIV/tests/${name}.xml"
+              > "/tests/${name}.xml"
 
           done < <(
             find PLHIV -type f \
@@ -346,7 +346,7 @@ jobs:
           while IFS= read -r -d '' file; do
             rel="${file#PLHIV/}"
             name="${rel%.*}"
-            out="OntoPLHIV/diagrams/${name}.png"
+            out="/diagrams/${name}.png"
 
             mkdir -p "$(dirname "$out")"
 
@@ -380,18 +380,14 @@ jobs:
       # ----------------------------------------------
       # 6. ARCHIVER LES LIVRABLES
       # ----------------------------------------------
-      - name: Afficher les livrables generes
-        if: always()
-        run: |
-          echo "=== Fichiers generes ==="
-          find OntoPLHIV -type f -print || true
+
 
       - name: Archiver les livrables
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ontoplhiv-OntoPLHIV
-          path: OntoPLHIV/
+          name: ontoplhiv-generated
+          path: /
           if-no-files-found: warn
           retention-days: 14
 
@@ -411,8 +407,8 @@ jobs:
       - name: Recuperer les livrables generes
         uses: actions/download-artifact@v4
         with:
-          name: ontoplhiv-OntoPLHIV
-          path: OntoPLHIV/
+          name: ontoplhiv-generated
+          path: /
 
       - name: Installer rsync
         run: |
@@ -501,12 +497,12 @@ jobs:
             -o IdentitiesOnly=yes \
             -o StrictHostKeyChecking=yes \
             "$VPS_USER@$VPS_HOST" \
-            'mkdir -p /var/www/ontologies/OntoPLHIV/OntoPLHIV'
+            'mkdir -p /var/www/ontologies/OntoPLHIV/generated'
 
           rsync -avz \
             -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
-            OntoPLHIV/ \
-            "$VPS_USER@$VPS_HOST:/var/www/ontologies/OntoPLHIV/OntoPLHIV/"
+            / \
+            "$VPS_USER@$VPS_HOST:/var/www/ontologies/OntoPLHIV//"
 
       - name: Verifier le deploiement
         env:
@@ -526,6 +522,6 @@ jobs:
                 -maxdepth 2 -type f -print
 
               echo "=== Livrables generes ==="
-              find /var/www/ontologies/OntoPLHIV/OntoPLHIV \
+              find /var/www/ontologies/OntoPLHIV \
                 -type f -print
             '
