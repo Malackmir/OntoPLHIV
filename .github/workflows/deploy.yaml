@@ -41,8 +41,8 @@ jobs:
             exit 1
           }
 
-          test -f tests/validate_plhiv.py || {
-            echo "ERREUR : tests/validate_plhiv.py absent."
+          test -f test/validate_plhiv.py || {
+            echo "ERREUR : test/validate_plhiv.py absent."
             exit 1
           }
 
@@ -73,9 +73,9 @@ jobs:
       - name: Valider les ontologies RDF OWL
         run: |
           set -euo pipefail
-          python tests/validate_plhiv.py
+          python test/validate_plhiv.py
 
-      - name: Installer Java et Maven
+      - name: Installer Java
         uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -139,11 +139,15 @@ jobs:
             name="${rel%.*}"
             out="generated/documentation/${name}"
 
-            mkdir -p "$out"
-
             echo "Documentation : $file"
+            echo "Sortie : $out"
+
+            test -s "$file"
+            mkdir -p "$out/resources"
+            chmod -R u+rwX "$out"
 
             docker run --rm \
+              --user "$(id -u):$(id -g)" \
               -v "$GITHUB_WORKSPACE/PLHIV:/usr/local/widoco/in:ro" \
               -v "$GITHUB_WORKSPACE/generated/documentation:/usr/local/widoco/out" \
               ghcr.io/dgarijo/widoco:v1.4.24 \
@@ -154,6 +158,12 @@ jobs:
               -oops \
               -webVowl
 
+            # Vérifier la sortie pour éviter de publier une documentation vide.
+            if [ ! -f "$out/index.html" ]; then
+              echo "::error::WIDOCO n'a pas produit $out/index.html pour $file"
+              find "$out" -maxdepth 3 -type f -print || true
+              exit 1
+            fi
           done < <(
             find PLHIV -type f \
               \( -iname '*.ttl' -o -iname '*.owl' -o -iname '*.rdf' \) \
