@@ -41,8 +41,8 @@ jobs:
             exit 1
           }
 
-          test -f test/validate_plhiv.py || {
-            echo "ERREUR : test/validate_plhiv.py absent."
+          test -f tests/validate_plhiv.py || {
+            echo "ERREUR : tests/validate_plhiv.py absent."
             exit 1
           }
 
@@ -73,7 +73,7 @@ jobs:
       - name: Valider les ontologies RDF OWL
         run: |
           set -euo pipefail
-          python test/validate_plhiv.py
+          python tests/validate_plhiv.py
 
       - name: Installer Java
         uses: actions/setup-java@v5
