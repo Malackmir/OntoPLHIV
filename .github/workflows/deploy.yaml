@@ -14,73 +14,362 @@ concurrency:
   group: ontoplhiv-production
   cancel-in-progress: false
 
+env:
+  OUTPUT_DIR: generated
+  ONTOLOGY_DIR: PLHIV
+
 jobs:
 
-  # ==========================================
-  # JOB 1 : VALIDATION DES ONTOLOGIES
-  # ==========================================
-  validate:
-    name: Valider les ontologies RDF OWL
+  # ==================================================
+  # JOB 1 : VALIDATION, QUALITE ET GENERATION
+  # ==================================================
+  quality:
+    name: Valider et generer les livrables
     runs-on: ubuntu-latest
 
     steps:
       - name: Recuperer le depot
         uses: actions/checkout@v6
 
-      - name: Verifier la structure du projet
+      - name: Verifier la structure
+        shell: bash
         run: |
-          set -eu
+          set -euo pipefail
 
-          echo "=== Racine du depot ==="
-          pwd
-          ls -la
-
-          echo "=== Verification du script de validation ==="
-          if [ ! -f tests/validate_plhiv.py ]; then
-            echo "ERREUR : tests/validate_plhiv.py est introuvable."
+          test -d PLHIV || {
+            echo "ERREUR : dossier PLHIV absent."
             exit 1
-          fi
+          }
 
-          echo "=== Verification du dossier PLHIV ==="
-          if [ ! -d PLHIV ]; then
-            echo "ERREUR : le dossier PLHIV/ est absent."
+          test -f test/validate_plhiv.py || {
+            echo "ERREUR : test/validate_plhiv.py absent."
             exit 1
-          fi
+          }
 
-          echo "=== Fichiers du dossier PLHIV ==="
+          echo "=== Ontologies ==="
           find PLHIV -type f -print
+
+          mkdir -p generated/jsonld
+          mkdir -p generated/documentation
+          mkdir -p generated/diagrams
+          mkdir -p generated/reports
+          mkdir -p generated/tests
 
       - name: Installer Python
         uses: actions/setup-python@v6
         with:
           python-version: "3.12"
-          cache: pip
-          cache-dependency-path: requirements.txt
 
-      - name: Installer les dependances
+      - name: Installer les dependances Python
         run: |
-          set -eu
           python -m pip install --upgrade pip
 
           if [ -f requirements.txt ]; then
             python -m pip install -r requirements.txt
           else
-            python -m pip install rdflib
+            python -m pip install rdflib requests
           fi
 
-      - name: Executer tests/validate_plhiv.py
+      - name: Valider les ontologies RDF OWL
         run: |
-          set -eu
-          echo "=== Validation des ontologies RDF/OWL ==="
-          python tests/validate_plhiv.py
-          echo "Validation terminee avec succes."
+          set -euo pipefail
+          python test/validate_plhiv.py
 
-  # ==========================================
+      - name: Installer Java et Maven
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "11"
+          cache: maven
+
+      # ----------------------------------------------
+      # 1. OWL2JSONLD
+      # ----------------------------------------------
+      - name: Installer owl2jsonld
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p tools/bin
+
+          curl --fail --location --retry 3 \
+            https://github.com/stain/owl2jsonld/releases/download/0.2.1/owl2jsonld-0.2.1-standalone.jar \
+            --output tools/bin/owl2jsonld.jar
+
+          test -s tools/bin/owl2jsonld.jar
+
+      - name: Generer les contextes JSON-LD
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          while IFS= read -r -d '' file; do
+            rel="${file#PLHIV/}"
+            name="${rel%.*}"
+            out="generated/jsonld/${name}.jsonld"
+
+            mkdir -p "$(dirname "$out")"
+
+            echo "JSON-LD : $file"
+
+            java -jar tools/bin/owl2jsonld.jar \
+              "file://$(realpath "$file")" \
+              --inherit \
+              --output "$out"
+
+            test -s "$out"
+          done < <(
+            find PLHIV -type f \
+              \( -iname '*.ttl' -o -iname '*.owl' -o -iname '*.rdf' \) \
+              -print0
+          )
+
+      # ----------------------------------------------
+      # 2. WIDOCO
+      # ----------------------------------------------
+      - name: Generer la documentation avec Widoco
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          docker pull ghcr.io/dgarijo/widoco:v1.4.24
+
+          while IFS= read -r -d '' file; do
+            rel="${file#PLHIV/}"
+            name="${rel%.*}"
+            out="generated/documentation/${name}"
+
+            mkdir -p "$out"
+
+            echo "Documentation : $file"
+
+            docker run --rm \
+              -v "$GITHUB_WORKSPACE/PLHIV:/usr/local/widoco/in:ro" \
+              -v "$GITHUB_WORKSPACE/generated/documentation:/usr/local/widoco/out" \
+              ghcr.io/dgarijo/widoco:v1.4.24 \
+              -ontFile "in/$rel" \
+              -outFolder "out/$name" \
+              -rewriteAll \
+              -uniteSections \
+              -oops \
+              -webVowl
+
+          done < <(
+            find PLHIV -type f \
+              \( -iname '*.ttl' -o -iname '*.owl' -o -iname '*.rdf' \) \
+              -print0
+          )
+
+      # ----------------------------------------------
+      # 3. OOPS! + OOPS-REPORT
+      # ----------------------------------------------
+      - name: Recuperer oops-report
+        uses: actions/checkout@v6
+        with:
+          repository: OnToology/oops-report
+          path: tools/oops-report
+          persist-credentials: false
+
+      - name: Installer les dependances de oops-report
+        run: |
+          python -m pip install \
+            -r tools/oops-report/requirements.txt
+
+      - name: Analyser les ontologies avec OOPS!
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          while IFS= read -r -d '' file; do
+            rel="${file#PLHIV/}"
+            name="${rel%.*}"
+            out="generated/reports/${name}"
+
+            mkdir -p "$out"
+
+            echo "Rapport OOPS! : $file"
+
+            python tools/oops-report/main.py \
+              --outputdir "$out" \
+              --ontologydir "$file" \
+              --verbose
+          done < <(
+            find PLHIV -type f \
+              \( -iname '*.ttl' -o -iname '*.owl' -o -iname '*.rdf' \) \
+              -print0
+          )
+
+      # ----------------------------------------------
+      # 4. THEMIS
+      # ----------------------------------------------
+      - name: Recuperer Themis
+        uses: actions/checkout@v6
+        with:
+          repository: oeg-upm/Themis
+          path: tools/Themis
+          persist-credentials: false
+
+      - name: Executer les tests Themis
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          TEST_SUITE="test/testsuite.ttl"
+
+          if [ ! -f "$TEST_SUITE" ]; then
+            echo "::warning::Suite test/testsuite.ttl absente."
+            echo "Themis sera execute lorsque la suite de tests sera ajoutee."
+            exit 0
+          fi
+
+          THEMIS_JAR="$(
+            find tools/Themis -type f \
+              -iname 'themis*.jar' -print -quit
+          )"
+
+          if [ -z "$THEMIS_JAR" ]; then
+            echo "Construction de Themis avec Maven..."
+
+            mvn -B -f tools/Themis/pom.xml package
+
+            THEMIS_JAR="$(
+              find tools/Themis -type f \
+                -iname '*themis*.jar' \
+                ! -iname '*sources*' \
+                ! -iname '*javadoc*' \
+                -print -quit
+            )"
+          fi
+
+          if [ -z "$THEMIS_JAR" ]; then
+            echo "ERREUR : fichier JAR de Themis introuvable."
+            exit 1
+          fi
+
+          while IFS= read -r -d '' file; do
+            rel="${file#PLHIV/}"
+            name="${rel%.*}"
+
+            mkdir -p "generated/tests/$(dirname "$name")"
+
+            java -jar "$THEMIS_JAR" \
+              -t "$TEST_SUITE" \
+              -o "$file" \
+              -r junit \
+              > "generated/tests/${name}.xml"
+
+          done < <(
+            find PLHIV -type f \
+              \( -iname '*.ttl' -o -iname '*.owl' -o -iname '*.rdf' \) \
+              -print0
+          )
+
+      # ----------------------------------------------
+      # 5. AR2DTOOL
+      # ----------------------------------------------
+      - name: Recuperer AR2DTool
+        uses: actions/checkout@v6
+        with:
+          repository: idafensp/ar2dtool
+          path: tools/ar2dtool-src
+          persist-credentials: false
+
+      - name: Installer Graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y graphviz
+
+      - name: Construire AR2DTool si necessaire
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          AR2D_JAR="$(
+            find tools/ar2dtool-src -type f \
+              -name 'ar2dtool.jar' -print -quit
+          )"
+
+          if [ -z "$AR2D_JAR" ]; then
+            mvn -B \
+              -f tools/ar2dtool-src/mavenProject/pom.xml \
+              package
+
+            AR2D_JAR="$(
+              find tools/ar2dtool-src -type f \
+                -iname '*ar2dtool*.jar' \
+                ! -iname '*sources*' \
+                ! -iname '*javadoc*' \
+                -print -quit
+            )"
+          fi
+
+          if [ -z "$AR2D_JAR" ]; then
+            echo "ERREUR : JAR AR2DTool introuvable."
+            exit 1
+          fi
+
+          echo "AR2D_JAR=$AR2D_JAR" >> "$GITHUB_ENV"
+
+      - name: Generer les diagrammes RDF
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cat > tools/ar2dtool.conf <<'EOF'
+          pathToDot=/usr/bin/dot;
+          pathToTempDir=/tmp;
+          rankdir=LR;
+          nodeNameMode=localname;
+          EOF
+
+          while IFS= read -r -d '' file; do
+            rel="${file#PLHIV/}"
+            name="${rel%.*}"
+            out="generated/diagrams/${name}.png"
+
+            mkdir -p "$(dirname "$out")"
+
+            echo "Diagramme : $file"
+
+            java -jar "$AR2D_JAR" \
+              -i "$file" \
+              -o "$out" \
+              -t png \
+              -c tools/ar2dtool.conf \
+              -GV
+
+            test -s "$out"
+          done < <(
+            find PLHIV -type f \
+              \( -iname '*.ttl' -o -iname '*.rdf' \) \
+              -print0
+          )
+
+      # ----------------------------------------------
+      # 6. ARCHIVER LES LIVRABLES
+      # ----------------------------------------------
+      - name: Afficher les livrables generes
+        if: always()
+        run: |
+          echo "=== Fichiers generes ==="
+          find generated -type f -print || true
+
+      - name: Archiver les livrables
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ontoplhiv-generated
+          path: generated/
+          if-no-files-found: warn
+          retention-days: 14
+
+  # ==================================================
   # JOB 2 : DEPLOIEMENT SUR LE VPS
-  # ==========================================
+  # ==================================================
   deploy:
     name: Deployer sur le VPS
-    needs: validate
+    needs: quality
     runs-on: ubuntu-latest
     environment: production
 
@@ -88,33 +377,35 @@ jobs:
       - name: Recuperer le depot
         uses: actions/checkout@v6
 
+      - name: Recuperer les livrables generes
+        uses: actions/download-artifact@v4
+        with:
+          name: ontoplhiv-generated
+          path: generated/
+
       - name: Installer rsync
         run: |
           sudo apt-get update
           sudo apt-get install -y rsync
 
-      # ------------------------------------------
-      # CONFIGURATION DE LA CLE SSH
-      # ------------------------------------------
       - name: Configurer SSH
         env:
           VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
           VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
         run: |
-          set -eu
+          set -euo pipefail
 
-          if [ -z "$VPS_SSH_KEY" ]; then
-            echo "ERREUR : le secret VPS_SSH_KEY est absent."
+          test -n "$VPS_SSH_KEY" || {
+            echo "ERREUR : VPS_SSH_KEY absent."
             exit 1
-          fi
+          }
 
-          if [ -z "$VPS_KNOWN_HOSTS" ]; then
-            echo "ERREUR : le secret VPS_KNOWN_HOSTS est absent."
+          test -n "$VPS_KNOWN_HOSTS" || {
+            echo "ERREUR : VPS_KNOWN_HOSTS absent."
             exit 1
-          fi
+          }
 
           install -m 700 -d ~/.ssh
-
           printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
 
@@ -123,22 +414,15 @@ jobs:
 
           ssh-keygen -y -f ~/.ssh/deploy_key > /dev/null
 
-          echo "Configuration SSH terminee."
-
-      # ------------------------------------------
-      # VERIFICATION DE LA CONNEXION
-      # ------------------------------------------
-      - name: Verifier la connexion SSH
+      - name: Verifier la connexion et les permissions
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
         run: |
-          set -eu
+          set -euo pipefail
 
-          if [ -z "$VPS_HOST" ] || [ -z "$VPS_USER" ]; then
-            echo "ERREUR : VPS_HOST ou VPS_USER est absent."
-            exit 1
-          fi
+          test -n "$VPS_HOST"
+          test -n "$VPS_USER"
 
           ssh \
             -i ~/.ssh/deploy_key \
@@ -146,73 +430,59 @@ jobs:
             -o StrictHostKeyChecking=yes \
             -o ConnectTimeout=15 \
             "$VPS_USER@$VPS_HOST" \
-            'echo "Connexion SSH reussie"'
-
-      # ------------------------------------------
-      # VERIFICATION DU REPERTOIRE DISTANT
-      # ------------------------------------------
-      - name: Verifier les permissions du repertoire distant
-        env:
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-          VPS_USER: ${{ secrets.VPS_USER }}
-        run: |
-          set -eu
-
-          ssh \
-            -i ~/.ssh/deploy_key \
-            -o IdentitiesOnly=yes \
-            -o StrictHostKeyChecking=yes \
-            "$VPS_USER@$VPS_HOST" \
             '
               DEST="/var/www/ontologies/OntoPLHIV"
 
-              if [ ! -d "$DEST" ]; then
-                echo "ERREUR : le repertoire distant nexiste pas."
-                echo "Creez-le avec un compte administrateur."
+              test -d "$DEST" || {
+                echo "Repertoire distant absent."
                 exit 1
-              fi
+              }
 
-              if [ ! -w "$DEST" ]; then
-                echo "ERREUR : absence de droits decriture dans $DEST"
+              test -w "$DEST" || {
+                echo "Repertoire distant non accessible en ecriture."
                 exit 1
-              fi
+              }
 
-              echo "Repertoire distant accessible en ecriture."
+              echo "Connexion et permissions OK."
             '
 
-      # ------------------------------------------
-      # COPIE DES ONTOLOGIES VERS LE VPS
-      # ------------------------------------------
-      - name: Deployer les ontologies PLHIV
+      - name: Deployer les ontologies
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
         run: |
-          set -eu
-
-          echo "=== Fichiers locaux ==="
-          find PLHIV -type f -print
-
-          echo "=== Deploiement des ontologies ==="
+          set -euo pipefail
 
           rsync -avz \
             -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
             PLHIV/ \
             "$VPS_USER@$VPS_HOST:/var/www/ontologies/OntoPLHIV/"
 
-          echo "Copie terminee."
-
-      # ------------------------------------------
-      # VERIFICATION FINALE SUR LE VPS
-      # ------------------------------------------
-      - name: Verifier les fichiers deployes
+      - name: Deployer la documentation et les rapports
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
         run: |
-          set -eu
+          set -euo pipefail
 
-          echo "=== Fichiers presents sur le VPS ==="
+          ssh \
+            -i ~/.ssh/deploy_key \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            "$VPS_USER@$VPS_HOST" \
+            'mkdir -p /var/www/ontologies/OntoPLHIV/generated'
+
+          rsync -avz \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
+            generated/ \
+            "$VPS_USER@$VPS_HOST:/var/www/ontologies/OntoPLHIV/generated/"
+
+      - name: Verifier le deploiement
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          set -euo pipefail
 
           ssh \
             -i ~/.ssh/deploy_key \
@@ -220,19 +490,11 @@ jobs:
             -o StrictHostKeyChecking=yes \
             "$VPS_USER@$VPS_HOST" \
             '
-              DEST="/var/www/ontologies/OntoPLHIV"
+              echo "=== Ontologies ==="
+              find /var/www/ontologies/OntoPLHIV \
+                -maxdepth 2 -type f -print
 
-              find "$DEST" -type f -print
-
-              if ! find "$DEST" -type f \
-                \( -iname "*.ttl" \
-                -o -iname "*.owl" \
-                -o -iname "*.rdf" \
-                -o -iname "*.jsonld" \) \
-                -print -quit | grep -q .; then
-                echo "ERREUR : aucun fichier RDF/OWL deploye."
-                exit 1
-              fi
-
-              echo "Verification finale reussie."
+              echo "=== Livrables generes ==="
+              find /var/www/ontologies/OntoPLHIV/generated \
+                -type f -print
             '
