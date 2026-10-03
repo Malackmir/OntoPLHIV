@@ -160,16 +160,18 @@ jobs:
             -oops \
             -webVowl
 
-          if [ ! -s "$OUT/index.html" ]; then
-            echo "::error::WIDOCO n'a pas généré $OUT/index.html"
+          # Vérifier que WIDOCO a généré la page principale.
+          if [ ! -s "$OUT/index-en.html" ]; then
+            echo "::error::WIDOCO n'a pas généré $OUT/index-en.html"
             find "$OUT" -maxdepth 3 -type f -print || true
             exit 1
           fi
 
-          echo "Documentation générée avec succès."
+          # Créer index.html comme page d'entrée par défaut.
+          cp "$OUT/index-en.html" "$OUT/index.html"
 
           echo "Documentation WIDOCO générée avec succès."
-          find "$OUT" -maxdepth 2 -type f -print
+          echo "Page principale : $OUT/index.html"
 
       # ----------------------------------------------
       # 3. OOPS! + OOPS-REPORT
