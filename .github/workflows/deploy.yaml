@@ -49,11 +49,11 @@ jobs:
           echo "=== Ontologies ==="
           find PLHIV -type f -print
 
-          mkdir -p /jsonld
-          mkdir -p /documentation
-          mkdir -p /diagrams
-          mkdir -p /reports
-          mkdir -p /tests
+          mkdir -p generated/jsonld
+          mkdir -p generated/documentation
+          mkdir -p generated/diagrams
+          mkdir -p generated/reports
+          mkdir -p generated/tests
 
       - name: Installer Python
         uses: actions/setup-python@v6
@@ -106,7 +106,7 @@ jobs:
           while IFS= read -r -d '' file; do
             rel="${file#PLHIV/}"
             name="${rel%.*}"
-            out="/jsonld/${name}.jsonld"
+            out="generated/jsonld/${name}.jsonld"
 
             mkdir -p "$(dirname "$out")"
 
@@ -133,7 +133,7 @@ jobs:
           set -euo pipefail
 
           FILE="PLHIV/plhiv.ttl"
-          OUT="/documentation/plhiv"
+          OUT="generated/documentation/plhiv"
 
           if [ ! -s "$FILE" ]; then
             echo "::error::Le fichier $FILE est absent ou vide."
@@ -151,7 +151,7 @@ jobs:
 
           docker run --rm \
             -v "$GITHUB_WORKSPACE/PLHIV:/usr/local/widoco/in:ro" \
-            -v "$GITHUB_WORKSPACE//documentation:/usr/local/widoco/out" \
+            -v "$GITHUB_WORKSPACE/generated/documentation:/usr/local/widoco/out" \
             ghcr.io/dgarijo/widoco:v1.4.25 \
             -ontFile "in/plhiv.ttl" \
             -outFolder "out/plhiv" \
@@ -197,7 +197,7 @@ jobs:
           while IFS= read -r -d '' file; do
             rel="${file#PLHIV/}"
             name="${rel%.*}"
-            out="/reports/${name}"
+            out="generated/reports/${name}"
 
             mkdir -p "$out"
 
@@ -264,13 +264,13 @@ jobs:
             rel="${file#PLHIV/}"
             name="${rel%.*}"
 
-            mkdir -p "/tests/$(dirname "$name")"
+            mkdir -p "generated/tests/$(dirname "$name")"
 
             java -jar "$THEMIS_JAR" \
               -t "$TEST_SUITE" \
               -o "$file" \
               -r junit \
-              > "/tests/${name}.xml"
+              > "generated/tests/${name}.xml"
 
           done < <(
             find PLHIV -type f \
@@ -346,7 +346,7 @@ jobs:
           while IFS= read -r -d '' file; do
             rel="${file#PLHIV/}"
             name="${rel%.*}"
-            out="/diagrams/${name}.png"
+            out="generated/diagrams/${name}.png"
 
             mkdir -p "$(dirname "$out")"
 
@@ -380,14 +380,18 @@ jobs:
       # ----------------------------------------------
       # 6. ARCHIVER LES LIVRABLES
       # ----------------------------------------------
-
+      - name: Afficher les livrables generes
+        if: always()
+        run: |
+          echo "=== Fichiers generes ==="
+          find generated -type f -print || true
 
       - name: Archiver les livrables
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ontoplhiv-generated
-          path: /
+          path: generated/
           if-no-files-found: warn
           retention-days: 14
 
@@ -408,7 +412,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ontoplhiv-generated
-          path: /
+          path: generated/
 
       - name: Installer rsync
         run: |
@@ -497,12 +501,12 @@ jobs:
             -o IdentitiesOnly=yes \
             -o StrictHostKeyChecking=yes \
             "$VPS_USER@$VPS_HOST" \
-            'mkdir -p /var/www/ontologies/OntoPLHIV/generated'
+            'mkdir -p /var/www/ontologies/OntoPLHIV'
 
           rsync -avz \
             -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
-            / \
-            "$VPS_USER@$VPS_HOST:/var/www/ontologies/OntoPLHIV//"
+            generated/ \
+            "$VPS_USER@$VPS_HOST:/var/www/ontologies/OntoPLHIV/"
 
       - name: Verifier le deploiement
         env:
