@@ -228,23 +228,24 @@ jobs:
         run: |
           set -euo pipefail
 
-          TEST_THEMIS="tests"
+          TEST_THEMIS="tests/test_themis.txt"
+          RESULTS_DIR="generated/tests"
 
-          if [ ! -f "$TEST_THEMIS" ]; then
-            echo "::warning::Suite tests/test_themis.txt absente."
-            echo "Themis sera execute lorsque la suite de tests sera ajoutee."
-            exit 0
+          if [ ! -s "$TEST_THEMIS" ]; then
+            echo "::error::Fichier de tests absent ou vide : $TEST_THEMIS"
+            exit 1
           fi
 
           THEMIS_JAR="$(
             find tools/Themis -type f \
-              -iname 'themis*.jar' -print -quit
+              -iname 'themis*.jar' \
+              ! -iname '*sources*' \
+              ! -iname '*javadoc*' \
+              -print -quit
           )"
 
-          echo "Themis Construction"
           if [ -z "$THEMIS_JAR" ]; then
             echo "Construction de Themis avec Maven..."
-
             mvn -B -f tools/Themis/pom.xml package
 
             THEMIS_JAR="$(
@@ -257,23 +258,44 @@ jobs:
           fi
 
           if [ -z "$THEMIS_JAR" ]; then
-            echo "ERREUR : fichier JAR de Themis introuvable."
+            echo "::error::JAR de Themis introuvable."
             exit 1
           fi
 
-          echo "Themis Construction"
+          # Préparer les fichiers à publier
+          mkdir -p "$RESULTS_DIR"
+          cp "$TEST_THEMIS" "$RESULTS_DIR/test_themis.txt"
+
+          FOUND=0
+
           while IFS= read -r -d '' file; do
+            FOUND=1
+
             rel="${file#PLHIV/}"
             name="${rel%.*}"
+            output="$RESULTS_DIR/${name}.xml"
 
-            echo "Themis Construction"
-            mkdir -p "generated/tests/$(dirname "$name")"
+            mkdir -p "$(dirname "$output")"
+
+            echo "Exécution de Themis sur : $file"
 
             java -jar "$THEMIS_JAR" \
               -t "$TEST_THEMIS" \
               -o "$file" \
               -r junit \
-              > "generated/tests/${name}.xml"
+              > "$output"
+
+            if grep -qE 'Add at least one test|Usage:' "$output"; then
+              echo "::error::Themis n'a pas exécuté les tests pour $file"
+              cat "$output"
+              exit 1
+            fi
+
+            if ! grep -q '<?xml' "$output"; then
+              echo "::error::Rapport XML invalide : $output"
+              cat "$output"
+              exit 1
+            fi
 
           done < <(
             find PLHIV -type f \
@@ -281,6 +303,12 @@ jobs:
               -print0
           )
 
+          if [ "$FOUND" -eq 0 ]; then
+            echo "::error::Aucune ontologie trouvée dans PLHIV."
+            exit 1
+          fi
+
+          echo "Suite de tests et rapports Themis préparés."
       # ----------------------------------------------
       # 5. AR2DTOOL
       # ----------------------------------------------
