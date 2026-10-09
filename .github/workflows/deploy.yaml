@@ -229,7 +229,7 @@ jobs:
           set -euo pipefail
 
           TEST_THEMIS="tests/test_themis.txt"
-          ONTOLOGY="PLHIV/plhiv.txt"
+          ONTOLOGY="plhiv.ttl"
           RESULTS_DIR="generated/tests"
           OUTPUT="$RESULTS_DIR/plhiv.xml"
 
