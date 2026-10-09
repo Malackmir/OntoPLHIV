@@ -229,23 +229,32 @@ jobs:
           set -euo pipefail
 
           TEST_THEMIS="tests/test_themis.txt"
+          ONTOLOGY="PLHIV/plhiv.ttl"
           RESULTS_DIR="generated/tests"
+          OUTPUT="$RESULTS_DIR/plhiv.xml"
 
-          if [ ! -s "$TEST_THEMIS" ]; then
+          # Vérifier les fichiers nécessaires
+          test -s "$TEST_THEMIS" || {
             echo "::error::Fichier de tests absent ou vide : $TEST_THEMIS"
             exit 1
-          fi
+          }
 
+          test -s "$ONTOLOGY" || {
+            echo "::error::Ontologie introuvable : $ONTOLOGY"
+            exit 1
+          }
+
+          # Rechercher Themis
           THEMIS_JAR="$(
             find tools/Themis -type f \
-              -iname 'themis*.jar' \
+              -iname '*themis*.jar' \
               ! -iname '*sources*' \
               ! -iname '*javadoc*' \
               -print -quit
           )"
 
+          # Construire Themis si nécessaire
           if [ -z "$THEMIS_JAR" ]; then
-            echo "Construction de Themis avec Maven..."
             mvn -B -f tools/Themis/pom.xml package
 
             THEMIS_JAR="$(
@@ -257,56 +266,34 @@ jobs:
             )"
           fi
 
-          if [ -z "$THEMIS_JAR" ]; then
+          test -n "$THEMIS_JAR" || {
             echo "::error::JAR de Themis introuvable."
             exit 1
-          fi
+          }
 
-          # Préparer les fichiers à publier
+          # Générer un seul rapport
           mkdir -p "$RESULTS_DIR"
-          cp "$TEST_THEMIS" "$RESULTS_DIR/test_themis.txt"
 
-          FOUND=0
+          java -jar "$THEMIS_JAR" \
+            -t "$TEST_THEMIS" \
+            -o "$ONTOLOGY" \
+            -r junit \
+            > "$OUTPUT"
 
-          while IFS= read -r -d '' file; do
-            FOUND=1
-
-            rel="${file#PLHIV/}"
-            name="${rel%.*}"
-            output="$RESULTS_DIR/${name}.xml"
-
-            mkdir -p "$(dirname "$output")"
-
-            echo "Exécution de Themis sur : $file"
-
-            java -jar "$THEMIS_JAR" \
-              -t "$TEST_THEMIS" \
-              -o "$file" \
-              -r junit \
-              > "$output"
-
-            if grep -qE 'Add at least one test|Usage:' "$output"; then
-              echo "::error::Themis n'a pas exécuté les tests pour $file"
-              cat "$output"
-              exit 1
-            fi
-
-            if ! grep -q '<?xml' "$output"; then
-              echo "::error::Rapport XML invalide : $output"
-              cat "$output"
-              exit 1
-            fi
-
-          done < <(
-            find PLHIV -type f \
-              \( -iname '*.ttl' -o -iname '*.owl' -o -iname '*.rdf' \) \
-              -print0
-          )
-
-          if [ "$FOUND" -eq 0 ]; then
-            echo "::error::Aucune ontologie trouvée dans PLHIV."
+          # Refuser les messages d'aide à la place du XML
+          if grep -qE 'Add at least one test|Usage:' "$OUTPUT"; then
+            echo "::error::Themis n'a pas exécuté les tests."
+            cat "$OUTPUT"
             exit 1
           fi
+
+          if ! grep -q '<?xml' "$OUTPUT"; then
+            echo "::error::Le rapport XML n'est pas valide."
+            cat "$OUTPUT"
+            exit 1
+          fi
+
+          echo "Rapport généré : $OUTPUT"
 
           echo "Suite de tests et rapports Themis préparés."
       # ----------------------------------------------
