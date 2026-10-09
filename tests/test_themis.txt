@@ -1,0 +1,3 @@
+Maladie_Opportuniste type Class;
+Maladie_Comorbidite type Class;
+Maladie_Co_Infectieuse type Class
