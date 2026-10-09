@@ -1,5 +1,5 @@
 @prefix : <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv#> .
-@prefix plhiv: <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv> .
+@prefix plhiv: <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
@@ -60,14 +60,14 @@ plhiv:Maladie rdf:type owl:Class ;
         rdfs:subClassOf :Maladie_Infectieuse ;
         owl:disjointWith :Maladie_Non_Transmissible ;
         rdfs:comment "C'est une maladie transmissible."@fr ;
-        rdfs:label "Maladie_Transmissible."@fr .
+        rdfs:label "Maladie Transmissible."@fr .
 
     ### Maladie Non Transmissible ###
     :Maladie_Non_Transmissible rdf:type owl:Class ;
         rdfs:subClassOf :Maladie ;
         owl:disjointWith :Maladie_Transmissible ;
         rdfs:comment "C'est une maladie non transmissible."@fr ;
-        rdfs:label "Maladie_Non_Transmissible."@fr .
+        rdfs:label "Maladie Non Transmissible."@fr .
 
             :Cancer rdf:type owl:Class ;
                 rdfs:subClassOf :Maladie_Non_Transmissible .
@@ -732,7 +732,115 @@ plhiv:Maladie rdf:type owl:Class ;
 #    Axiomes
 #################################################################
 
+######## Maladie #########
 
+:Maladie_Transmissible rdf:type owl:Class ;
+    owl:equivalentClass [ rdf:type owl:Restriction ;
+        owl:onProperty :a_pour_mode_transmission ;
+        owl:someValuesFrom :Mode_Transmission ] ;
+    owl:disjointWith :Maladie_Non_Transmissible .
+
+:Maladie_Non_Transmissible rdf:type owl:Class ;
+    owl:disjointWith :Maladie_Transmissible .                                                           
+
+:Maladie_Infectieuse rdf:type owl:Class ;
+    owl:equivalentClass [ rdf:type owl:Restriction ;
+        owl:onProperty :a_pour_agent_infectieux ;
+        owl:someValuesFrom :Agent_Infectieux ] .
+
+:Infection_Bacterienne rdf:type owl:Class ;
+    owl:equivalentClass [ rdf:type owl:Restriction ;
+        owl:onProperty :a_pour_agent_infectieux ;
+        owl:someValuesFrom :Bacterie ] .                                                                                       
+
+:Infection_Fongique rdf:type owl:Class ;
+    owl:equivalentClass [ rdf:type owl:Restriction ;
+        owl:onProperty :a_pour_agent_infectieux ;
+        owl:someValuesFrom :Champignon ] .                                                                         
+
+:Infection_Parasitaire rdf:type owl:Class ;
+    owl:equivalentClass [ rdf:type owl:Restriction ;
+        owl:onProperty :a_pour_agent_infectieux ;
+        owl:someValuesFrom :Parasite ] .                                                      
+
+:Infection_Virale rdf:type owl:Class ;
+    owl:equivalentClass [ rdf:type owl:Restriction ;
+        owl:onProperty :a_pour_agent_infectieux ;
+        owl:someValuesFrom :Virus ] .   
+                                                                                            
+:Maladie_Co_Infectieuse rdf:type owl:Class ;
+    owl:subClassOf [ rdf:type owl:Restriction ;
+        owl:onProperty :est_une_co_infection ;
+        owl:someValuesFrom :Infection_VIH ] .                                                                
+
+:Maladie_Comorbidite rdf:type owl:Class ;
+    owl:subClassOf [ rdf:type owl:Restriction ;
+        owl:onProperty :est_une_comorbidite ;
+        owl:someValuesFrom :Infection_VIH ] .       
+
+:Maladie_Opportuniste rdf:type owl:Class ;
+    owl:subClassOf [ rdf:type owl:Restriction ;
+        owl:onProperty :est_une_opportuniste ;
+        owl:someValuesFrom :Stade ] . 
+
+:Infection_VIH rdf:type owl:Class ;
+    rdfs:subClassOf [ rdf:type owl:Restriction ;
+        owl:onProperty :a_pour_stade ;
+        owl:someValuesFrom :Stade ] . 
+
+:Stade_3 rdf:type owl:Class ;
+    rdfs:subClassOf [ rdf:type owl:Restriction ;
+        owl:onProperty :se_manifeste_par ;
+        owl:someValuesFrom :Manifestation_Clinique ] . 
+
+:Stade_4 rdf:type owl:Class ;
+    rdfs:subClassOf  [ rdf:type owl:Restriction ;
+            owl:onProperty :se_manifeste_par ;
+            owl:someValuesFrom :Manifestation_Clinique 
+        ] , 
+        [ rdf:type owl:Restriction ;
+            owl:onProperty :a_pour_opportuniste ;
+            owl:someValuesFrom :Maladie_Opportuniste 
+        ] .   
+
+######## Traitement #########
+
+:Traitement_Infection_VIH rdf:type owl:Class ;
+    rdfs:subClassOf [ rdf:type owl:Restriction ;
+        owl:onProperty :a_pour_protocole_ARV ;
+        owl:someValuesFrom :Protocole_ARV ] . 
+
+:Protocole_ARV rdf:type owl:Class ;
+    rdfs:subClassOf [ rdf:type owl:Restriction ;
+        owl:onProperty :a_comme_antiretroviral ;
+        owl:someValuesFrom :Antiretroviral ] . 
+
+:Protocole_ARV rdf:type owl:Class ;
+    rdfs:subClassOf [ rdf:type owl:Restriction ;
+        owl:onProperty :a_comme_antiretroviral ;
+        owl:minQualifiedCardinality "3"^^xsd:nonNegativeInteger ;
+        owl:onClass :Antiretroviral ] .   
+
+######## Biologie #########
+
+######## Patient #########
+
+:Reference rdf:type owl:Class ;
+    rdfs:subClassOf [ rdf:type owl:Restriction ;
+        owl:onProperty :concerne_patient ;
+        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onClass :Patient 
+    ],
+    [ rdf:type owl:Restriction ;
+        owl:onProperty :est_envoye_par ;
+        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onClass :Personnel_Sante
+    ] ,
+    [ rdf:type owl:Restriction ;
+        owl:onProperty :est_recu_par ;
+        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onClass :Personnel_Sante
+    ] .
 
 #################################################################
 # Relations entre sous-domaines
