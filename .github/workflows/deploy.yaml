@@ -241,6 +241,7 @@ jobs:
               -iname 'themis*.jar' -print -quit
           )"
 
+          echo "Themis Construction"
           if [ -z "$THEMIS_JAR" ]; then
             echo "Construction de Themis avec Maven..."
 
@@ -260,10 +261,12 @@ jobs:
             exit 1
           fi
 
+          echo "Themis Construction"
           while IFS= read -r -d '' file; do
             rel="${file#PLHIV/}"
             name="${rel%.*}"
 
+            echo "Themis Construction"
             mkdir -p "generated/tests/$(dirname "$name")"
 
             java -jar "$THEMIS_JAR" \
