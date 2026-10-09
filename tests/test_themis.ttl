@@ -1,8 +1,9 @@
-@prefix : <http://example.org/ns#> .
+@prefix : <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <http://example.org/ns#> .
+@prefix vtc:  <http://w3id.org> .
+@base <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv#> .
 
 
 :Test1 rdf:type <https://w3id.org/def/vtc#TestCaseDesign> ,
@@ -16,3 +17,8 @@
 :Test3 rdf:type <https://w3id.org/def/vtc#TestCaseDesign> ,
                 owl:NamedIndividual ;
        <https://w3id.org/def/vtc#desiredBehaviour> "Maladie_Transmissible type Class" .
+
+
+# Cas de test 1 : Vérifier que 'Sensor' est une classe
+:test_SensorClass a vtc:TestCase ;
+    vtc:desiredAssertion "Maladie type Class" .
