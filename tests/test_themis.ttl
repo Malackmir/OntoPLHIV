@@ -1,4 +1,3 @@
-```turtle
 @prefix : <https://ontologie.li3-uasz.com/OntoPLHIV/tests#> .
 @prefix plhiv: <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
