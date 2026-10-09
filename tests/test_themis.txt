@@ -1,5 +1,4 @@
 Maladie type Class;
-Maladie_Infect type Class;
 Maladie_Transmissible type Class;
 Maladie_Non_Transmissible type Class;
 
