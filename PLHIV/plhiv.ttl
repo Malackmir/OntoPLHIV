@@ -60,14 +60,14 @@ plhiv: rdf:type owl:Ontology ;
         rdfs:subClassOf :Maladie_Infectieuse ;
         owl:disjointWith :Maladie_Non_Transmissible ;
         rdfs:comment "C'est une maladie transmissible."@fr ;
-        rdfs:label "Maladie Transmissible."@fr .
+        rdfs:label "Maladie_Transmissible."@fr .
 
     ### Maladie Non Transmissible ###
     :Maladie_Non_Transmissible rdf:type owl:Class ;
         rdfs:subClassOf :Maladie ;
         owl:disjointWith :Maladie_Transmissible ;
         rdfs:comment "C'est une maladie non transmissible."@fr ;
-        rdfs:label "Maladie Non Transmissible."@fr .
+        rdfs:label "Maladie_Non_Transmissible."@fr .
 
             :Cancer rdf:type owl:Class ;
                 rdfs:subClassOf :Maladie_Non_Transmissible .
