@@ -5,20 +5,6 @@
 @prefix vtc:  <http://w3id.org> .
 @base <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv#> .
 
-
-:Test1 rdf:type <https://w3id.org/def/vtc#TestCaseDesign> ,
-                owl:NamedIndividual ;
-       <https://w3id.org/def/vtc#desiredBehaviour> "Maladie_Co_Infectieuse type Class" .
-
-:Test2 rdf:type <https://w3id.org/def/vtc#TestCaseDesign> ,
-                owl:NamedIndividual ;
-       <https://w3id.org/def/vtc#desiredBehaviour> "Maladie_Non_Transmissible type Class" .
-
-:Test3 rdf:type <https://w3id.org/def/vtc#TestCaseDesign> ,
-                owl:NamedIndividual ;
-       <https://w3id.org/def/vtc#desiredBehaviour> "Maladie_Transmissible type Class" .
-
-
 # Cas de test 1 : Vérifier que 'Sensor' est une classe
-:test_SensorClass a vtc:TestCase ;
+:test_Maladie a vtc:TestCase ;
     vtc:desiredAssertion "Maladie type Class" .
