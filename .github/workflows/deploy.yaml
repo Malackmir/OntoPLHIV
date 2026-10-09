@@ -228,7 +228,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          TEST_THEMIS="tests/test_themis.txt"
+          TEST_THEMIS="tests"
 
           if [ ! -f "$TEST_THEMIS" ]; then
             echo "::warning::Suite tests/test_themis.txt absente."
