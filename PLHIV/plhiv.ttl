@@ -841,3 +841,54 @@ plhiv: rdf:type owl:Ontology ;
         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
         owl:onClass :Personnel_Sante
     ] .
+
+#################################################################
+# Relations entre sous-domaines
+#################################################################
+
+:a_pour_maladie rdf:type owl:ObjectProperty ;
+    rdfs:domain :Patient ;
+    rdfs:range :Maladie .
+
+:a_pour_infection_VIH rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf :a_pour_maladie ;
+    rdfs:domain :Patient ;
+    rdfs:range :Infection_VIH .
+
+:a_pour_examen rdf:type owl:ObjectProperty ;
+    rdfs:domain :Patient ;
+    rdfs:range :Examen_Biologique ;
+    owl:inverseOf :est_examen_de .
+
+:est_examen_de rdf:type owl:ObjectProperty ;
+    rdfs:domain :Examen_Biologique ;
+    rdfs:range :Patient ;
+    owl:inverseOf :a_pour_examen .
+
+:a_pour_traitement rdf:type owl:ObjectProperty ;
+    rdfs:domain :Patient ;
+    rdfs:range :Traitement ;
+    owl:inverseOf :est_traitement_de .
+
+:est_traitement_de rdf:type owl:ObjectProperty ;
+    rdfs:domain :Traitement ;
+    rdfs:range :Patient ;
+    owl:inverseOf :a_pour_traitement .
+
+:traite_maladie rdf:type owl:ObjectProperty ;
+    rdfs:domain :Traitement ;
+    rdfs:range :Maladie .
+
+:traite_infection_VIH rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf :traite_maladie ;
+    rdfs:domain :Traitement_Infection_VIH ;
+    rdfs:range :Infection_VIH .
+
+:examine_maladie rdf:type owl:ObjectProperty ;
+    rdfs:domain :Examen_Biologique ;
+    rdfs:range :Maladie .
+
+:examine_infection_VIH rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf :examine_maladie ;
+    rdfs:domain :Examen_Infection_VIH ;
+    rdfs:range :Infection_VIH .
