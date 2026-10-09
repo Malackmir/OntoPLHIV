@@ -768,7 +768,10 @@ plhiv: rdf:type owl:Ontology ;
         owl:onProperty :a_pour_agent_infectieux ;
         owl:someValuesFrom :Virus ] .   
                                                                                             
-                                                               
+:Maladie_Co_Infectieuse rdf:type owl:Class ;
+    owl:subClassOf [ rdf:type owl:Restriction ;
+        owl:onProperty :est_une_co_infection ;
+        owl:someValuesFrom :Infection_VIH ] .                                                                
 
 :Maladie_Comorbidite rdf:type owl:Class ;
     owl:subClassOf [ rdf:type owl:Restriction ;

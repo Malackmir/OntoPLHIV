@@ -1,1 +1,1 @@
-Maladie type Class;Maladie_Opportuniste type subclassOf ;Maladie_Comorbidite type subclassOf ;Maladie_Co_Infectieuse type Class
+Maladie type Class;Maladie_Transmissible type Class ;Maladie_Non_Transmissible type subclassOf ;Maladie_Co_Infectieuse type Class
