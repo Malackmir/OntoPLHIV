@@ -25,8 +25,7 @@ plhiv: rdf:type owl:Ontology ;
         "OntoVIH est une ontologie du domaine du VIH/SIDA destinée à représenter les connaissances nécessaires au 
         suivi des personnes vivant avec le VIH. Elle couvre notamment les domaines de la maladie, de la biologie, du traitement et du patient."@fr ;
 
-    dcterms:title
-        "OntoVIH : Ontologie du domaine du VIH/SIDA pour le suivi des personnes vivant avec le VIH"@fr ;
+    dcterms:title "OntoVIH : Ontologie du domaine du VIH/SIDA pour le suivi des personnes vivant avec le VIH"@fr ;
 
     dcterms:issued "2026-09-28"^^xsd:date ;
 
