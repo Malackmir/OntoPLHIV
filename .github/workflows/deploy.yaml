@@ -244,6 +244,10 @@ jobs:
             exit 1
           }
 
+          echo "===== Tests Themis ====="
+          cat "$TEST_THEMIS"
+          echo "===== Ontologie testée : $ONTOLOGY ====="
+
           # Rechercher Themis
           THEMIS_JAR="$(
             find tools/Themis -type f \
@@ -271,31 +275,93 @@ jobs:
             exit 1
           }
 
-          # Générer un seul rapport
           mkdir -p "$RESULTS_DIR"
 
+          # Exécuter Themis en conservant le code de retour
+          set +e
           java -jar "$THEMIS_JAR" \
             -t "$TEST_THEMIS" \
             -o "$ONTOLOGY" \
             -r junit \
-            > "$OUTPUT"
+            > "$OUTPUT" 2> "$RESULTS_DIR/themis-stderr.log"
+          THEMIS_EXIT_CODE=$?
+          set -e
 
-          # Refuser les messages d'aide à la place du XML
-          if grep -qE 'Add at least one test|Usage:' "$OUTPUT"; then
-            echo "::error::Themis n'a pas exécuté les tests."
-            cat "$OUTPUT"
+          echo "===== Sortie d'erreur de Themis ====="
+          if [ -s "$RESULTS_DIR/themis-stderr.log" ]; then
+            cat "$RESULTS_DIR/themis-stderr.log"
+          else
+            echo "Aucun message sur stderr."
+          fi
+
+          # Vérifier que le rapport existe
+          if ! grep -q '<?xml' "$OUTPUT"; then
+            echo "::error::Themis n'a pas produit de rapport XML valide."
+            [ ! -s "$OUTPUT" ] || cat "$OUTPUT"
             exit 1
           fi
 
-          if ! grep -q '<?xml' "$OUTPUT"; then
-            echo "::error::Le rapport XML n'est pas valide."
-            cat "$OUTPUT"
-            exit 1
+          # Afficher le rapport XML complet dans les logs
+          echo "===== Rapport XML Themis ====="
+          cat "$OUTPUT"
+
+          # Analyser le XML et afficher les erreurs de chaque test
+          python - "$OUTPUT" <<'PY'
+          import sys
+          import xml.etree.ElementTree as ET
+
+          path = sys.argv[1]
+
+          try:
+              root = ET.parse(path).getroot()
+          except ET.ParseError as exc:
+              print(f"::error::XML invalide : {exc}")
+              sys.exit(1)
+
+          cases = root.findall(".//testcase")
+          errors = root.findall(".//testcase/error")
+          failures = root.findall(".//testcase/failure")
+
+          print("\n===== Résumé des tests Themis =====")
+          print(f"Nombre de tests : {len(cases)}")
+          print(f"Erreurs         : {len(errors)}")
+          print(f"Échecs          : {len(failures)}")
+
+          for case in cases:
+              name = case.get("name", "Test sans nom")
+              print(f"\nTest : {name}")
+
+              for tag in ("error", "failure"):
+                  for issue in case.findall(tag):
+                      message = issue.get("message", "")
+                      details = (issue.text or "").strip()
+                      print(f"::error title={tag}: {name}::{message}")
+                      if details:
+                          print(details)
+
+          if not cases:
+              print("::error::Aucun test n'a été exécuté.")
+              sys.exit(1)
+
+          if errors or failures:
+              print("::error::Themis a détecté des erreurs ou des échecs.")
+              sys.exit(1)
+
+          print("Tous les tests Themis ont réussi.")
+          PY
+
+          XML_CHECK_EXIT_CODE=$?
+
+          if [ "$THEMIS_EXIT_CODE" -ne 0 ]; then
+            echo "::error::Themis s'est terminé avec le code $THEMIS_EXIT_CODE."
+            exit "$THEMIS_EXIT_CODE"
+          fi
+
+          if [ "$XML_CHECK_EXIT_CODE" -ne 0 ]; then
+            exit "$XML_CHECK_EXIT_CODE"
           fi
 
           echo "Rapport généré : $OUTPUT"
-
-          echo "Suite de tests et rapports Themis préparés."
       # ----------------------------------------------
       # 5. AR2DTOOL
       # ----------------------------------------------
