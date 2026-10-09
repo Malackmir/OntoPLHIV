@@ -1,3 +1,4 @@
+Maladie type Class;
 Maladie_Transmissible type Class ;
 Maladie_Non_Transmissible type Class ;
 Maladie_Co_Infectieuse type Class
