@@ -56,6 +56,12 @@ plhiv:Maladie rdf:type owl:Class ;
     rdfs:comment "État pathologique affectant un individu et pouvant être pris en compte dans le suivi médical des personnes vivant avec le VIH."@fr .
 
     ### Maladie Transmissible ###
+    plhiv:Maladie_Infect rdf:type owl:Class ;
+        rdfs:subClassOf :Maladie ;
+        rdfs:comment "C'est une maladie transmissible."@fr ;
+        rdfs:label "Maladie Transmissible."@fr .
+
+    ### Maladie Transmissible ###
     plhiv:Maladie_Transmissible rdf:type owl:Class ;
         owl:disjointWith :Maladie_Non_Transmissible ;
         rdfs:comment "C'est une maladie transmissible."@fr ;
