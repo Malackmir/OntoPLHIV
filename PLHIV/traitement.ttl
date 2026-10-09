@@ -11,12 +11,138 @@
 #    Concepts
 #################################################################
 
+### Traitement ###
+:Traitement rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .    
+
+    ### Traitement Infection VIH ###
+    :Traitement_Infection_VIH rdf:type owl:Class ;
+        rdfs:subClassOf :Traitement ;
+        rdfs:comment " ."@fr ;
+        rdfs:label " ."@fr .   
+
+### Echec Traitement ###
+:Echec_Therapeutique rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .     
+
+### Resistance Traitement ###
+:Resistance_Therapeutique rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .     
+
+### Medicament ###
+:Medicament rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .     
+
+    ### Antiretroviral ###
+    :Antiretroviral rdf:type owl:Class ; 
+        rdfs:subClassOf :Medicament ;
+        rdfs:comment " ."@fr ;
+        rdfs:label " ."@fr .      
+
+            ### IF (Inhibiteur de Fusion) ###
+            :IF rdf:type owl:Class ;
+                rdfs:subClassOf :Antiretroviral ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .   
+
+            ### INTI (Inhibiteurs nucleosidiques de la transcriptase inverse) ###
+            :INTI rdf:type owl:Class ;
+                rdfs:subClassOf :Antiretroviral ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .   
+
+            ### INNTI (Inhibiteurs non nucleosidiques de la transcriptase inverse) ###
+            :INNTI rdf:type owl:Class ;
+                rdfs:subClassOf :Antiretroviral ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .   
+
+            ### IP (Inhibiteurs de protease) ###
+            :IP rdf:type owl:Class ;
+                rdfs:subClassOf :Antiretroviral ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .   
+
+            ### INI (inhibiteurs de l'integrase)  ###
+            :INI rdf:type owl:Class ;
+                rdfs:subClassOf :Antiretroviral ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .   
+
+### Effet Secondaire ###
+:Effet_Secondaire rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .     
+
+### Effet Indesirable ###
+:Effet_Indesirable rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .     
+
+### Protocole Therapeutique ###
+:Protocole_ARV rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .       
+
+    ### Protocole Ligne 1 VIH ###
+    :Protocole_Ligne_1 rdf:type owl:Class ;
+        rdfs:subClassOf :Protocole_ARV ;
+        rdfs:comment " ."@fr ;
+        rdfs:label " ."@fr .   
+
+    ### Protocole Ligne 2 VIH ###
+    :Protocole_Ligne_2 rdf:type owl:Class ;
+        rdfs:subClassOf :Protocole_ARV ;
+        rdfs:comment " ."@fr ;
+        rdfs:label " ."@fr .   
+
+    ### Protocole Ligne 3 VIH ###
+    :Protocole_Ligne_3 rdf:type owl:Class ;
+        rdfs:subClassOf :Protocole_ARV ;
+        rdfs:comment " ."@fr ;
+        rdfs:label " ."@fr .   
 
 
 #################################################################
 #    Relations
 #################################################################
 
+:a_pour_echec_therapeutique rdf:type owl:ObjectProperty ;
+    rdfs:domain :Traitement ;
+    rdfs:range :Echec_Therapeutique .    
+
+:a_pour_resistance_therapeutique rdf:type owl:ObjectProperty ;
+    rdfs:domain :Traitement ;
+    rdfs:range :Resistance_Therapeutique .       
+
+:a_comme_medicament rdf:type owl:ObjectProperty ;
+    rdfs:domain :Traitement ;
+    rdfs:range :Medicament .
+
+:a_pour_effet_secondaire rdf:type owl:ObjectProperty ;
+    rdfs:domain :Medicament ;
+    rdfs:range :Effet_Secondaire .
+
+:a_pour_effet_indesirable rdf:type owl:ObjectProperty ;
+    rdfs:domain :Medicament ;
+    rdfs:range :Effet_Indesirable .
+
+:a_pour_protocole_ARV rdf:type owl:ObjectProperty ;
+    rdfs:domain :Traitement ;
+    rdfs:range :Protocole_ARV .    
+
+:a_comme_antiretroviral rdf:type owl:ObjectProperty ;
+    rdfs:domain :Protocole_ARV ;
+    rdfs:range :Antiretroviral .   
+
+:a_comme_medicament owl:propertyChainAxiom (
+    :a_pour_protocole_ARV
+    :a_comme_antiretroviral
+) .
 
 
 #################################################################
@@ -29,3 +155,18 @@
 #    Axiomes
 #################################################################
 
+:Traitement_Infection_VIH rdf:type owl:Class ;
+    rdfs:subClassOf [ rdf:type owl:Restriction ;
+        owl:onProperty :a_pour_protocole_ARV ;
+        owl:someValuesFrom :Protocole_ARV ] . 
+
+:Protocole_ARV rdf:type owl:Class ;
+    rdfs:subClassOf [ rdf:type owl:Restriction ;
+        owl:onProperty :a_comme_antiretroviral ;
+        owl:someValuesFrom :Antiretroviral ] . 
+
+:Protocole_ARV rdf:type owl:Class ;
+    rdfs:subClassOf [ rdf:type owl:Restriction ;
+        owl:onProperty :a_comme_antiretroviral ;
+        owl:minQualifiedCardinality "3"^^xsd:nonNegativeInteger ;
+        owl:onClass :Antiretroviral ] .   

@@ -11,6 +11,52 @@
 #    Concepts
 #################################################################
 
+### Examen Biologique ###
+:Examen_Biologique rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .       
+
+    ### Examen Infection VIH ###
+    :Examen_Infection_VIH rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:comment " ."@fr ;
+        rdfs:label " ."@fr .   
+
+            ### Charge Virale VIH ###
+            :Examen_Charge_Virale_VIH rdf:type owl:Class ;
+                rdfs:subClassOf :Examen_Infection_VIH ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .   
+
+            ### Lymphocyte T CD4 ###
+            :Examen_CD4 rdf:type owl:Class ;
+                rdfs:subClassOf :Examen_Infection_VIH ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                   
+
+    ### Examen Hepatite B ###
+    :Examen_Hepatite_B rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:comment " ."@fr ;
+        rdfs:label " ."@fr .   
+
+            ### AgHBs ###
+            :Examen_AgHBs rdf:type owl:Class ;
+                rdfs:subClassOf :Examen_Hepatite_B ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .           
+
+    ### Examen Tuberculose ###
+    :Examen_Tuberculose rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:comment " ."@fr ;
+        rdfs:label " ."@fr .       
+
+            ### Crachat_BAAR ###
+            :Examen_BAAR rdf:type owl:Class ;
+                rdfs:subClassOf :Examen_Tuberculose ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                       
 
 
 #################################################################

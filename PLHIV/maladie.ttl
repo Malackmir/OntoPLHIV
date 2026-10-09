@@ -149,7 +149,7 @@
 
     ### Agent Bacterie ###
     :Bacterie rdf:type owl:Class ;
-        rdfs:subClassOf :Agent_Infectieux ;
+        rdfs:subClassOf :Agent_Infectieux 
         rdfs:comment "C'est la bacterie qui est responsable de la maladie infectieuse."@fr ;
         rdfs:label "Agent Bacterie."@fr .
 
@@ -452,12 +452,12 @@
 
 :Stade_3 rdf:type owl:Class ;
     rdfs:subClassOf [ rdf:type owl:Restriction ;
-        owl:onProperty :se_manifestation_par ;
+        owl:onProperty :se_manifeste_par ;
         owl:someValuesFrom :Manifestation_Clinique ] . 
 
 :Stade_4 rdf:type owl:Class ;
     rdfs:subClassOf  [ rdf:type owl:Restriction ;
-            owl:onProperty :se_manifestation_par ;
+            owl:onProperty :se_manifeste_par ;
             owl:someValuesFrom :Manifestation_Clinique 
         ] , 
         [ rdf:type owl:Restriction ;

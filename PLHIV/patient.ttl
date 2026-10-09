@@ -11,12 +11,112 @@
 #    Concepts
 #################################################################
 
+### Patient ###
+:Patient rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .       
 
+ ### Allergie ###
+:Allergie rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .    
+
+### Comportement a risque ###
+:Comportement_Risque rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .    
+
+### Reference ###
+:Reference rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .    
+
+### Motif ###
+:Motif rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .    
+
+### Renseignement Clinique ###
+:Renseignement_Clinique rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .       
+
+ ### Personnel Sante ###
+:Personnel_Sante rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .    
+
+    ### Medecin ###
+    :Medecin rdf:type owl:Class ;
+        rdfs:subClassOf :Personnel_Sante ;
+        rdfs:comment " ."@fr ;
+        rdfs:label " ."@fr .   
+
+    ### Assistant Social###
+    :Assistant_Social rdf:type owl:Class ;
+        rdfs:subClassOf :Personnel_Sante ;
+        rdfs:comment " ."@fr ;
+        rdfs:label " ."@fr .    
 
 #################################################################
 #    Relations
 #################################################################
 
+:a_pour_allergie rdf:type owl:ObjectProperty ;
+    rdfs:domain :Patient ;
+    rdfs:range :Allergie .  
+
+:a_pour_comportement_risque rdf:type owl:ObjectProperty ;
+    rdfs:domain :Patient ;
+    rdfs:range :Comportement_Risque .      
+
+:est_suivi_par rdf:type owl:ObjectProperty ;
+    rdfs:domain :Patient ;
+    rdfs:range :Personnel_Sante;
+    owl:inverseOf :suit_patient .
+
+:suit_patient rdf:type owl:ObjectProperty ;
+    rdfs:domain :Personnel_Sante ;
+    rdfs:range :Patient;
+    owl:inverseOf :est_suivi_par .      
+
+:a_pour_reference rdf:type owl:ObjectProperty ;
+    rdfs:domain :Patient ;
+    rdfs:range :Reference ;
+    owl:inverseOf :concerne_patient .   
+
+:concerne_patient rdf:type owl:ObjectProperty ;
+    rdfs:domain :Reference ;
+    rdfs:range :Patient ;
+    owl:inverseOf :a_pour_reference .       
+
+:a_pour_motif rdf:type owl:ObjectProperty ;
+    rdfs:domain :Reference ;
+    rdfs:range :Motif .      
+
+:a_pour_renseignement_clinique rdf:type owl:ObjectProperty ;
+    rdfs:domain :Reference ;
+    rdfs:range :Renseignement_Clinique .      
+
+:est_envoye_par rdf:type owl:ObjectProperty ;
+    rdfs:domain :Reference ;
+    rdfs:range :Personnel_Sante ;
+    owl:inverseOf :envoie_reference .
+
+:envoie_reference rdf:type owl:ObjectProperty ;
+    rdfs:domain :Personnel_Sante ;
+    rdfs:range :Reference ;
+    owl:inverseOf :est_envoye_par .    
+
+:est_recu_par rdf:type owl:ObjectProperty ;
+    rdfs:domain :Reference ;
+    rdfs:range :Personnel_Sante ;
+    owl:inverseOf :recoit_reference .
+
+:recoit_reference rdf:type owl:ObjectProperty ;
+    rdfs:domain :Personnel_Sante ;
+    rdfs:range :Reference ;
+    owl:inverseOf :est_recu_par .  
 
 
 #################################################################
@@ -29,3 +129,19 @@
 #    Axiomes
 #################################################################
 
+:Reference rdf:type owl:Class ;
+    rdfs:subClassOf [ rdf:type owl:Restriction ;
+        owl:onProperty :concerne_patient ;
+        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onClass :Patient 
+    ],
+    [ rdf:type owl:Restriction ;
+        owl:onProperty :est_envoye_par ;
+        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onClass :Personnel_Sante
+    ] ,
+    [ rdf:type owl:Restriction ;
+        owl:onProperty :est_recu_par ;
+        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onClass :Personnel_Sante
+    ] .
