@@ -228,8 +228,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          TEST_THEMIS="tests/test_themis.txt"
-          ONTOLOGY="plhiv.ttl"
+          TEST_THEMIS="tests/test_themis.ttl"
+          ONTOLOGY="PLHIV/plhiv.ttl"
           RESULTS_DIR="generated/tests"
           OUTPUT="$RESULTS_DIR/plhiv.xml"
 
