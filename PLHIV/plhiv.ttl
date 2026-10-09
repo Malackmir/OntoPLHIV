@@ -1,4 +1,5 @@
 @prefix : <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv#> .
+@prefix plhiv: <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
@@ -7,53 +8,41 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @base <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv#> .
 
-
 #################################################################
 #    Metadonnees
 #################################################################
 
-ontovih: rdf:type owl:Ontology ;
-    owl:imports
-        <http://loinc.org> ,
-        <http://purl.bioontology.org/ontology/RXNORM> ,
-        <http://snomed.info/sct/2025> ;
+plhiv: rdf:type owl:Ontology ;
 
     dcterms:contributor
-        <http://www.semanticweb.org/owl/owlapi/turtle#Experts_VIH_SIDA> ,
-        <http://www.semanticweb.org/owl/owlapi/turtle#Professionnels_Sante> ;
+        "Ibrahima DIOP" , 
+        "Youssou Dieng" ,
+        "Mor Mboup";
 
-    dcterms:creator
-        <http://www.semanticweb.org/owl/owlapi/turtle#Camir_Augustin_Malack> ;
+    dcterms:creator "Camir_Augustin_Malack" ;
 
     dcterms:description
-        "OntoVIH est une ontologie du domaine du VIH/SIDA destinée à représenter les connaissances nécessaires au suivi des personnes vivant avec le VIH. Elle couvre notamment les domaines de la maladie, de la biologie, du traitement et du patient."@fr ;
+        "OntoVIH est une ontologie du domaine du VIH/SIDA destinée à représenter les connaissances nécessaires au 
+        suivi des personnes vivant avec le VIH. Elle couvre notamment les domaines de la maladie, de la biologie, du traitement et du patient."@fr ;
+
+    dcterms:title
+        "OntoVIH : Ontologie du domaine du VIH/SIDA pour le suivi des personnes vivant avec le VIH"@fr ;
 
     dcterms:issued "2026-09-28"^^xsd:date ;
 
     dcterms:language "fr" ;
 
-    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:license "li3-uasz" ;
 
     dcterms:modified "2026-09-28"^^xsd:date ;
 
     dcterms:publisher
         "Université Assane Seck de Ziguinchor"@fr ;
 
-    dcterms:source
-        <http://www.semanticweb.org/owl/owlapi/turtle#Documents_Suivi_Medical_PVVIH> ,
-        <http://www.semanticweb.org/owl/owlapi/turtle#Entretiens_Experts> ,
-        <http://www.semanticweb.org/owl/owlapi/turtle#Fiche_Reference_FEVE> ;
-
     dcterms:subject
         "Ontologie biomédicale"@fr ,
         "Suivi des personnes vivant avec le VIH"@fr ,
-        "Suivi médical"@fr ,
         "VIH/SIDA"@fr ;
-
-    dcterms:title
-        "OntoVIH : Ontologie du domaine du VIH/SIDA pour le suivi des personnes vivant avec le VIH"@fr ;
-
-    rdfs:label "OntoVIH"@fr ;
 
     owl:versionInfo "1.0.0" .
 
