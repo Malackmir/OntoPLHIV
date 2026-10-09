@@ -13,39 +13,6 @@
 #    Metadonnees
 #################################################################
 
-plhiv: rdf:type owl:Ontology ;
-
-    dcterms:contributor
-        "Ibrahima DIOP" , 
-        "Youssou Dieng" ,
-        "Mor Mboup";
-
-    dcterms:creator "Camir_Augustin_Malack" ;
-
-    dcterms:description
-        "OntoVIH est une ontologie du domaine du VIH/SIDA destinée à représenter les connaissances nécessaires au 
-        suivi des personnes vivant avec le VIH. Elle couvre notamment les domaines de la maladie, de la biologie, du traitement et du patient."@fr ;
-
-    dcterms:title
-        "OntoVIH : Ontologie du domaine du VIH/SIDA pour le suivi des personnes vivant avec le VIH"@fr ;
-
-    dcterms:issued "2026-09-28"^^xsd:date ;
-
-    dcterms:language "fr" ;
-
-    dcterms:license "li3-uasz" ;
-
-    dcterms:modified "2026-09-28"^^xsd:date ;
-
-    dcterms:publisher
-        "Université Assane Seck de Ziguinchor"@fr ;
-
-    dcterms:subject
-        "Ontologie biomédicale"@fr ,
-        "Suivi des personnes vivant avec le VIH"@fr ,
-        "VIH/SIDA"@fr ;
-
-    owl:versionInfo "1.0.0" .
 
 #################################################################
 #    Concepts
