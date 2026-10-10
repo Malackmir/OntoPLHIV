@@ -217,7 +217,9 @@ plhiv: rdf:type owl:Ontology ;
     rdfs:label "Agent Virus."@fr .    
 
 ### Manifestation Clinique Maladie ###
-:Manifestation_Clinique rdf:type owl:Class .                           
+:Manifestation_Clinique rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .                                
 
 ### Signe Maladie ###
 :Signe rdf:type owl:Class ;
@@ -932,12 +934,16 @@ plhiv: rdf:type owl:Ontology ;
 :a_pour_examen rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;
     rdfs:range :Examen_Biologique ;
-    owl:inverseOf :est_examen_de .
+    owl:inverseOf :est_examen_de ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .         
 
 :est_examen_de rdf:type owl:ObjectProperty ;
     rdfs:domain :Examen_Biologique ;
     rdfs:range :Patient ;
-    owl:inverseOf :a_pour_examen .
+    owl:inverseOf :a_pour_examen ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .         
 
 :a_pour_traitement rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;

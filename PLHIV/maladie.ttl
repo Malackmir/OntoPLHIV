@@ -180,7 +180,9 @@
         rdfs:label "Agent Virus."@fr .    
 
 ### Manifestation Clinique Maladie ###
-:Manifestation_Clinique rdf:type owl:Class .                           
+:Manifestation_Clinique rdf:type owl:Class ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .                                
 
     ### Signe Maladie ###
     :Signe rdf:type owl:Class ;
