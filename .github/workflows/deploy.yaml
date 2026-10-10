@@ -191,47 +191,107 @@ jobs:
           python -m pip install \
             -r tools/oops-report/requirements.txt
 
+
       - name: Analyser les ontologies avec OOPS!
         continue-on-error: true
         shell: bash
         run: |
-          set -euo pipefail
+          set -uo pipefail
 
           RESULTS_DIR="generated/reports/OOPS"
           mkdir -p "$RESULTS_DIR"
 
-          # Vérifier la présence du script OOPS!
           test -f tools/oops-report/main.py || {
             echo "::error::Script OOPS! introuvable."
             exit 1
           }
 
-          # Analyser les ontologies
+          COUNT=0
+
           while IFS= read -r -d '' file; do
             rel="${file#PLHIV/}"
             name="${rel%.*}"
             out="$RESULTS_DIR/$name"
 
             mkdir -p "$out"
+            COUNT=$((COUNT + 1))
 
-            echo "Analyse OOPS! : $file"
+            echo "=== Analyse OOPS! : $file ==="
 
-            if python tools/oops-report/main.py \
-              --outputdir "$out" \
-              --ontologydir "$file" \
-              --verbose; then
-              echo "Analyse terminée : $file"
+            # Trois tentatives au maximum
+            SUCCESS=false
+
+            for attempt in 1 2 3; do
+              echo "Tentative $attempt/3"
+
+              if python tools/oops-report/main.py \
+                --outputdir "$out" \
+                --ontologydir "$file" \
+                --verbose > "$out/oops-run.log" 2>&1; then
+                cat "$out/oops-run.log"
+              else
+                cat "$out/oops-run.log"
+              fi
+
+              # Vérifier que les rapports existent réellement
+              if [ -s "$out/oops.html" ] && \
+                 [ -s "$out/oops.md" ]; then
+                SUCCESS=true
+                break
+              fi
+
+              echo "Rapports absents. Nouvelle tentative..."
+              sleep 5
+            done
+
+            if [ "$SUCCESS" = false ]; then
+              echo "::warning::OOPS! n'a pas produit de rapport pour $file"
+
+              # Créer un diagnostic HTML consultable sur le VPS
+              python - "$out/oops-run.log" "$out/oops-error.html" "$file" <<'PY'
+          import html
+          import pathlib
+          import sys
+
+          log_file, output_file, ontology = sys.argv[1:]
+          log = pathlib.Path(log_file).read_text(
+              encoding="utf-8", errors="replace"
+          )
+
+          page = f"""<!DOCTYPE html>
+          <html lang="fr">
+          <head>
+            <meta charset="UTF-8">
+            <title>Diagnostic OOPS! - {html.escape(ontology)}</title>
+          </head>
+          <body>
+            <h1>Diagnostic OOPS!</h1>
+            <p>Ontologie : {html.escape(ontology)}</p>
+            <p>Le service OOPS! n'a pas produit de rapport après trois tentatives.</p>
+            <h2>Journal d'exécution</h2>
+            <pre>{html.escape(log)}</pre>
+          </body>
+          </html>
+          """
+
+          pathlib.Path(output_file).write_text(page, encoding="utf-8")
+          PY
             else
-              echo "::warning::Échec de l'analyse OOPS! : $file"
+              echo "Rapports OOPS! générés pour $file"
             fi
+
           done < <(
             find PLHIV -type f \
               \( -iname '*.ttl' -o -iname '*.owl' -o -iname '*.rdf' \) \
               -print0
           )
 
-          echo "=== Rapports OOPS! générés ==="
-          find "$RESULTS_DIR" -type f -print || true
+          if [ "$COUNT" -eq 0 ]; then
+            echo "::warning::Aucune ontologie trouvée dans PLHIV."
+          fi
+
+          echo "=== Fichiers OOPS! à déployer ==="
+          find "$RESULTS_DIR" -type f -print
 
       # ----------------------------------------------
       # 4. THEMIS 
