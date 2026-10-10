@@ -186,46 +186,37 @@ jobs:
           RESULTS_DIR="generated/reports/OOPS"
           mkdir -p "$RESULTS_DIR"
 
-          FAILURES=0
-          COUNT=0
-
           test -f tools/oops-report/main.py || {
             echo "::error::Script OOPS! introuvable."
             exit 1
           }
 
+          COUNT=0
+          FAILURES=0
+
           while IFS= read -r -d '' file; do
             rel="${file#PLHIV/}"
             name="${rel%.*}"
             out="$RESULTS_DIR/$name"
-            LOG_FILE="$RUNNER_TEMP/oops-run.log"
 
             mkdir -p "$out"
             COUNT=$((COUNT + 1))
 
             echo "=== Analyse OOPS! : $file ==="
 
-            # Exécuter OOPS! et conserver les logs
-            if python tools/oops-report/main.py \
+            # Lancer OOPS! et afficher son journal
+            python tools/oops-report/main.py \
               --outputdir "$out" \
               --ontologydir "$file" \
-              --verbose > "$LOG_FILE" 2>&1; then
-              cat "$LOG_FILE"
-            else
-              cat "$LOG_FILE"
-              echo "::warning::Le processus OOPS! a échoué pour $file"
-            fi
+              --verbose || true
 
-            # Le script peut afficher une exception sans code d'erreur.
+            # Vérifier les rapports réellement produits
             if [ -s "$out/oops.html" ] && \
                [ -s "$out/oops.md" ]; then
-              echo "Rapports créés pour $file"
-              echo "HTML : $out/oops.html"
-              echo "Markdown : $out/oops.md"
+              echo "Rapport HTML : $out/oops.html"
+              echo "Rapport Markdown : $out/oops.md"
             else
               echo "::error::Rapports OOPS! absents pour $file"
-              echo "Contenu du journal :"
-              cat "$LOG_FILE"
               FAILURES=$((FAILURES + 1))
             fi
 
@@ -235,16 +226,13 @@ jobs:
               -print0
           )
 
-          if [ "$COUNT" -eq 0 ]; then
-            echo "::error::Aucune ontologie à analyser."
-            exit 1
-          fi
-
           echo "=== Résumé OOPS! ==="
           echo "Ontologies analysées : $COUNT"
-          echo "Analyses sans rapport généré : $FAILURES"
+          echo "Analyses sans rapport : $FAILURES"
 
-          if [ "$FAILURES" -gt 0 ]; then
+          find "$RESULTS_DIR" -type f -print
+
+          if [ "$COUNT" -eq 0 ] || [ "$FAILURES" -gt 0 ]; then
             exit 1
           fi
 
