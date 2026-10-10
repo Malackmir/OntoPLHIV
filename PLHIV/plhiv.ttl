@@ -918,12 +918,16 @@ plhiv: rdf:type owl:Ontology ;
 
 :a_pour_maladie rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;
-    rdfs:range :Maladie .
+    rdfs:range :Maladie ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .         
 
 :a_pour_infection_VIH rdf:type owl:ObjectProperty ;
     rdfs:subPropertyOf :a_pour_maladie ;
     rdfs:domain :Patient ;
-    rdfs:range :Infection_VIH .
+    rdfs:range :Infection_VIH ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .         
 
 :a_pour_examen rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;
@@ -938,27 +942,39 @@ plhiv: rdf:type owl:Ontology ;
 :a_pour_traitement rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;
     rdfs:range :Traitement ;
-    owl:inverseOf :est_traitement_de .
+    owl:inverseOf :est_traitement_de ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .         
 
 :est_traitement_de rdf:type owl:ObjectProperty ;
     rdfs:domain :Traitement ;
     rdfs:range :Patient ;
-    owl:inverseOf :a_pour_traitement .
+    owl:inverseOf :a_pour_traitement ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .         
 
 :traite_maladie rdf:type owl:ObjectProperty ;
     rdfs:domain :Traitement ;
-    rdfs:range :Maladie .
+    rdfs:range :Maladie ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .         
 
 :traite_infection_VIH rdf:type owl:ObjectProperty ;
     rdfs:subPropertyOf :traite_maladie ;
     rdfs:domain :Traitement_Infection_VIH ;
-    rdfs:range :Infection_VIH .
+    rdfs:range :Infection_VIH ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .         
 
 :examine_maladie rdf:type owl:ObjectProperty ;
     rdfs:domain :Examen_Biologique ;
-    rdfs:range :Maladie .
+    rdfs:range :Maladie ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .         
 
 :examine_infection_VIH rdf:type owl:ObjectProperty ;
     rdfs:subPropertyOf :examine_maladie ;
     rdfs:domain :Examen_Infection_VIH ;
-    rdfs:range :Infection_VIH .
+    rdfs:range :Infection_VIH ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .         
