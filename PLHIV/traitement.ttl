@@ -44,31 +44,31 @@
         rdfs:label " ."@fr .      
 
             ### IF (Inhibiteur de Fusion) ###
-            :IF rdf:type owl:Class ;
+            :Arv_IF rdf:type owl:Class ;
                 rdfs:subClassOf :Antiretroviral ;
                 rdfs:comment " ."@fr ;
                 rdfs:label " ."@fr .   
 
             ### INTI (Inhibiteurs nucleosidiques de la transcriptase inverse) ###
-            :INTI rdf:type owl:Class ;
+            :Arv_INTI rdf:type owl:Class ;
                 rdfs:subClassOf :Antiretroviral ;
                 rdfs:comment " ."@fr ;
                 rdfs:label " ."@fr .   
 
             ### INNTI (Inhibiteurs non nucleosidiques de la transcriptase inverse) ###
-            :INNTI rdf:type owl:Class ;
+            :Arv_INNTI rdf:type owl:Class ;
                 rdfs:subClassOf :Antiretroviral ;
                 rdfs:comment " ."@fr ;
                 rdfs:label " ."@fr .   
 
             ### IP (Inhibiteurs de protease) ###
-            :IP rdf:type owl:Class ;
+            :Arv_IP rdf:type owl:Class ;
                 rdfs:subClassOf :Antiretroviral ;
                 rdfs:comment " ."@fr ;
                 rdfs:label " ."@fr .   
 
             ### INI (inhibiteurs de l'integrase)  ###
-            :INI rdf:type owl:Class ;
+            :Arv_INI rdf:type owl:Class ;
                 rdfs:subClassOf :Antiretroviral ;
                 rdfs:comment " ."@fr ;
                 rdfs:label " ."@fr .   
