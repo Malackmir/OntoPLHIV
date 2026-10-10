@@ -140,148 +140,148 @@ plhiv: rdf:type owl:Ontology ;
     rdfs:comment "C'est un Stade du VIH/SIDA définit par l'OMS."@fr ;
     rdfs:label "Stade OMS."@fr .  
 
-    ### Stade 1 OMS ###
-    :Stade_1 rdf:type owl:Class ;
-        rdfs:subClassOf :Stade ;
-        rdfs:comment "C'est la primo infection du VIH/SIDA définit par l'OMS."@fr ;
-        rdfs:label "Stade Primo Infection."@fr .
+### Stade 1 OMS ###
+:Stade_1 rdf:type owl:Class ;
+    rdfs:subClassOf :Stade ;
+    rdfs:comment "C'est la primo infection du VIH/SIDA définit par l'OMS."@fr ;
+    rdfs:label "Stade Primo Infection."@fr .
 
-    ### Stade 2 OMS ###
-    :Stade_2 rdf:type owl:Class ;
-        rdfs:subClassOf :Stade ;
-        rdfs:comment "C'est la partie asymptomatique du VIH/SIDA définit par l'OMS."@fr ;
-        rdfs:label "Stade Asymptomatique."@fr .
+### Stade 2 OMS ###
+:Stade_2 rdf:type owl:Class ;
+    rdfs:subClassOf :Stade ;
+    rdfs:comment "C'est la partie asymptomatique du VIH/SIDA définit par l'OMS."@fr ;
+    rdfs:label "Stade Asymptomatique."@fr .
 
-    ### Stade 3 OMS ###
-    :Stade_3 rdf:type owl:Class ;
-        rdfs:subClassOf :Stade ;
-        rdfs:comment "C'est la partie symptomatique du VIH/SIDA définit par l'OMS."@fr ;
-        rdfs:label "Stade Symptomatique."@fr .
+### Stade 3 OMS ###
+:Stade_3 rdf:type owl:Class ;
+    rdfs:subClassOf :Stade ;
+    rdfs:comment "C'est la partie symptomatique du VIH/SIDA définit par l'OMS."@fr ;
+    rdfs:label "Stade Symptomatique."@fr .
 
-    ### Stade 4 OMS ###
-    :Stade_4 rdf:type owl:Class ;
-        rdfs:subClassOf :Stade ;
-        rdfs:comment "C'est le Stade SIDA du VIH/SIDA définit par l'OMS."@fr ;
-        rdfs:label "Stade SIDA."@fr .                        
+### Stade 4 OMS ###
+:Stade_4 rdf:type owl:Class ;
+    rdfs:subClassOf :Stade ;
+    rdfs:comment "C'est le Stade SIDA du VIH/SIDA définit par l'OMS."@fr ;
+    rdfs:label "Stade SIDA."@fr .                        
 
 ### Mode de Transmission ###
 :Mode_Transmission rdf:type owl:Class ;
     rdfs:comment "C'est le mode de transmission de la maladie infectieuse."@fr ;
     rdfs:label "Mode Transmission."@fr .
 
-    :Transmission_Directe rdf:type owl:Class ;
-        rdfs:subClassOf :Mode_Transmission ;
-        rdfs:comment "C'est le mode de transmission directe de la maladie infectieuse."@fr ;
-        rdfs:label "Transmission Directe."@fr .
+:Transmission_Directe rdf:type owl:Class ;
+    rdfs:subClassOf :Mode_Transmission ;
+    rdfs:comment "C'est le mode de transmission directe de la maladie infectieuse."@fr ;
+    rdfs:label "Transmission Directe."@fr .
 
-    :Transmission_Indirecte rdf:type owl:Class ;
-        rdfs:subClassOf :Mode_Transmission ;
-        rdfs:comment "C'est le mode de transmission indirecte de la maladie infectieuse."@fr ;
-        rdfs:label "Transmission Indirecte."@fr .        
+:Transmission_Indirecte rdf:type owl:Class ;
+    rdfs:subClassOf :Mode_Transmission ;
+    rdfs:comment "C'est le mode de transmission indirecte de la maladie infectieuse."@fr ;
+    rdfs:label "Transmission Indirecte."@fr .        
 
 ### Agent de Transmission ###
 :Agent_Infectieux rdf:type owl:Class ;
     rdfs:comment "C'est l'agent infectieux qui est responsable de la maladie infectieuse."@fr ;
     rdfs:label "Agent Infectieux."@fr .
 
-    ### Agent Bacterie ###
-    :Bacterie rdf:type owl:Class ;
-        rdfs:subClassOf :Agent_Infectieux ;
-        rdfs:comment "C'est la bacterie qui est responsable de la maladie infectieuse."@fr ;
-        rdfs:label "Agent Bacterie."@fr .
+### Agent Bacterie ###
+:Bacterie rdf:type owl:Class ;
+    rdfs:subClassOf :Agent_Infectieux ;
+    rdfs:comment "C'est la bacterie qui est responsable de la maladie infectieuse."@fr ;
+    rdfs:label "Agent Bacterie."@fr .
 
-    ### Agent Champignon ###
-    :Champignon rdf:type owl:Class ;
-        rdfs:subClassOf :Agent_Infectieux ;
-        rdfs:comment "C'est le champignon qui est responsable de la maladie infectieuse."@fr ;
-        rdfs:label "Agent Champignon."@fr .
+### Agent Champignon ###
+:Champignon rdf:type owl:Class ;
+    rdfs:subClassOf :Agent_Infectieux ;
+    rdfs:comment "C'est le champignon qui est responsable de la maladie infectieuse."@fr ;
+    rdfs:label "Agent Champignon."@fr .
 
-    ### Agent Parasite ###
-    :Parasite rdf:type owl:Class ;
-        rdfs:subClassOf :Agent_Infectieux ;
-        rdfs:comment "C'est le parasite qui est responsable de la maladie infectieuse."@fr ;
-        rdfs:label "Agent Parasite."@fr .
+### Agent Parasite ###
+:Parasite rdf:type owl:Class ;
+    rdfs:subClassOf :Agent_Infectieux ;
+    rdfs:comment "C'est le parasite qui est responsable de la maladie infectieuse."@fr ;
+    rdfs:label "Agent Parasite."@fr .
 
-    ### Agent Virus ###
-    :Virus rdf:type owl:Class ;
-        rdfs:subClassOf :Agent_Infectieux ;
-        rdfs:comment "C'est le virus qui est responsable de la maladie infectieuse."@fr ;
-        rdfs:label "Agent Virus."@fr .    
+### Agent Virus ###
+:Virus rdf:type owl:Class ;
+    rdfs:subClassOf :Agent_Infectieux ;
+    rdfs:comment "C'est le virus qui est responsable de la maladie infectieuse."@fr ;
+    rdfs:label "Agent Virus."@fr .    
 
 ### Manifestation Clinique Maladie ###
 :Manifestation_Clinique rdf:type owl:Class .                           
 
-    ### Signe Maladie ###
-    :Signe rdf:type owl:Class ;
-        rdfs:subClassOf :Manifestation_Clinique ;
-        rdfs:comment "C'est un signe de la maladie du VIH/SIDA."@fr ;
-        rdfs:label "Signe."@fr .     
+### Signe Maladie ###
+:Signe rdf:type owl:Class ;
+    rdfs:subClassOf :Manifestation_Clinique ;
+    rdfs:comment "C'est un signe de la maladie du VIH/SIDA."@fr ;
+    rdfs:label "Signe."@fr .     
 
-    ### Symptome Maladie ###
-    :Symptome rdf:type owl:Class ;
-        rdfs:subClassOf :Manifestation_Clinique ;
-        rdfs:comment "C'est un symptome d'une maladie."@fr ;
-        rdfs:label "Symptome."@fr .     
+### Symptome Maladie ###
+:Symptome rdf:type owl:Class ;
+    rdfs:subClassOf :Manifestation_Clinique ;
+    rdfs:comment "C'est un symptome d'une maladie."@fr ;
+    rdfs:label "Symptome."@fr .     
 
-        ### Symptome Respiratoire ###
-        :Symptome_Respiratoire rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome ;
-            rdfs:comment "C'est un symptome respiratoire d'une maladie."@fr ;
-            rdfs:label "Symptome."@fr .   
+### Symptome Respiratoire ###
+:Symptome_Respiratoire rdf:type owl:Class ;
+    rdfs:subClassOf :Symptome ;
+    rdfs:comment "C'est un symptome respiratoire d'une maladie."@fr ;
+    rdfs:label "Symptome."@fr .   
 
-                :Hemoptysie rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Respiratoire .     
+        :Hemoptysie rdf:type owl:Class ;
+            rdfs:subClassOf :Symptome_Respiratoire .     
 
-                :Toux_Chronique rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Respiratoire . 
+        :Toux_Chronique rdf:type owl:Class ;
+            rdfs:subClassOf :Symptome_Respiratoire . 
 
-                :Dyspnee rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Respiratoire .                                       
+        :Dyspnee rdf:type owl:Class ;
+            rdfs:subClassOf :Symptome_Respiratoire .                                       
 
-        ### Symptome Digestif ###
-        :Symptome_Digestif rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome ;
-            rdfs:comment "C'est un symptome digestif d'une maladie."@fr ;
-            rdfs:label "Symptome."@fr .   
+### Symptome Digestif ###
+:Symptome_Digestif rdf:type owl:Class ;
+    rdfs:subClassOf :Symptome ;
+    rdfs:comment "C'est un symptome digestif d'une maladie."@fr ;
+    rdfs:label "Symptome."@fr .   
 
-                :Dysphagie rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Digestif .     
+        :Dysphagie rdf:type owl:Class ;
+            rdfs:subClassOf :Symptome_Digestif .     
 
-                :Vomissements rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Digestif . 
+        :Vomissements rdf:type owl:Class ;
+            rdfs:subClassOf :Symptome_Digestif . 
 
-                :Diarrhee_Chronique rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Digestif .    
+        :Diarrhee_Chronique rdf:type owl:Class ;
+            rdfs:subClassOf :Symptome_Digestif .    
 
-                :Anorexie rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Digestif .                      
+        :Anorexie rdf:type owl:Class ;
+            rdfs:subClassOf :Symptome_Digestif .                      
 
-        ### Symptome Dermatologique ###
-        :Symptome_Dermatologique rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome ;
-            rdfs:comment "C'est un symptome d'une maladie."@fr ;
-            rdfs:label "Symptome."@fr .   
+### Symptome Dermatologique ###
+:Symptome_Dermatologique rdf:type owl:Class ;
+    rdfs:subClassOf :Symptome ;
+    rdfs:comment "C'est un symptome d'une maladie."@fr ;
+    rdfs:label "Symptome."@fr .   
 
-        ### Symptome Neurologique ###
-        :Symptome_Neurologique rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome ;
-            rdfs:comment "C'est un symptome neurologique d'une maladie."@fr ;
-            rdfs:label "Symptome."@fr .    
+### Symptome Neurologique ###
+:Symptome_Neurologique rdf:type owl:Class ;
+    rdfs:subClassOf :Symptome ;
+    rdfs:comment "C'est un symptome neurologique d'une maladie."@fr ;
+    rdfs:label "Symptome."@fr .    
 
-                :Neuropathies_Peripheriques rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Neurologique .     
+        :Neuropathies_Peripheriques rdf:type owl:Class ;
+            rdfs:subClassOf :Symptome_Neurologique .     
 
-                :Cephalee rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Neurologique . 
+        :Cephalee rdf:type owl:Class ;
+            rdfs:subClassOf :Symptome_Neurologique . 
 
-                :Deficit_Moteur rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Neurologique .    
+        :Deficit_Moteur rdf:type owl:Class ;
+            rdfs:subClassOf :Symptome_Neurologique .    
 
-                :Convulsion rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Neurologique .      
+        :Convulsion rdf:type owl:Class ;
+            rdfs:subClassOf :Symptome_Neurologique .      
 
-                :Coma rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Neurologique .                    
+        :Coma rdf:type owl:Class ;
+            rdfs:subClassOf :Symptome_Neurologique .                    
 
 ######## Traitement #########
 
@@ -290,11 +290,11 @@ plhiv: rdf:type owl:Ontology ;
     rdfs:comment " ."@fr ;
     rdfs:label " ."@fr .    
 
-    ### Traitement Infection VIH ###
-    :Traitement_Infection_VIH rdf:type owl:Class ;
-        rdfs:subClassOf :Traitement ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .   
+### Traitement Infection VIH ###
+:Traitement_Infection_VIH rdf:type owl:Class ;
+    rdfs:subClassOf :Traitement ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .   
 
 ### Echec Traitement ###
 :Echec_Therapeutique rdf:type owl:Class ;
@@ -311,41 +311,41 @@ plhiv: rdf:type owl:Ontology ;
     rdfs:comment " ."@fr ;
     rdfs:label " ."@fr .     
 
-    ### Antiretroviral ###
-    :Antiretroviral rdf:type owl:Class ; 
-        rdfs:subClassOf :Medicament ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .      
+### Antiretroviral ###
+:Antiretroviral rdf:type owl:Class ; 
+    rdfs:subClassOf :Medicament ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .      
 
-            ### IF (Inhibiteur de Fusion) ###
-            :IF rdf:type owl:Class ;
-                rdfs:subClassOf :Antiretroviral ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .   
+### IF (Inhibiteur de Fusion) ###
+:IF rdf:type owl:Class ;
+    rdfs:subClassOf :Antiretroviral ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .   
 
-            ### INTI (Inhibiteurs nucleosidiques de la transcriptase inverse) ###
-            :INTI rdf:type owl:Class ;
-                rdfs:subClassOf :Antiretroviral ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .   
+### INTI (Inhibiteurs nucleosidiques de la transcriptase inverse) ###
+:INTI rdf:type owl:Class ;
+    rdfs:subClassOf :Antiretroviral ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .   
 
-            ### INNTI (Inhibiteurs non nucleosidiques de la transcriptase inverse) ###
-            :INNTI rdf:type owl:Class ;
-                rdfs:subClassOf :Antiretroviral ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .   
+### INNTI (Inhibiteurs non nucleosidiques de la transcriptase inverse) ###
+:INNTI rdf:type owl:Class ;
+    rdfs:subClassOf :Antiretroviral ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .   
 
-            ### IP (Inhibiteurs de protease) ###
-            :IP rdf:type owl:Class ;
-                rdfs:subClassOf :Antiretroviral ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .   
+### IP (Inhibiteurs de protease) ###
+:IP rdf:type owl:Class ;
+    rdfs:subClassOf :Antiretroviral ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .   
 
-            ### INI (inhibiteurs de l'integrase)  ###
-            :INI rdf:type owl:Class ;
-                rdfs:subClassOf :Antiretroviral ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .   
+### INI (inhibiteurs de l'integrase)  ###
+:INI rdf:type owl:Class ;
+    rdfs:subClassOf :Antiretroviral ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .   
 
 ### Effet Secondaire ###
 :Effet_Secondaire rdf:type owl:Class ;
@@ -362,23 +362,23 @@ plhiv: rdf:type owl:Ontology ;
     rdfs:comment " ."@fr ;
     rdfs:label " ."@fr .       
 
-    ### Protocole Ligne 1 VIH ###
-    :Protocole_Ligne_1 rdf:type owl:Class ;
-        rdfs:subClassOf :Protocole_ARV ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .   
+### Protocole Ligne 1 VIH ###
+:Protocole_Ligne_1 rdf:type owl:Class ;
+    rdfs:subClassOf :Protocole_ARV ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .   
 
-    ### Protocole Ligne 2 VIH ###
-    :Protocole_Ligne_2 rdf:type owl:Class ;
-        rdfs:subClassOf :Protocole_ARV ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .   
+### Protocole Ligne 2 VIH ###
+:Protocole_Ligne_2 rdf:type owl:Class ;
+    rdfs:subClassOf :Protocole_ARV ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .   
 
-    ### Protocole Ligne 3 VIH ###
-    :Protocole_Ligne_3 rdf:type owl:Class ;
-        rdfs:subClassOf :Protocole_ARV ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .   
+### Protocole Ligne 3 VIH ###
+:Protocole_Ligne_3 rdf:type owl:Class ;
+    rdfs:subClassOf :Protocole_ARV ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .   
 
 ######## Biologie #########
 
@@ -387,47 +387,47 @@ plhiv: rdf:type owl:Ontology ;
     rdfs:comment " ."@fr ;
     rdfs:label " ."@fr .       
 
-    ### Examen Infection VIH ###
-    :Examen_Infection_VIH rdf:type owl:Class ;
-        rdfs:subClassOf :Examen_Biologique ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .   
+### Examen Infection VIH ###
+:Examen_Infection_VIH rdf:type owl:Class ;
+    rdfs:subClassOf :Examen_Biologique ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .   
 
-            ### Charge Virale VIH ###
-            :Examen_Charge_Virale_VIH rdf:type owl:Class ;
-                rdfs:subClassOf :Examen_Infection_VIH ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .   
+### Charge Virale VIH ###
+:Examen_Charge_Virale_VIH rdf:type owl:Class ;
+    rdfs:subClassOf :Examen_Infection_VIH ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .   
 
-            ### Lymphocyte T CD4 ###
-            :Examen_CD4 rdf:type owl:Class ;
-                rdfs:subClassOf :Examen_Infection_VIH ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                   
+### Lymphocyte T CD4 ###
+:Examen_CD4 rdf:type owl:Class ;
+    rdfs:subClassOf :Examen_Infection_VIH ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .                   
 
-    ### Examen Hepatite B ###
-    :Examen_Hepatite_B rdf:type owl:Class ;
-        rdfs:subClassOf :Examen_Biologique ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .   
+### Examen Hepatite B ###
+:Examen_Hepatite_B rdf:type owl:Class ;
+    rdfs:subClassOf :Examen_Biologique ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .   
 
-            ### AgHBs ###
-            :Examen_AgHBs rdf:type owl:Class ;
-                rdfs:subClassOf :Examen_Hepatite_B ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .           
+### AgHBs ###
+:Examen_AgHBs rdf:type owl:Class ;
+    rdfs:subClassOf :Examen_Hepatite_B ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .           
 
-    ### Examen Tuberculose ###
-    :Examen_Tuberculose rdf:type owl:Class ;
-        rdfs:subClassOf :Examen_Biologique ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .       
+### Examen Tuberculose ###
+:Examen_Tuberculose rdf:type owl:Class ;
+    rdfs:subClassOf :Examen_Biologique ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .       
 
-            ### Crachat_BAAR ###
-            :Examen_BAAR rdf:type owl:Class ;
-                rdfs:subClassOf :Examen_Tuberculose ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .   
+### Crachat_BAAR ###
+:Examen_BAAR rdf:type owl:Class ;
+    rdfs:subClassOf :Examen_Tuberculose ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .   
 
 ######## Patient #########
 
@@ -466,17 +466,17 @@ plhiv: rdf:type owl:Ontology ;
     rdfs:comment " ."@fr ;
     rdfs:label " ."@fr .    
 
-    ### Medecin ###
-    :Medecin rdf:type owl:Class ;
-        rdfs:subClassOf :Personnel_Sante ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .   
+### Medecin ###
+:Medecin rdf:type owl:Class ;
+    rdfs:subClassOf :Personnel_Sante ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .   
 
-    ### Assistant Social###
-    :Assistant_Social rdf:type owl:Class ;
-        rdfs:subClassOf :Personnel_Sante ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .  
+### Assistant Social###
+:Assistant_Social rdf:type owl:Class ;
+    rdfs:subClassOf :Personnel_Sante ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .  
 
 #################################################################
 #    Relations
