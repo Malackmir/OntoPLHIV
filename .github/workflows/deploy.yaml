@@ -184,7 +184,10 @@ jobs:
           persist-credentials: false
 
       - name: Installer les dependances de oops-report
+        shell: bash
         run: |
+          set -euo pipefail
+
           python -m pip install \
             -r tools/oops-report/requirements.txt
 
@@ -194,24 +197,41 @@ jobs:
         run: |
           set -euo pipefail
 
+          RESULTS_DIR="generated/reports/OOPS"
+          mkdir -p "$RESULTS_DIR"
+
+          # Vérifier la présence du script OOPS!
+          test -f tools/oops-report/main.py || {
+            echo "::error::Script OOPS! introuvable."
+            exit 1
+          }
+
+          # Analyser les ontologies
           while IFS= read -r -d '' file; do
             rel="${file#PLHIV/}"
             name="${rel%.*}"
-            out="generated/reports/${name}"
+            out="$RESULTS_DIR/$name"
 
             mkdir -p "$out"
 
-            echo "Rapport OOPS! : $file"
+            echo "Analyse OOPS! : $file"
 
-            python tools/oops-report/main.py \
+            if python tools/oops-report/main.py \
               --outputdir "$out" \
               --ontologydir "$file" \
-              --verbose
+              --verbose; then
+              echo "Analyse terminée : $file"
+            else
+              echo "::warning::Échec de l'analyse OOPS! : $file"
+            fi
           done < <(
             find PLHIV -type f \
               \( -iname '*.ttl' -o -iname '*.owl' -o -iname '*.rdf' \) \
               -print0
           )
+
+          echo "=== Rapports OOPS! générés ==="
+          find "$RESULTS_DIR" -type f -print || true
 
       # ----------------------------------------------
       # 4. THEMIS 
