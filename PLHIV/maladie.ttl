@@ -31,16 +31,24 @@
         rdfs:label "Maladie Non Transmissible."@fr .
 
             :Cancer rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Non_Transmissible .
+                rdfs:subClassOf :Maladie_Non_Transmissible ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                 
 
             :Diabete rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Non_Transmissible .
+                rdfs:subClassOf :Maladie_Non_Transmissible ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                      
 
             :Maladie_Cardiovasculaire rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Non_Transmissible .
+                rdfs:subClassOf :Maladie_Non_Transmissible ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                      
 
             :Maladie_Inflammatoire rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Non_Transmissible .                                                          
+                rdfs:subClassOf :Maladie_Non_Transmissible ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                                                                                
 
     ### Maladie Infectieuse ###
     :Maladie_Infectieuse rdf:type owl:Class ;
@@ -192,14 +200,20 @@
             rdfs:comment "C'est un symptome respiratoire d'une maladie."@fr ;
             rdfs:label "Symptome."@fr .   
 
-                :Hemoptysie rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Respiratoire .     
+            :Hemoptysie rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Respiratoire ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                               
 
-                :Toux_Chronique rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Respiratoire . 
+            :Toux_Chronique rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Respiratoire ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                       
 
-                :Dyspnee rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Respiratoire .                                       
+            :Dyspnee rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Respiratoire ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                                                             
 
         ### Symptome Digestif ###
         :Symptome_Digestif rdf:type owl:Class ;
@@ -207,17 +221,25 @@
             rdfs:comment "C'est un symptome digestif d'une maladie."@fr ;
             rdfs:label "Symptome."@fr .   
 
-                :Dysphagie rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Digestif .     
+            :Dysphagie rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Digestif ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                           
 
-                :Vomissements rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Digestif . 
+            :Vomissements rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Digestif ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                       
 
-                :Diarrhee_Chronique rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Digestif .    
+            :Diarrhee_Chronique rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Digestif ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                          
 
-                :Anorexie rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Digestif .                      
+            :Anorexie rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Digestif ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                                            
 
         ### Symptome Dermatologique ###
         :Symptome_Dermatologique rdf:type owl:Class ;
@@ -231,20 +253,30 @@
             rdfs:comment "C'est un symptome neurologique d'une maladie."@fr ;
             rdfs:label "Symptome."@fr .    
 
-                :Neuropathies_Peripheriques rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Neurologique .     
+            :Neuropathies_Peripheriques rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Neurologique ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                           
 
-                :Cephalee rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Neurologique . 
+            :Cephalee rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Neurologique ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                       
 
-                :Deficit_Moteur rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Neurologique .    
+            :Deficit_Moteur rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Neurologique ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                          
 
-                :Convulsion rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Neurologique .      
+            :Convulsion rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Neurologique ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                            
 
-                :Coma rdf:type owl:Class ;
-                    rdfs:subClassOf :Symptome_Neurologique .                    
+            :Coma rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Neurologique ;
+                rdfs:comment " ."@fr ;
+                rdfs:label " ."@fr .                                          
 
 
 #################################################################
