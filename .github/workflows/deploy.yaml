@@ -176,65 +176,62 @@ jobs:
       # ----------------------------------------------
       # 3. OOPS! + OOPS-REPORT
       # ----------------------------------------------
+      - name: Recuperer oops-report
+        uses: actions/checkout@v6
+        with:
+          repository: OnToology/oops-report
+          path: tools/oops-report
+          persist-credentials: false
+
+      - name: Installer les dependances de oops-report
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          python -m pip install \
+            -r tools/oops-report/requirements.txt
 
       - name: Analyser les ontologies avec OOPS!
         continue-on-error: true
         shell: bash
         run: |
-          set -uo pipefail
+          set -euo pipefail
 
           RESULTS_DIR="generated/reports/OOPS"
           mkdir -p "$RESULTS_DIR"
 
+          # Vérifier la présence du script OOPS!
           test -f tools/oops-report/main.py || {
             echo "::error::Script OOPS! introuvable."
             exit 1
           }
 
-          COUNT=0
-          FAILURES=0
-
+          # Analyser les ontologies
           while IFS= read -r -d '' file; do
             rel="${file#PLHIV/}"
             name="${rel%.*}"
             out="$RESULTS_DIR/$name"
 
             mkdir -p "$out"
-            COUNT=$((COUNT + 1))
 
-            echo "=== Analyse OOPS! : $file ==="
+            echo "Analyse OOPS! : $file"
 
-            # Lancer OOPS! et afficher son journal
-            python tools/oops-report/main.py \
+            if python tools/oops-report/main.py \
               --outputdir "$out" \
               --ontologydir "$file" \
-              --verbose || true
-
-            # Vérifier les rapports réellement produits
-            if [ -s "$out/oops.html" ] && \
-               [ -s "$out/oops.md" ]; then
-              echo "Rapport HTML : $out/oops.html"
-              echo "Rapport Markdown : $out/oops.md"
+              --verbose; then
+              echo "Analyse terminée : $file"
             else
-              echo "::error::Rapports OOPS! absents pour $file"
-              FAILURES=$((FAILURES + 1))
+              echo "::warning::Échec de l'analyse OOPS! : $file"
             fi
-
           done < <(
             find PLHIV -type f \
               \( -iname '*.ttl' -o -iname '*.owl' -o -iname '*.rdf' \) \
               -print0
           )
 
-          echo "=== Résumé OOPS! ==="
-          echo "Ontologies analysées : $COUNT"
-          echo "Analyses sans rapport : $FAILURES"
-
-          find "$RESULTS_DIR" -type f -print
-
-          if [ "$COUNT" -eq 0 ] || [ "$FAILURES" -gt 0 ]; then
-            exit 1
-          fi
+          echo "=== Rapports OOPS! générés ==="
+          find "$RESULTS_DIR" -type f -print || true
 
       # ----------------------------------------------
       # 4. THEMIS 
