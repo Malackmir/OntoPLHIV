@@ -841,7 +841,7 @@ plhiv: rdf:type owl:Ontology ;
     ] .
 
 #################################################################
-# Relations entre sous-domaines
+# Relations entre sous-domaines    
 #################################################################
 
 :a_pour_maladie rdf:type owl:ObjectProperty ;
