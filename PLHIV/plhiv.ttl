@@ -55,31 +55,31 @@ plhiv: rdf:type owl:Ontology ;
     rdfs:label "Maladie."@fr ;
     rdfs:comment "État pathologique affectant un individu et pouvant être pris en compte dans le suivi médical des personnes vivant avec le VIH."@fr .
 
-### Maladie Transmissible ###
-:Maladie_Transmissible rdf:type owl:Class ;
-    rdfs:subClassOf :Maladie_Infectieuse ;
-    owl:disjointWith :Maladie_Non_Transmissible ;
-    rdfs:comment "C'est une maladie transmissible."@fr ;
-    rdfs:label "Maladie Transmissible."@fr .
+    ### Maladie Transmissible ###
+    :Maladie_Transmissible rdf:type owl:Class ;
+        rdfs:subClassOf :Maladie_Infectieuse ;
+        owl:disjointWith :Maladie_Non_Transmissible ;
+        rdfs:comment "C'est une maladie transmissible."@fr ;
+        rdfs:label "Maladie Transmissible."@fr .
 
-### Maladie Non Transmissible ###
-:Maladie_Non_Transmissible rdf:type owl:Class ;
-    rdfs:subClassOf :Maladie ;
-    owl:disjointWith :Maladie_Transmissible ;
-    rdfs:comment "C'est une maladie non transmissible."@fr ;
-    rdfs:label "Maladie Non Transmissible."@fr .
+    ### Maladie Non Transmissible ###
+    :Maladie_Non_Transmissible rdf:type owl:Class ;
+        rdfs:subClassOf :Maladie ;
+        owl:disjointWith :Maladie_Transmissible ;
+        rdfs:comment "C'est une maladie non transmissible."@fr ;
+        rdfs:label "Maladie Non Transmissible."@fr .
 
-            :Cancer rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Non_Transmissible .
+        :Cancer rdf:type owl:Class ;
+            rdfs:subClassOf :Maladie_Non_Transmissible .
 
-            :Diabete rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Non_Transmissible .
+        :Diabete rdf:type owl:Class ;
+            rdfs:subClassOf :Maladie_Non_Transmissible .
 
-            :Maladie_Cardiovasculaire rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Non_Transmissible .
+        :Maladie_Cardiovasculaire rdf:type owl:Class ;
+            rdfs:subClassOf :Maladie_Non_Transmissible .
 
-            :Maladie_Inflammatoire rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Non_Transmissible .                                                          
+        :Maladie_Inflammatoire rdf:type owl:Class ;
+            rdfs:subClassOf :Maladie_Non_Transmissible .                                                          
 
     ### Maladie Infectieuse ###
     :Maladie_Infectieuse rdf:type owl:Class ;
@@ -87,36 +87,36 @@ plhiv: rdf:type owl:Ontology ;
         rdfs:comment "C'est une maladie infectieuse."@fr ;
         rdfs:label "Maladie Infectieuse."@fr .
 
-            ### Infection Bacterienne ###
-            :Infection_Bacterienne rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Infectieuse ;
-                rdfs:comment "C'est une infection causée par une bacterie."@fr ;
-                rdfs:label "Infection Bacterienne."@fr .                                                                                         
+        ### Infection Bacterienne ###
+        :Infection_Bacterienne rdf:type owl:Class ;
+            rdfs:subClassOf :Maladie_Infectieuse ;
+            rdfs:comment "C'est une infection causée par une bacterie."@fr ;
+            rdfs:label "Infection Bacterienne."@fr .                                                                                         
 
-            ### Infection Fongique ###
-            :Infection_Fongique rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Infectieuse ;
-                rdfs:comment "C'est une infection causée par un champignon."@fr ;
-                rdfs:label "Infection Fongique."@fr .                                                                          
+        ### Infection Fongique ###
+        :Infection_Fongique rdf:type owl:Class ;
+            rdfs:subClassOf :Maladie_Infectieuse ;
+            rdfs:comment "C'est une infection causée par un champignon."@fr ;
+            rdfs:label "Infection Fongique."@fr .                                                                          
 
-            ### Infection Parasitaire ###
-            :Infection_Parasitaire rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Infectieuse ;
-                rdfs:comment "C'est une infection causée par un parasite."@fr ;
-                rdfs:label "Infection Parasitaire."@fr .                                                         
+        ### Infection Parasitaire ###
+        :Infection_Parasitaire rdf:type owl:Class ;
+            rdfs:subClassOf :Maladie_Infectieuse ;
+            rdfs:comment "C'est une infection causée par un parasite."@fr ;
+            rdfs:label "Infection Parasitaire."@fr .                                                         
 
-            ### Infection Virale ###
-            :Infection_Virale rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Infectieuse ;
-                rdfs:comment "C'est une infection causée par un virus."@fr ;
-                rdfs:label "Infection Virale."@fr .
+        ### Infection Virale ###
+        :Infection_Virale rdf:type owl:Class ;
+            rdfs:subClassOf :Maladie_Infectieuse ;
+            rdfs:comment "C'est une infection causée par un virus."@fr ;
+            rdfs:label "Infection Virale."@fr .
 
 
-                    ### Infection VIH ###
-                    :Infection_VIH rdf:type owl:Class ;
-                        rdfs:subClassOf :Infection_Virale ; 
-                        rdfs:comment "C'est la maladie du VIH/SIDA."@fr ;
-                        rdfs:label "Infection VIH."@fr .                                                                                                                                  
+            ### Infection VIH ###
+            :Infection_VIH rdf:type owl:Class ;
+                rdfs:subClassOf :Infection_Virale ; 
+                rdfs:comment "C'est la maladie du VIH/SIDA."@fr ;
+                rdfs:label "Infection VIH."@fr .                                                                                                                                  
 
     ### Maladie Co Infectieuse ###
     :Maladie_Co_Infectieuse rdf:type owl:Class ;
