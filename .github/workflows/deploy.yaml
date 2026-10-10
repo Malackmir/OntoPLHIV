@@ -191,6 +191,42 @@ jobs:
           python -m pip install \
             -r tools/oops-report/requirements.txt
 
+      - name: Convertir les fichiers Turtle en OWL
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          python -m pip install rdflib
+
+          python - <<'PY'
+          from pathlib import Path
+          from rdflib import Graph
+
+          source_dir = Path("PLHIV")
+          output_dir = Path("generated/ontology-owl")
+          output_dir.mkdir(parents=True, exist_ok=True)
+
+          files = sorted(source_dir.rglob("*.ttl"))
+
+          if not files:
+              raise SystemExit("Aucun fichier Turtle trouvé dans PLHIV/.")
+
+          for source in files:
+              relative = source.relative_to(source_dir).with_suffix(".owl")
+              target = output_dir / relative
+              target.parent.mkdir(parents=True, exist_ok=True)
+
+              graph = Graph()
+              graph.parse(str(source), format="turtle")
+              graph.serialize(destination=str(target), format="xml")
+
+              if not target.is_file() or target.stat().st_size == 0:
+                  raise RuntimeError(f"Conversion échouée : {source}")
+
+              print(f"Conversion réussie : {source} -> {target}")
+
+          print(f"{len(files)} fichier(s) converti(s).")
+          PY
 
       - name: Analyser les ontologies avec OOPS!
         continue-on-error: true
@@ -199,6 +235,8 @@ jobs:
           set -uo pipefail
 
           RESULTS_DIR="generated/reports/OOPS"
+          OWL_DIR="generated/ontology-owl"
+
           mkdir -p "$RESULTS_DIR"
 
           test -f tools/oops-report/main.py || {
@@ -209,82 +247,56 @@ jobs:
           COUNT=0
 
           while IFS= read -r -d '' file; do
-            rel="${file#PLHIV/}"
-            name="${rel%.*}"
+            rel="${file#"$OWL_DIR"/}"
+            name="${rel%.owl}"
             out="$RESULTS_DIR/$name"
 
             mkdir -p "$out"
             COUNT=$((COUNT + 1))
 
             echo "=== Analyse OOPS! : $file ==="
-
-            # Trois tentatives au maximum
             SUCCESS=false
 
             for attempt in 1 2 3; do
               echo "Tentative $attempt/3"
 
-              if python tools/oops-report/main.py \
+              python tools/oops-report/main.py \
                 --outputdir "$out" \
                 --ontologydir "$file" \
-                --verbose > "$out/oops-run.log" 2>&1; then
-                cat "$out/oops-run.log"
-              else
-                cat "$out/oops-run.log"
-              fi
+                --verbose > "$out/oops-run.log" 2>&1 || true
 
-              # Vérifier que les rapports existent réellement
+              cat "$out/oops-run.log"
+
               if [ -s "$out/oops.html" ] && \
                  [ -s "$out/oops.md" ]; then
                 SUCCESS=true
                 break
               fi
 
-              echo "Rapports absents. Nouvelle tentative..."
-              sleep 5
+              if [ "$attempt" -lt 3 ]; then
+                echo "Rapports absents ; nouvelle tentative."
+                sleep 5
+              fi
             done
 
             if [ "$SUCCESS" = false ]; then
               echo "::warning::OOPS! n'a pas produit de rapport pour $file"
-
-              # Créer un diagnostic HTML consultable sur le VPS
-              python - <<'PY'
-              from pathlib import Path
-
-              path = Path("tools/oops-report/main.py")
-              source = path.read_text(encoding="utf-8")
-
-              old = '<OntologyContent>%s</OntologyContent>'
-              new = '<OntologyContent><![CDATA[%s]]></OntologyContent>'
-
-              if old not in source:
-                  if new in source:
-                      print("La correction CDATA est déjà présente.")
-                  else:
-                      raise SystemExit(
-                          "Impossible de trouver la ligne à corriger dans main.py."
-                      )
-              else:
-                  source = source.replace(old, new, 1)
-                  path.write_text(source, encoding="utf-8")
-                  print("Correction CDATA appliquée.")
-              PY
             else
               echo "Rapports OOPS! générés pour $file"
             fi
 
           done < <(
-            find PLHIV -type f \
-              \( -iname '*.ttl' -o -iname '*.owl' -o -iname '*.rdf' \) \
-              -print0
+            find "$OWL_DIR" -type f -iname '*.owl' -print0
           )
 
-          if [ "$COUNT" -eq 0 ]; then
-            echo "::warning::Aucune ontologie trouvée dans PLHIV."
-          fi
-
-          echo "=== Fichiers OOPS! à déployer ==="
+          echo "=== Résumé OOPS! ==="
+          echo "Fichiers OWL analysés : $COUNT"
           find "$RESULTS_DIR" -type f -print
+
+          if [ "$COUNT" -eq 0 ]; then
+            echo "::error::Aucun fichier OWL à analyser."
+            exit 1
+          fi
 
       # ----------------------------------------------
       # 4. THEMIS 
