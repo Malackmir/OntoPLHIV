@@ -248,34 +248,27 @@ jobs:
               echo "::warning::OOPS! n'a pas produit de rapport pour $file"
 
               # Créer un diagnostic HTML consultable sur le VPS
-              python - "$out/oops-run.log" "$out/oops-error.html" "$file" <<'PY'
-          import html
-          import pathlib
-          import sys
+              python - <<'PY'
+              from pathlib import Path
 
-          log_file, output_file, ontology = sys.argv[1:]
-          log = pathlib.Path(log_file).read_text(
-              encoding="utf-8", errors="replace"
-          )
+              path = Path("tools/oops-report/main.py")
+              source = path.read_text(encoding="utf-8")
 
-          page = f"""<!DOCTYPE html>
-          <html lang="fr">
-          <head>
-            <meta charset="UTF-8">
-            <title>Diagnostic OOPS! - {html.escape(ontology)}</title>
-          </head>
-          <body>
-            <h1>Diagnostic OOPS!</h1>
-            <p>Ontologie : {html.escape(ontology)}</p>
-            <p>Le service OOPS! n'a pas produit de rapport après trois tentatives.</p>
-            <h2>Journal d'exécution</h2>
-            <pre>{html.escape(log)}</pre>
-          </body>
-          </html>
-          """
+              old = '<OntologyContent>%s</OntologyContent>'
+              new = '<OntologyContent><![CDATA[%s]]></OntologyContent>'
 
-          pathlib.Path(output_file).write_text(page, encoding="utf-8")
-          PY
+              if old not in source:
+                  if new in source:
+                      print("La correction CDATA est déjà présente.")
+                  else:
+                      raise SystemExit(
+                          "Impossible de trouver la ligne à corriger dans main.py."
+                      )
+              else:
+                  source = source.replace(old, new, 1)
+                  path.write_text(source, encoding="utf-8")
+                  print("Correction CDATA appliquée.")
+              PY
             else
               echo "Rapports OOPS! générés pour $file"
             fi
