@@ -64,59 +64,83 @@
 
 :a_pour_allergie rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;
-    rdfs:range :Allergie .  
+    rdfs:range :Allergie ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .    
 
 :a_pour_comportement_risque rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;
-    rdfs:range :Comportement_Risque .      
+    rdfs:range :Comportement_Risque ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .             
 
 :est_suivi_par rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;
     rdfs:range :Personnel_Sante;
-    owl:inverseOf :suit_patient .
+    owl:inverseOf :suit_patient ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .       
 
 :suit_patient rdf:type owl:ObjectProperty ;
     rdfs:domain :Personnel_Sante ;
     rdfs:range :Patient;
-    owl:inverseOf :est_suivi_par .      
+    owl:inverseOf :est_suivi_par ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .             
 
 :a_pour_reference rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;
     rdfs:range :Reference ;
-    owl:inverseOf :concerne_patient .   
+    owl:inverseOf :concerne_patient ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .          
 
 :concerne_patient rdf:type owl:ObjectProperty ;
     rdfs:domain :Reference ;
     rdfs:range :Patient ;
-    owl:inverseOf :a_pour_reference .       
+    owl:inverseOf :a_pour_reference ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .              
 
 :a_pour_motif rdf:type owl:ObjectProperty ;
     rdfs:domain :Reference ;
-    rdfs:range :Motif .      
+    rdfs:range :Motif ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .             
 
 :a_pour_renseignement_clinique rdf:type owl:ObjectProperty ;
     rdfs:domain :Reference ;
-    rdfs:range :Renseignement_Clinique .      
+    rdfs:range :Renseignement_Clinique ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .             
 
 :est_envoye_par rdf:type owl:ObjectProperty ;
     rdfs:domain :Reference ;
     rdfs:range :Personnel_Sante ;
-    owl:inverseOf :envoie_reference .
+    owl:inverseOf :envoie_reference ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .       
 
 :envoie_reference rdf:type owl:ObjectProperty ;
     rdfs:domain :Personnel_Sante ;
     rdfs:range :Reference ;
-    owl:inverseOf :est_envoye_par .    
+    owl:inverseOf :est_envoye_par ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .           
 
 :est_recu_par rdf:type owl:ObjectProperty ;
     rdfs:domain :Reference ;
     rdfs:range :Personnel_Sante ;
-    owl:inverseOf :recoit_reference .
+    owl:inverseOf :recoit_reference ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .       
 
 :recoit_reference rdf:type owl:ObjectProperty ;
     rdfs:domain :Personnel_Sante ;
     rdfs:range :Reference ;
-    owl:inverseOf :est_recu_par .  
+    owl:inverseOf :est_recu_par ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .         
 
 
 #################################################################

@@ -113,36 +113,53 @@
 
 :a_pour_echec_therapeutique rdf:type owl:ObjectProperty ;
     rdfs:domain :Traitement ;
-    rdfs:range :Echec_Therapeutique .    
+    rdfs:range :Echec_Therapeutique ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .           
 
 :a_pour_resistance_therapeutique rdf:type owl:ObjectProperty ;
     rdfs:domain :Traitement ;
-    rdfs:range :Resistance_Therapeutique .       
+    rdfs:range :Resistance_Therapeutique ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .              
 
 :a_comme_medicament rdf:type owl:ObjectProperty ;
     rdfs:domain :Traitement ;
-    rdfs:range :Medicament .
+    rdfs:range :Medicament ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .       
 
 :a_pour_effet_secondaire rdf:type owl:ObjectProperty ;
     rdfs:domain :Medicament ;
-    rdfs:range :Effet_Secondaire .
+    rdfs:range :Effet_Secondaire ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .       
 
 :a_pour_effet_indesirable rdf:type owl:ObjectProperty ;
     rdfs:domain :Medicament ;
-    rdfs:range :Effet_Indesirable .
+    rdfs:range :Effet_Indesirable ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .       
 
 :a_pour_protocole_ARV rdf:type owl:ObjectProperty ;
     rdfs:domain :Traitement ;
-    rdfs:range :Protocole_ARV .    
+    rdfs:range :Protocole_ARV ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .           
 
 :a_comme_antiretroviral rdf:type owl:ObjectProperty ;
     rdfs:domain :Protocole_ARV ;
-    rdfs:range :Antiretroviral .   
+    rdfs:range :Antiretroviral ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .          
 
 :a_comme_medicament owl:propertyChainAxiom (
     :a_pour_protocole_ARV
     :a_comme_antiretroviral
-) .
+    ) ;
+    rdfs:comment " ."@fr ;
+    rdfs:label " ."@fr .   
+ 
 
 
 #################################################################

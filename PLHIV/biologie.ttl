@@ -44,7 +44,7 @@
             :Examen_AgHBs rdf:type owl:Class ;
                 rdfs:subClassOf :Examen_Hepatite_B ;
                 rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .           
+         
 
     ### Examen Tuberculose ###
     :Examen_Tuberculose rdf:type owl:Class ;
