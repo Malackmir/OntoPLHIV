@@ -201,12 +201,18 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           from rdflib import Graph
+          from rdflib.namespace import (
+              DC, DCTERMS, OWL, RDF, RDFS, SKOS, FOAF
+          )
 
           source_dir = Path("PLHIV")
           output_dir = Path("generated/ontology-owl")
           output_dir.mkdir(parents=True, exist_ok=True)
 
-          files = sorted(source_dir.rglob("*.ttl"))
+          files = sorted(
+              path for path in source_dir.rglob("*")
+              if path.is_file() and path.suffix.lower() == ".ttl"
+          )
 
           if not files:
               raise SystemExit("Aucun fichier Turtle trouvé dans PLHIV/.")
@@ -216,18 +222,30 @@ jobs:
               target = output_dir / relative
               target.parent.mkdir(parents=True, exist_ok=True)
 
-              graph = Graph()
-              graph.parse(str(source), format="turtle")
-              graph.serialize(destination=str(target), format="xml")
+              # 1. Charger le fichier Turtle
+              g = Graph()
+              g.parse(str(source), format="turtle")
+
+              # 2. Déclarer et lier les namespaces
+              g.bind("dc", DC)
+              g.bind("dcterms", DCTERMS)
+              g.bind("skos", SKOS)
+              g.bind("foaf", FOAF)
+              g.bind("owl", OWL)
+              g.bind("rdf", RDF)
+              g.bind("rdfs", RDFS)
+
+              # 3. Exporter au format RDF/XML
+              g.serialize(destination=str(target), format="xml")
 
               if not target.is_file() or target.stat().st_size == 0:
                   raise RuntimeError(f"Conversion échouée : {source}")
 
-              print(f"Conversion réussie : {source} -> {target}")
+              print(f"Conversion terminée : {source} -> {target}")
 
-          print(f"{len(files)} fichier(s) converti(s).")
+          print(f"Total converti : {len(files)} fichier(s).")
           PY
-
+          
       - name: Analyser les ontologies avec OOPS!
         continue-on-error: true
         shell: bash
