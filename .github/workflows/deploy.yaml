@@ -149,30 +149,33 @@ jobs:
           chmod a+rwx "$OUT"
           chmod a+rwx "$OUT/resources"
 
+          # Générer la documentation en français.
           docker run --rm \
             -v "$GITHUB_WORKSPACE/PLHIV:/usr/local/widoco/in:ro" \
             -v "$GITHUB_WORKSPACE/generated/documentation:/usr/local/widoco/out" \
             ghcr.io/dgarijo/widoco:v1.4.25 \
             -ontFile "in/plhiv.ttl" \
             -outFolder "out/plhiv" \
+            -lang fr \
             -rewriteAll \
             -uniteSections \
             -oops \
             -webVowl
 
-          # Vérifier que WIDOCO a généré la page principale.
-          if [ ! -s "$OUT/index-en.html" ]; then
-            echo "::error::WIDOCO n'a pas généré $OUT/index-en.html"
+          # Vérifier la page principale française.
+          if [ -s "$OUT/index-fr.html" ]; then
+            cp "$OUT/index-fr.html" "$OUT/index.html"
+          elif [ -s "$OUT/index-en.html" ]; then
+            echo "::warning::WIDOCO a généré index-en.html ; vérifier la langue effective."
+            cp "$OUT/index-en.html" "$OUT/index.html"
+          else
+            echo "::error::Aucune page principale WIDOCO trouvée."
             find "$OUT" -maxdepth 3 -type f -print || true
             exit 1
           fi
 
-          # Créer index.html comme page d'entrée par défaut.
-          cp "$OUT/index-en.html" "$OUT/index.html"
-
-          echo "Documentation WIDOCO générée avec succès."
-          echo "Page principale : $OUT/index.html"
-
+          echo "Documentation WIDOCO générée."
+          echo "Page d'entrée par défaut : $OUT/index.html"
       # ----------------------------------------------
       # 3. OOPS! + OOPS-REPORT
       # ----------------------------------------------
@@ -245,7 +248,7 @@ jobs:
 
           print(f"Total converti : {len(files)} fichier(s).")
           PY
-          
+
       - name: Analyser les ontologies avec OOPS!
         continue-on-error: true
         shell: bash
