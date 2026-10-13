@@ -910,8 +910,8 @@ plhiv: a owl:Ontology ;
     rdfs:range :Effet_Secondaire .
 
 :a_pour_infection_VIH a owl:ObjectProperty ;
-    rdfs:label " ."@fr ;
-    rdfs:comment " ."@fr ;
+    rdfs:label "a pour infection par le VIH"@fr ;
+    rdfs:comment "Indique qu'un patient est atteint d'une infection par le virus de l'immunodéficience humaine (VIH)."@fr ;
     rdfs:domain :Patient ;
     rdfs:range :Infection_VIH ;
     rdfs:subPropertyOf :a_pour_maladie .
@@ -976,15 +976,15 @@ plhiv: a owl:Ontology ;
     owl:inverseOf :se_manifeste_par .
 
 :examine_infection_VIH a owl:ObjectProperty ;
-    rdfs:label " ."@fr ;
-    rdfs:comment " ."@fr ;
+    rdfs:label "examine l'infection par le VIH"@fr ;
+    rdfs:comment "Associe un examen biologique spécifique de l'infection par le VIH à cette infection, notamment pour son dépistage, son diagnostic ou son suivi."@fr ;
     rdfs:domain :Examen_Infection_VIH ;
     rdfs:range :Infection_VIH ;
     rdfs:subPropertyOf :examine_maladie .
 
 :traite_infection_VIH a owl:ObjectProperty ;
-    rdfs:label " ."@fr ;
-    rdfs:comment " ."@fr ;
+    rdfs:label "traite l'infection par le VIH"@fr ;
+    rdfs:comment "Indique qu'un traitement destiné à prendre en charge l'infection par le VIH cible cette infection."@fr ;
     rdfs:domain :Traitement_Infection_VIH ;
     rdfs:range :Infection_VIH ;
     rdfs:subPropertyOf :traite_maladie .
@@ -1048,15 +1048,15 @@ plhiv: a owl:Ontology ;
     rdfs:range :Maladie_Infectieuse .
 
 :a_pour_examen a owl:ObjectProperty ;
-    rdfs:label " ."@fr ;
-    rdfs:comment " ."@fr ;
+    rdfs:label "a pour examen biologique"@fr ;
+    rdfs:comment "Associe un patient aux examens biologiques réalisés ou prescrits dans le cadre de son suivi médical."@fr ;
     rdfs:domain :Patient ;
     rdfs:range :Examen_Biologique ;
     owl:inverseOf :est_examen_de .
 
 :a_pour_maladie a owl:ObjectProperty ;
-    rdfs:label " ."@fr ;
-    rdfs:comment " ."@fr ;
+    rdfs:label "a pour maladie"@fr ;
+    rdfs:comment "Indique une maladie diagnostiquée ou identifiée chez un patient dans le cadre de son suivi médical."@fr ;
     rdfs:domain :Patient ;
     rdfs:range :Maladie .
 
@@ -1075,8 +1075,8 @@ plhiv: a owl:Ontology ;
     owl:inverseOf :concerne_patient .
 
 :a_pour_traitement a owl:ObjectProperty ;
-    rdfs:label " ."@fr ;
-    rdfs:comment " ."@fr ;
+    rdfs:label "a pour traitement"@fr ;
+    rdfs:comment "Associe un patient aux traitements qui lui sont prescrits ou administrés dans le cadre de sa prise en charge médicale."@fr ;
     rdfs:domain :Patient ;
     rdfs:range :Traitement ;
     owl:inverseOf :est_traitement_de .
@@ -1089,8 +1089,8 @@ plhiv: a owl:Ontology ;
     owl:inverseOf :est_envoye_par .
 
 :est_examen_de a owl:ObjectProperty ;
-    rdfs:label " ."@fr ;
-    rdfs:comment " ."@fr ;
+    rdfs:label "est un examen biologique de"@fr ;
+    rdfs:comment "Indique le patient auquel se rapporte un examen biologique réalisé ou prescrit dans le cadre du suivi médical."@fr ;
     rdfs:domain :Examen_Biologique ;
     rdfs:range :Patient ;
     owl:inverseOf :a_pour_examen .
@@ -1103,8 +1103,8 @@ plhiv: a owl:Ontology ;
     owl:inverseOf :suit_patient .
 
 :est_traitement_de a owl:ObjectProperty ;
-    rdfs:label " ."@fr ;
-    rdfs:comment " ."@fr ;
+    rdfs:label "est un traitement de"@fr ;
+    rdfs:comment "Indique le patient auquel un traitement est prescrit ou administré dans le cadre de sa prise en charge médicale."@fr ;
     rdfs:domain :Traitement ;
     rdfs:range :Patient ;
     owl:inverseOf :a_pour_traitement .
@@ -1123,8 +1123,8 @@ plhiv: a owl:Ontology ;
     rdfs:range :Maladie .
 
 :examine_maladie a owl:ObjectProperty ;
-    rdfs:label " ."@fr ;
-    rdfs:comment " ."@fr ;
+    rdfs:label "examine une maladie"@fr ;
+    rdfs:comment "Associe un examen biologique à une maladie qu'il contribue à dépister, diagnostiquer, caractériser ou surveiller."@fr ;
     rdfs:domain :Examen_Biologique ;
     rdfs:range :Maladie .
 
@@ -1143,8 +1143,8 @@ plhiv: a owl:Ontology ;
     owl:inverseOf :est_suivi_par .
 
 :traite_maladie a owl:ObjectProperty ;
-    rdfs:label " ."@fr ;
-    rdfs:comment " ."@fr ;
+    rdfs:label "traite une maladie"@fr ;
+    rdfs:comment "Indique la maladie ciblée par un traitement dans le cadre de sa prise en charge thérapeutique."@fr ;
     rdfs:domain :Traitement ;
     rdfs:range :Maladie .
 
