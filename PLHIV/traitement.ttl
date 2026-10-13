@@ -6,105 +6,234 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @base <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv#> .
 
-
 #################################################################
 #    Concepts
 #################################################################
 
 ### Traitement ###
 :Traitement rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .    
+    rdfs:comment "Ensemble des mesures thérapeutiques mises en œuvre pour prévenir, contrôler ou traiter une maladie."@fr ;
+    rdfs:label "Traitement"@fr .
 
     ### Traitement Infection VIH ###
     :Traitement_Infection_VIH rdf:type owl:Class ;
         rdfs:subClassOf :Traitement ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .   
+        rdfs:comment "Prise en charge thérapeutique visant à contrôler l’infection par le VIH, notamment au moyen d’un traitement antirétroviral."@fr ;
+        rdfs:label "Traitement de l’infection par le VIH"@fr .
 
 ### Echec Traitement ###
 :Echec_Therapeutique rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .     
+    rdfs:comment "Situation dans laquelle le traitement n'atteint pas les objectifs thérapeutiques attendus."@fr ;
+    rdfs:label "Échec thérapeutique"@fr .
+
+    :Echec_Virologique rdf:type owl:Class ;
+        rdfs:subClassOf :Echec_Therapeutique ;
+        rdfs:comment "Échec du traitement antirétroviral caractérisé par une suppression virologique insuffisante ou une réplication virale persistante ou réapparue, selon les critères cliniques retenus."@fr ;
+        rdfs:label "Échec virologique"@fr .
+
+    :Echec_Immunologique rdf:type owl:Class ;
+        rdfs:subClassOf :Echec_Therapeutique ;
+        rdfs:comment "Réponse immunologique insuffisante au traitement antirétroviral, évaluée notamment à partir de l'évolution des lymphocytes T CD4 selon les critères cliniques retenus."@fr ;
+        rdfs:label "Échec immunologique"@fr .
+
+    :Echec_Clinique rdf:type owl:Class ;
+        rdfs:subClassOf :Echec_Therapeutique ;
+        rdfs:comment "Évolution clinique défavorable malgré le traitement, évaluée selon les critères médicaux applicables."@fr ;
+        rdfs:label "Échec clinique"@fr .
 
 ### Resistance Traitement ###
 :Resistance_Therapeutique rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .     
+    rdfs:comment "Diminution ou perte de sensibilité d'un agent pathogène à un traitement, pouvant réduire l'efficacité de celui-ci."@fr ;
+    rdfs:label "Résistance thérapeutique"@fr .
+
+    :Resistance_Acquise rdf:type owl:Class ;
+        rdfs:subClassOf :Resistance_Therapeutique ;
+        rdfs:comment "Résistance apparue au cours de l'exposition à un traitement, notamment à la suite de mutations de l'agent pathogène."@fr ;
+        rdfs:label "Résistance acquise"@fr .
+
+    :Resistance_Transmise rdf:type owl:Class ;
+        rdfs:subClassOf :Resistance_Therapeutique ;
+        rdfs:comment "Résistance présente chez l'agent pathogène et transmise lors de la contamination, avant l'exposition au traitement de la personne concernée."@fr ;
+        rdfs:label "Résistance transmise"@fr .
+
+    :Resistance_Aux_Antiretroviraux rdf:type owl:Class ;
+        rdfs:subClassOf :Resistance_Therapeutique ;
+        rdfs:comment "Résistance du VIH à un ou plusieurs médicaments antirétroviraux, susceptible de diminuer leur activité."@fr ;
+        rdfs:label "Résistance aux antirétroviraux"@fr .
 
 ### Medicament ###
 :Medicament rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .     
+    rdfs:comment "Substance ou préparation utilisée pour prévenir, diagnostiquer ou traiter une maladie, ou pour modifier une fonction physiologique."@fr ;
+    rdfs:label "Médicament"@fr .
 
     ### Antiretroviral ###
     :Antiretroviral rdf:type owl:Class ; 
         rdfs:subClassOf :Medicament ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .      
+        rdfs:comment "Médicament utilisé pour inhiber la réplication du VIH ou agir dans le cadre de la prévention de l'infection."@fr ;
+        rdfs:label "Médicament antirétroviral"@fr .
 
             ### IF (Inhibiteur de Fusion) ###
             :Arv_IF rdf:type owl:Class ;
                 rdfs:subClassOf :Antiretroviral ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .   
+                rdfs:comment "Classe d'antirétroviraux qui empêche la fusion du VIH avec la membrane de la cellule cible."@fr ;
+                rdfs:label "Inhibiteur de fusion (IF)"@fr .
+
+                :Enfuvirtide rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_IF ;
+                    rdfs:comment "Antirétroviral qui inhibe la fusion du VIH avec la membrane de la cellule cible."@fr ;
+                    rdfs:label "Enfuvirtide"@fr .
 
             ### INTI (Inhibiteurs nucleosidiques de la transcriptase inverse) ###
             :Arv_INTI rdf:type owl:Class ;
                 rdfs:subClassOf :Antiretroviral ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .   
+                rdfs:comment "Classe d'antirétroviraux qui inhibe la transcriptase inverse du VIH au moyen d'analogues nucléosidiques ou nucléotidiques."@fr ;
+                rdfs:label "Inhibiteur nucléosidique ou nucléotidique de la transcriptase inverse (INTI)"@fr .
+
+                :Lamivudine rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_INTI ;
+                    rdfs:comment "Antirétroviral de la classe des inhibiteurs nucléosidiques de la transcriptase inverse."@fr ;
+                    rdfs:label "Lamivudine"@fr .
+
+                :Emtricitabine rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_INTI ;
+                    rdfs:comment "Antirétroviral nucléosidique utilisé dans plusieurs protocoles contre le VIH."@fr ;
+                    rdfs:label "Emtricitabine"@fr .
+
+                :Tenofovir rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_INTI ;
+                    rdfs:comment "Antirétroviral nucléotidique utilisé dans le traitement du VIH et dans certaines stratégies de prévention."@fr ;
+                    rdfs:label "Ténofovir"@fr .
+
+                :Abacavir rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_INTI ;
+                    rdfs:comment "Antirétroviral nucléosidique utilisé dans certains protocoles de traitement du VIH."@fr ;
+                    rdfs:label "Abacavir"@fr .
+
+                :Zidovudine rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_INTI ;
+                    rdfs:comment "Antirétroviral nucléosidique utilisé dans le traitement du VIH et dans certaines situations de prévention de la transmission."@fr ;
+                    rdfs:label "Zidovudine"@fr .  
 
             ### INNTI (Inhibiteurs non nucleosidiques de la transcriptase inverse) ###
             :Arv_INNTI rdf:type owl:Class ;
                 rdfs:subClassOf :Antiretroviral ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .   
+                rdfs:comment "Classe d'antirétroviraux qui inhibe la transcriptase inverse du VIH par un mécanisme non nucléosidique."@fr ;
+                rdfs:label "Inhibiteur non nucléosidique de la transcriptase inverse (INNTI)"@fr .
+
+                :Efavirenz rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_INNTI ;
+                    rdfs:comment "Antirétroviral non nucléosidique utilisé dans certains protocoles de traitement du VIH."@fr ;
+                    rdfs:label "Éfavirenz"@fr .
+
+                :Nevirapine rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_INNTI ;
+                    rdfs:comment "Antirétroviral non nucléosidique inhibant la transcriptase inverse du VIH."@fr ;
+                    rdfs:label "Névirapine"@fr .
+
+                :Rilpivirine rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_INNTI ;
+                    rdfs:comment "Antirétroviral non nucléosidique utilisé dans certains traitements du VIH."@fr ;
+                    rdfs:label "Rilpivirine"@fr .
+
+                :Doravirine rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_INNTI ;
+                    rdfs:comment "Antirétroviral non nucléosidique inhibant la transcriptase inverse du VIH."@fr ;
+                    rdfs:label "Doravirine"@fr .
+
+                :Etravirine rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_INNTI ;
+                    rdfs:comment "Antirétroviral non nucléosidique utilisé notamment dans certaines situations de résistance."@fr ;
+                    rdfs:label "Étravirine"@fr .  
 
             ### IP (Inhibiteurs de protease) ###
             :Arv_IP rdf:type owl:Class ;
                 rdfs:subClassOf :Antiretroviral ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .   
+                rdfs:comment "Classe d'antirétroviraux qui inhibe la protéase du VIH et perturbe la maturation des particules virales."@fr ;
+                rdfs:label "Inhibiteur de protéase (IP)"@fr .
+
+                :Darunavir rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_IP ;
+                    rdfs:comment "Antirétroviral inhibiteur de protéase utilisé dans différents protocoles de traitement du VIH."@fr ;
+                    rdfs:label "Darunavir"@fr .
+
+                :Atazanavir rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_IP ;
+                    rdfs:comment "Antirétroviral inhibiteur de protéase utilisé dans certains protocoles contre le VIH."@fr ;
+                    rdfs:label "Atazanavir"@fr .
+
+                :Lopinavir rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_IP ;
+                    rdfs:comment "Antirétroviral inhibiteur de protéase souvent administré en association avec le ritonavir."@fr ;
+                    rdfs:label "Lopinavir"@fr .
+
+                :Ritonavir rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_IP ;
+                    rdfs:comment "Inhibiteur de protéase utilisé notamment à faible dose comme potentialisateur pharmacocinétique d'autres antirétroviraux."@fr ;
+                    rdfs:label "Ritonavir"@fr .
 
             ### INI (inhibiteurs de l'integrase)  ###
             :Arv_INI rdf:type owl:Class ;
                 rdfs:subClassOf :Antiretroviral ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .   
+                rdfs:comment "Classe d'antirétroviraux qui empêche l'intégration du matériel génétique du VIH dans celui de la cellule hôte."@fr ;
+                rdfs:label "Inhibiteur de l’intégrase (INI)"@fr .
+
+                :Dolutegravir rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_INI ;
+                    rdfs:comment "Antirétroviral inhibiteur de l'intégrase largement utilisé dans les protocoles de traitement du VIH."@fr ;
+                    rdfs:label "Dolutégravir"@fr .
+
+                :Bictegravir rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_INI ;
+                    rdfs:comment "Antirétroviral inhibiteur de l'intégrase utilisé notamment dans des associations à dose fixe."@fr ;
+                    rdfs:label "Bictégravir"@fr .
+
+                :Raltegravir rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_INI ;
+                    rdfs:comment "Antirétroviral inhibiteur de l'intégrase utilisé dans différents contextes de traitement du VIH."@fr ;
+                    rdfs:label "Raltégravir"@fr .
+
+                :Elvitegravir rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_INI ;
+                    rdfs:comment "Antirétroviral inhibiteur de l'intégrase généralement utilisé dans des associations médicamenteuses."@fr ;
+                    rdfs:label "Elvitégravir"@fr .
+
+                :Cabotegravir rdf:type owl:Class ;
+                    rdfs:subClassOf :Arv_INI ;
+                    rdfs:comment "Antirétroviral inhibiteur de l'intégrase utilisé dans certaines stratégies de traitement et de prévention du VIH."@fr ;
+                    rdfs:label "Cabotégravir"@fr . 
 
 ### Effet Secondaire ###
 :Effet_Secondaire rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .     
+    rdfs:comment "Effet supplémentaire associé à l'utilisation d'un médicament, qui peut être bénéfique, neutre ou défavorable."@fr ;
+    rdfs:label "Effet secondaire"@fr .
 
 ### Effet Indesirable ###
 :Effet_Indesirable rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .     
+    rdfs:comment "Réaction nocive et non souhaitée survenant lors de l'utilisation d'un médicament."@fr ;
+    rdfs:label "Effet indésirable"@fr .
 
 ### Protocole Therapeutique ###
 :Protocole_ARV rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+    rdfs:comment "Schéma thérapeutique définissant les médicaments antirétroviraux à utiliser dans la prise en charge de l'infection par le VIH."@fr ;
+    rdfs:label "Protocole antirétroviral"@fr .
 
     ### Protocole Ligne 1 VIH ###
     :Protocole_Ligne_1 rdf:type owl:Class ;
         rdfs:subClassOf :Protocole_ARV ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .   
+        rdfs:comment "Schéma antirétroviral recommandé en première intention pour une situation clinique donnée."@fr ;
+        rdfs:label "Protocole antirétroviral de première ligne"@fr .
 
     ### Protocole Ligne 2 VIH ###
     :Protocole_Ligne_2 rdf:type owl:Class ;
         rdfs:subClassOf :Protocole_ARV ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .   
+        rdfs:comment "Schéma antirétroviral utilisé lorsque le traitement de première ligne doit être remplacé, selon les recommandations applicables."@fr ;
+        rdfs:label "Protocole antirétroviral de deuxième ligne"@fr .
 
     ### Protocole Ligne 3 VIH ###
     :Protocole_Ligne_3 rdf:type owl:Class ;
         rdfs:subClassOf :Protocole_ARV ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .   
+        rdfs:comment "Schéma antirétroviral utilisé dans certaines situations complexes après échec de lignes antérieures, selon les recommandations applicables."@fr ;
+        rdfs:label "Protocole antirétroviral de troisième ligne"@fr .
 
 
 #################################################################
@@ -114,53 +243,51 @@
 :a_pour_echec_therapeutique rdf:type owl:ObjectProperty ;
     rdfs:domain :Traitement ;
     rdfs:range :Echec_Therapeutique ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .           
+    rdfs:comment "Relie un traitement à un échec thérapeutique qui lui est associé."@fr ;
+    rdfs:label "a pour échec thérapeutique"@fr .
 
 :a_pour_resistance_therapeutique rdf:type owl:ObjectProperty ;
     rdfs:domain :Traitement ;
     rdfs:range :Resistance_Therapeutique ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .              
+    rdfs:comment "Relie un traitement à une résistance susceptible d'en diminuer l'efficacité."@fr ;
+    rdfs:label "a pour résistance thérapeutique"@fr .
 
 :a_comme_medicament rdf:type owl:ObjectProperty ;
     rdfs:domain :Traitement ;
     rdfs:range :Medicament ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+    rdfs:comment "Relie un traitement à un médicament qui le compose."@fr ;
+    rdfs:label "comprend comme médicament"@fr .
 
 :a_pour_effet_secondaire rdf:type owl:ObjectProperty ;
     rdfs:domain :Medicament ;
     rdfs:range :Effet_Secondaire ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+    rdfs:comment "Relie un médicament à un effet secondaire qui peut lui être associé."@fr ;
+    rdfs:label "a pour effet secondaire"@fr .
 
 :a_pour_effet_indesirable rdf:type owl:ObjectProperty ;
     rdfs:domain :Medicament ;
     rdfs:range :Effet_Indesirable ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+    rdfs:comment "Relie un médicament à un effet indésirable susceptible de survenir lors de son utilisation."@fr ;
+    rdfs:label "a pour effet indésirable"@fr .
 
 :a_pour_protocole_ARV rdf:type owl:ObjectProperty ;
     rdfs:domain :Traitement ;
     rdfs:range :Protocole_ARV ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .           
+    rdfs:comment "Relie un traitement de l'infection par le VIH au protocole antirétroviral utilisé."@fr ;
+    rdfs:label "utilise le protocole antirétroviral"@fr .
 
 :a_comme_antiretroviral rdf:type owl:ObjectProperty ;
     rdfs:domain :Protocole_ARV ;
     rdfs:range :Antiretroviral ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .          
+    rdfs:comment "Relie un protocole antirétroviral aux médicaments antirétroviraux qui le composent."@fr ;
+    rdfs:label "comprend comme antirétroviral"@fr .
 
 :a_comme_medicament owl:propertyChainAxiom (
     :a_pour_protocole_ARV
     :a_comme_antiretroviral
     ) ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
- 
-
+    rdfs:comment "Relie un protocole antirétroviral aux médicaments antirétroviraux qui le composent."@fr ;
+    rdfs:label "comprend comme antirétroviral"@fr .
 
 #################################################################
 #    Attributs

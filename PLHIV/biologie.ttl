@@ -13,50 +13,151 @@
 
 ### Examen Biologique ###
 :Examen_Biologique rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+    rdfs:comment "Examen ou mesure biologique réalisé dans le cadre du dépistage, du diagnostic, du suivi ou de l'évaluation de l'état de santé d'une personne vivant avec le VIH."@fr ;
+    rdfs:label "Examen biologique"@fr .
 
     ### Examen Infection VIH ###
     :Examen_Infection_VIH rdf:type owl:Class ;
         rdfs:subClassOf :Examen_Biologique ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .   
+        rdfs:comment "Examen biologique contribuant au dépistage, au diagnostic ou au suivi de l'infection par le virus de l'immunodéficience humaine (VIH)."@fr ;
+        rdfs:label "Examen de l'infection par le VIH"@fr .
 
-            ### Charge Virale VIH ###
-            :Examen_Charge_Virale_VIH rdf:type owl:Class ;
-                rdfs:subClassOf :Examen_Infection_VIH ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .   
+        ### Charge Virale VIH ###
+        :Examen_Charge_Virale_VIH rdf:type owl:Class ;
+            rdfs:subClassOf :Examen_Infection_VIH ;
+            rdfs:comment "Examen quantitatif mesurant la quantité d'ARN du VIH dans un prélèvement biologique afin d'évaluer la réplication virale et la réponse au traitement antirétroviral."@fr ;
+            rdfs:label "Mesure de la charge virale du VIH"@fr .
 
-            ### Lymphocyte T CD4 ###
-            :Examen_CD4 rdf:type owl:Class ;
-                rdfs:subClassOf :Examen_Infection_VIH ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                   
+        ### Lymphocyte T CD4 ###
+        :Examen_CD4 rdf:type owl:Class ;
+            rdfs:subClassOf :Examen_Infection_VIH ;
+            rdfs:comment "Examen mesurant le nombre ou la concentration des lymphocytes T CD4 dans le sang afin d'évaluer l'état immunitaire d'une personne vivant avec le VIH."@fr ;
+            rdfs:label "Dénombrement des lymphocytes T CD4"@fr .
 
-    ### Examen Hepatite B ###
-    :Examen_Hepatite_B rdf:type owl:Class ;
-        rdfs:subClassOf :Examen_Biologique ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .   
+        ### Examen Hépatite B ###
+        :Examen_Hepatite_B rdf:type owl:Class ;
+            rdfs:subClassOf :Examen_Biologique ;
+            rdfs:comment "Ensemble des examens biologiques utilisés pour dépister, caractériser ou suivre une infection par le virus de l'hépatite B."@fr ;
+            rdfs:label "Examen de l'hépatite B"@fr .
 
             ### AgHBs ###
             :Examen_AgHBs rdf:type owl:Class ;
                 rdfs:subClassOf :Examen_Hepatite_B ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr . 
+                rdfs:comment "Examen recherchant l'antigène de surface du virus de l'hépatite B (AgHBs), utilisé notamment dans le dépistage de l'infection."@fr ;
+                rdfs:label "Recherche de l'antigène HBs"@fr .
 
-    ### Examen Tuberculose ###
-    :Examen_Tuberculose rdf:type owl:Class ;
-        rdfs:subClassOf :Examen_Biologique ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .       
+        :Examen_Hepatite_C rdf:type owl:Class ;
+            rdfs:subClassOf :Examen_Biologique ;
+            rdfs:label "Examen de l'hépatite C"@fr ;
+            rdfs:comment "Ensemble des examens contribuant au dépistage et à la confirmation de l'infection par le virus de l'hépatite C."@fr .
 
-            ### Crachat_BAAR ###
+            :Examen_Anticorps_VHC rdf:type owl:Class ;
+                rdfs:subClassOf :Examen_Hepatite_C ;
+                rdfs:label "Recherche des anticorps anti-VHC"@fr ;
+                rdfs:comment "Examen recherchant les anticorps dirigés contre le virus de l'hépatite C ; un résultat positif nécessite généralement une recherche de l'infection active."@fr .
+
+            :Examen_ARN_VHC rdf:type owl:Class ;
+                rdfs:subClassOf :Examen_Hepatite_C ;
+                rdfs:label "Recherche de l'ARN du VHC"@fr ;
+                rdfs:comment "Examen moléculaire recherchant l'ARN du virus de l'hépatite C afin de mettre en évidence une infection active."@fr .
+
+        ### Examen Tuberculose ###
+        :Examen_Tuberculose rdf:type owl:Class ;
+            rdfs:subClassOf :Examen_Biologique ;
+            rdfs:comment "Ensemble des examens biologiques et microbiologiques contribuant au dépistage, au diagnostic ou au suivi de la tuberculose."@fr ;
+            rdfs:label "Examen de la tuberculose"@fr .
+
+            ### Crachat BAAR ###
             :Examen_BAAR rdf:type owl:Class ;
                 rdfs:subClassOf :Examen_Tuberculose ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                       
+                rdfs:comment "Examen d'un échantillon d'expectoration visant à rechercher des bacilles acido-alcoolo-résistants (BAAR), notamment dans le cadre du diagnostic de la tuberculose."@fr ;
+                rdfs:label "Recherche de bacilles acido-alcoolo-résistants dans les crachats"@fr .  
+
+    ### Examens biologiques complementaires ###
+    :Examen_Serologie_Syphilis rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Sérologie de la syphilis"@fr ;
+        rdfs:comment "Examens sérologiques tréponémiques et non tréponémiques contribuant au diagnostic et au suivi de la syphilis."@fr .
+
+    :Examen_PCR_CMV rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Recherche moléculaire du cytomégalovirus"@fr ;
+        rdfs:comment "Examen moléculaire recherchant l'ADN du cytomégalovirus dans un prélèvement adapté au contexte clinique."@fr .
+
+    :Examen_PCR_VZV rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Recherche moléculaire du virus varicelle-zona"@fr ;
+        rdfs:comment "Examen moléculaire pouvant confirmer une infection par le virus varicelle-zona à partir d'un prélèvement adapté."@fr .
+
+    :Examen_Culture_Bacterienne rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Culture bactérienne"@fr ;
+        rdfs:comment "Examen microbiologique permettant de rechercher et, selon le prélèvement, d'identifier des bactéries."@fr .
+
+    :Examen_Mycologique rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Examen mycologique"@fr ;
+        rdfs:comment "Examen direct ou culture permettant de rechercher des champignons dans un prélèvement adapté."@fr .
+
+    :Examen_Antigene_Cryptococcique rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Recherche de l'antigène cryptococcique"@fr ;
+        rdfs:comment "Examen recherchant un antigène cryptococcique dans un échantillon approprié."@fr .
+
+    :Examen_Toxoplasmose rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Examen de la toxoplasmose"@fr ;
+        rdfs:comment "Examens sérologiques, moléculaires ou autres examens ciblés contribuant à l'évaluation d'une toxoplasmose."@fr .
+
+    :Examen_Glycemie rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Mesure de la glycémie"@fr ;
+        rdfs:comment "Mesure de la concentration de glucose dans le sang."@fr .
+
+    :Examen_HbA1c rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Dosage de l'hémoglobine glyquée"@fr ;
+        rdfs:comment "Examen évaluant la glycémie moyenne sur une période de plusieurs semaines."@fr .
+
+    :Examen_Creatinine rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Dosage de la créatinine sanguine"@fr ;
+        rdfs:comment "Examen contribuant à l'évaluation de la fonction rénale."@fr .
+
+    :Examen_DFG rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Estimation du débit de filtration glomérulaire"@fr ;
+        rdfs:comment "Estimation de la fonction de filtration des reins à partir de données biologiques et de paramètres individuels."@fr .
+
+    :Examen_Albuminurie rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Recherche d'albuminurie"@fr ;
+        rdfs:comment "Recherche ou quantification de l'albumine dans les urines, notamment pour évaluer une atteinte rénale."@fr .
+
+    :Examen_NFS rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Numération formule sanguine"@fr ;
+        rdfs:comment "Examen évaluant les principales populations de cellules sanguines, notamment les globules rouges, les globules blancs et les plaquettes."@fr .
+
+    :Examen_Reticulocytes rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Dénombrement des réticulocytes"@fr ;
+        rdfs:comment "Examen permettant d'évaluer la production récente de globules rouges par la moelle osseuse."@fr .
+
+    :Examen_Paludisme rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Examen biologique du paludisme"@fr ;
+        rdfs:comment "Examen parasitologique sanguin ou test rapide contribuant au diagnostic du paludisme."@fr .
+
+    :Examen_Leishmaniose rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Examen de la leishmaniose"@fr ;
+        rdfs:comment "Examen parasitologique, moléculaire ou sérologique choisi selon la forme clinique suspectée."@fr .
+
+    :Examen_Salmonellose rdf:type owl:Class ;
+        rdfs:subClassOf :Examen_Biologique ;
+        rdfs:label "Examen de la salmonellose"@fr ;
+        rdfs:comment "Examens microbiologiques, notamment culture de selles ou hémoculture selon la présentation clinique."@fr .
 
 
 #################################################################

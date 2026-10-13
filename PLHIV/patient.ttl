@@ -13,134 +13,261 @@
 
 ### Patient ###
 :Patient rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+    rdfs:comment "Personne vivant avec le VIH ou prise en charge dans le cadre du dispositif de suivi médical."@fr ;
+    rdfs:label "Patient"@fr . 
+
+ ### Intolerance Medicamenteuse ###
+:Intolerance_Medicament rdf:type owl:Class ;
+    rdfs:comment "Réaction ou difficulté de tolérance à un médicament, pouvant nécessiter une évaluation clinique et une adaptation du traitement."@fr ;
+    rdfs:label "Intolérance médicamenteuse"@fr . 
+
+    ### Sous-classes de l'intolérance médicamenteuse ###
+    :Intolerance_Digestive rdf:type owl:Class ;
+        rdfs:subClassOf :Intolerance_Medicament ;
+        rdfs:comment "Intolérance médicamenteuse se manifestant principalement par des troubles digestifs."@fr ;
+        rdfs:label "Intolérance médicamenteuse digestive"@fr .
+
+    :Intolerance_Neurologique rdf:type owl:Class ;
+        rdfs:subClassOf :Intolerance_Medicament ;
+        rdfs:comment "Intolérance médicamenteuse se manifestant principalement par des symptômes neurologiques."@fr ;
+        rdfs:label "Intolérance médicamenteuse neurologique"@fr .
+
+    :Intolerance_Cutanée rdf:type owl:Class ;
+        rdfs:subClassOf :Intolerance_Medicament ;
+        rdfs:comment "Intolérance médicamenteuse caractérisée par des manifestations cutanées qui ne sont pas nécessairement d'origine allergique."@fr ;
+        rdfs:label "Intolérance médicamenteuse cutanée"@fr .
 
  ### Allergie ###
 :Allergie rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .    
+    rdfs:comment "Réaction d'hypersensibilité déclenchée par un allergène, notamment un médicament, un aliment ou une substance présente dans l'environnement."@fr ;
+    rdfs:label "Allergie"@fr .    
+
+    ### Allergie medicamenteuse ###
+    :Allergie_Medicamenteuse rdf:type owl:Class ;
+        rdfs:subClassOf :Allergie ;
+        rdfs:comment "Allergie déclenchée par un médicament ou l'un de ses composants."@fr ;
+        rdfs:label "Allergie médicamenteuse"@fr .
+
+        :Allergie_Antiretroviral rdf:type owl:Class ;
+            rdfs:subClassOf :Allergie_Medicamenteuse ;
+            rdfs:comment "Allergie associée à un médicament antirétroviral."@fr ;
+            rdfs:label "Allergie à un antirétroviral"@fr .
+
+        :Allergie_Antibiotique rdf:type owl:Class ;
+            rdfs:subClassOf :Allergie_Medicamenteuse ;
+            rdfs:comment "Allergie associée à un antibiotique."@fr ;
+            rdfs:label "Allergie à un antibiotique"@fr .
+
+        :Allergie_Antifongique rdf:type owl:Class ;
+            rdfs:subClassOf :Allergie_Medicamenteuse ;
+            rdfs:comment "Allergie associée à un médicament antifongique."@fr ;
+            rdfs:label "Allergie à un antifongique"@fr .
+
+    ### Allergie alimentaire ###
+    :Allergie_Alimentaire rdf:type owl:Class ;
+        rdfs:subClassOf :Allergie ;
+        rdfs:comment "Réaction allergique déclenchée par un aliment ou l'un de ses composants."@fr ;
+        rdfs:label "Allergie alimentaire"@fr .
+
+    ### Allergie environnementale ###
+    :Allergie_Environnementale rdf:type owl:Class ;
+        rdfs:subClassOf :Allergie ;
+        rdfs:comment "Allergie provoquée par un allergène présent dans l'environnement."@fr ;
+        rdfs:label "Allergie environnementale"@fr .
+
+        :Allergie_Acarien rdf:type owl:Class ;
+            rdfs:subClassOf :Allergie_Environnementale ;
+            rdfs:comment "Allergie associée aux allergènes produits par les acariens."@fr ;
+            rdfs:label "Allergie aux acariens"@fr .
+
+        :Allergie_Pollen rdf:type owl:Class ;
+            rdfs:subClassOf :Allergie_Environnementale ;
+            rdfs:comment "Allergie associée aux pollens."@fr ;
+            rdfs:label "Allergie au pollen"@fr .
+
+        :Allergie_Latex rdf:type owl:Class ;
+            rdfs:subClassOf :Allergie ;
+            rdfs:comment "Allergie au latex, notamment à certaines protéines présentes dans le latex de caoutchouc naturel."@fr ;
+            rdfs:label "Allergie au latex"@fr .
 
 ### Comportement a risque ###
 :Comportement_Risque rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .    
+    rdfs:comment "Comportement ou situation pouvant être associé à une exposition accrue à un risque pour la santé ou à des difficultés de prévention et de suivi."@fr ;
+    rdfs:label "Comportement à risque"@fr .   
+
+    ### Comportements sexuels ###
+    :Comportement_Risque_Sexuel rdf:type owl:Class ;
+        rdfs:subClassOf :Comportement_Risque ;
+        rdfs:comment "Comportement sexuel susceptible d'augmenter l'exposition au VIH ou à d'autres infections sexuellement transmissibles, selon les circonstances."@fr ;
+        rdfs:label "Comportement sexuel à risque"@fr .
+
+        :Rapport_Sexuel_Non_Protege rdf:type owl:Class ;
+            rdfs:subClassOf :Comportement_Risque_Sexuel ;
+            rdfs:comment "Rapport sexuel sans utilisation de préservatif ou avec une protection insuffisante, dont le risque dépend notamment du type de rapport et du contexte préventif."@fr ;
+            rdfs:label "Rapport sexuel non protégé"@fr .
+
+        :Partenaires_Sexuels_Multiples rdf:type owl:Class ;
+            rdfs:subClassOf :Comportement_Risque_Sexuel ;
+            rdfs:comment "Situation impliquant plusieurs partenaires sexuels, à évaluer en fonction des pratiques de prévention, du consentement et des expositions éventuelles."@fr ;
+            rdfs:label "Partenaires sexuels multiples"@fr .
+
+        :Rapport_Sexuel_Sous_Substances rdf:type owl:Class ;
+            rdfs:subClassOf :Comportement_Risque_Sexuel ;
+            rdfs:comment "Situation dans laquelle la consommation de substances psychoactives peut altérer le jugement ou la capacité à appliquer les mesures de prévention sexuelle."@fr ;
+            rdfs:label "Rapport sexuel dans un contexte de consommation de substances"@fr . 
+
+    ### Consommation de substances psychoactives ###
+    :Consommation_Substances rdf:type owl:Class ;
+        rdfs:subClassOf :Comportement_Risque ;
+        rdfs:comment "Consommation de substances psychoactives pouvant avoir des conséquences sur la santé, la prévention ou le suivi thérapeutique."@fr ;
+        rdfs:label "Consommation de substances psychoactives"@fr .
+
+        :Consommation_Alcool rdf:type owl:Class ;
+            rdfs:subClassOf :Consommation_Substances ;
+            rdfs:comment "Consommation d'alcool dont la fréquence, la quantité et les conséquences peuvent nécessiter une évaluation clinique."@fr ;
+            rdfs:label "Consommation d'alcool"@fr .
+
+        :Consommation_Drogues rdf:type owl:Class ;
+            rdfs:subClassOf :Consommation_Substances ;
+            rdfs:comment "Usage de substances psychoactives illicites ou non prescrites, à caractériser selon la substance, la fréquence et les circonstances."@fr ;
+            rdfs:label "Consommation de drogues"@fr .
 
 ### Reference ###
 :Reference rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .    
+    rdfs:comment "Document ou démarche permettant d'orienter un patient vers un autre professionnel ou établissement de santé pour assurer la continuité de sa prise en charge."@fr ;
+    rdfs:label "Référence médicale"@fr .    
 
 ### Motif ###
-:Motif rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .    
+:Motif_Reference rdf:type owl:Class ;
+    rdfs:comment "Raison justifiant l'orientation ou le transfert d'un patient vers un autre professionnel ou établissement de santé."@fr ;
+    rdfs:label "Motif de référence"@fr .    
+
+    :Motif_Changement_Adresse rdf:type owl:Class ;
+        rdfs:subClassOf :Motif ;
+        rdfs:comment "Motif de référence lié au changement d'adresse ou de lieu de résidence du patient."@fr ;
+        rdfs:label "Changement d'adresse"@fr .
+
+    :Motif_Service rdf:type owl:Class ;
+        rdfs:subClassOf :Motif ;
+        rdfs:comment "Motif de référence lié à la nécessité d'un autre service ou d'une prise en charge spécialisée."@fr ;
+        rdfs:label "Changement ou orientation vers un service"@fr .
+
+    :Motif_Autre rdf:type owl:Class ;
+        rdfs:subClassOf :Motif ;
+        rdfs:comment "Motif de référence ne correspondant pas aux catégories spécifiquement définies."@fr ;
+        rdfs:label "Autre motif de référence"@fr .                
 
 ### Renseignement Clinique ###
-:Renseignement_Clinique rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+:Renseignement_Clinique_Reference rdf:type owl:Class ;
+    rdfs:comment "Information clinique transmise avec la référence afin de faciliter la continuité des soins, notamment les éléments pertinents du dossier, les examens biologiques et les traitements."@fr ;
+    rdfs:label "Renseignement clinique de référence"@fr .       
 
  ### Personnel Sante ###
 :Personnel_Sante rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .    
+    rdfs:comment "Professionnel de santé participant à la prise en charge, au suivi ou à l'orientation du patient."@fr ;
+    rdfs:label "Personnel de santé"@fr .    
 
     ### Medecin ###
     :Medecin rdf:type owl:Class ;
         rdfs:subClassOf :Personnel_Sante ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .   
+        rdfs:comment "Professionnel de santé habilité à évaluer l'état clinique du patient, à établir un diagnostic et à assurer ou coordonner les soins médicaux."@fr ;
+        rdfs:label "Médecin"@fr .   
 
     ### Assistant Social###
     :Assistant_Social rdf:type owl:Class ;
         rdfs:subClassOf :Personnel_Sante ;
-        rdfs:comment " ."@fr ;
-        rdfs:label " ."@fr .    
+        rdfs:comment "Professionnel accompagnant le patient dans l'évaluation et la résolution de difficultés sociales pouvant affecter l'accès aux soins et la continuité du suivi."@fr ;
+        rdfs:label "Assistant social"@fr .    
 
 #################################################################
 #    Relations
 #################################################################
 
+:a_pour_intolerance_medicament rdf:type owl:ObjectProperty ;
+    rdfs:domain :Patient ;
+    rdfs:range :Intolerance_Medicament ;
+    rdfs:label "a pour intolérance médicamenteuse"@fr ;
+    rdfs:comment "Relie un patient à une intolérance médicamenteuse documentée dans son dossier médical."@fr .
+
 :a_pour_allergie rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;
     rdfs:range :Allergie ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .    
+    rdfs:comment "Relie un patient à une allergie documentée dans son dossier médical."@fr ;
+    rdfs:label "a pour allergie"@fr .    
 
 :a_pour_comportement_risque rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;
     rdfs:range :Comportement_Risque ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .             
+    rdfs:comment "Relie un patient à un comportement ou à une situation à risque documenté dans le cadre de son suivi."@fr ;
+    rdfs:label "a pour comportement à risque"@fr .             
 
 :est_suivi_par rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;
     rdfs:range :Personnel_Sante;
     owl:inverseOf :suit_patient ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+    rdfs:comment "Relie un patient au professionnel de santé qui assure son suivi."@fr ;
+    rdfs:label "est suivi par"@fr .       
 
 :suit_patient rdf:type owl:ObjectProperty ;
     rdfs:domain :Personnel_Sante ;
     rdfs:range :Patient;
     owl:inverseOf :est_suivi_par ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .             
+    rdfs:comment "Relie un professionnel de santé au patient dont il assure le suivi."@fr ;
+    rdfs:label "suit le patient"@fr .             
 
 :a_pour_reference rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;
     rdfs:range :Reference ;
     owl:inverseOf :concerne_patient ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .          
+    rdfs:comment "Relie un patient à une référence médicale le concernant."@fr ;
+    rdfs:label "a pour référence"@fr .          
 
 :concerne_patient rdf:type owl:ObjectProperty ;
     rdfs:domain :Reference ;
     rdfs:range :Patient ;
     owl:inverseOf :a_pour_reference ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .              
+    rdfs:comment "Relie une référence médicale au patient concerné."@fr ;
+    rdfs:label "concerne le patient"@fr .              
 
 :a_pour_motif rdf:type owl:ObjectProperty ;
     rdfs:domain :Reference ;
-    rdfs:range :Motif ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .             
+    rdfs:range :Motif_Reference ;
+    rdfs:comment "Relie une référence médicale au motif qui justifie l'orientation du patient."@fr ;
+    rdfs:label "a pour motif"@fr .             
 
 :a_pour_renseignement_clinique rdf:type owl:ObjectProperty ;
     rdfs:domain :Reference ;
-    rdfs:range :Renseignement_Clinique ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .             
+    rdfs:range :Renseignement_Clinique_Reference ;
+    rdfs:comment "Relie une référence médicale aux renseignements cliniques transmis pour assurer la continuité des soins."@fr ;
+    rdfs:label "a pour renseignement clinique"@fr .             
 
 :est_envoye_par rdf:type owl:ObjectProperty ;
     rdfs:domain :Reference ;
     rdfs:range :Personnel_Sante ;
     owl:inverseOf :envoie_reference ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+    rdfs:comment "Relie une référence médicale au professionnel de santé qui l'a envoyée."@fr ;
+    rdfs:label "est envoyée par"@fr .       
 
 :envoie_reference rdf:type owl:ObjectProperty ;
     rdfs:domain :Personnel_Sante ;
     rdfs:range :Reference ;
     owl:inverseOf :est_envoye_par ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .           
+    rdfs:comment "Relie un professionnel de santé à la référence médicale qu'il envoie."@fr ;
+    rdfs:label "envoie une référence"@fr .           
 
 :est_recu_par rdf:type owl:ObjectProperty ;
     rdfs:domain :Reference ;
     rdfs:range :Personnel_Sante ;
     owl:inverseOf :recoit_reference ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+    rdfs:comment "Relie une référence médicale au professionnel de santé qui la reçoit."@fr ;
+    rdfs:label "est reçue par"@fr .       
 
 :recoit_reference rdf:type owl:ObjectProperty ;
     rdfs:domain :Personnel_Sante ;
     rdfs:range :Reference ;
     owl:inverseOf :est_recu_par ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
+    rdfs:comment "Relie un professionnel de santé à la référence médicale qu'il reçoit."@fr ;
+    rdfs:label "reçoit une référence"@fr .         
 
 
 #################################################################

@@ -1,986 +1,1432 @@
 @prefix : <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv#> .
-@prefix plhiv: <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@base <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix plhiv: <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-#################################################################
-#    Metadonnees
-#################################################################
-
-plhiv: rdf:type owl:Ontology ;
-
-    dcterms:contributor
-        "Ibrahima DIOP" , 
-        "Youssou Dieng" ,
-        "Mor Mboup";
-
+plhiv: a owl:Ontology ;
+    dcterms:contributor "Ibrahima DIOP",
+        "Mor Mboup",
+        "Youssou Dieng" ;
     dcterms:creator "Camir_Augustin_Malack" ;
-
-    dcterms:description
-        "OntoVIH est une ontologie du domaine du VIH/SIDA destinée à représenter les connaissances nécessaires au suivi des personnes vivant avec le VIH. Elle couvre notamment les domaines de la maladie, de la biologie, du traitement et du patient."@fr ;
-
-    dcterms:title "OntoVIH : Ontologie du domaine du VIH/SIDA pour le suivi des personnes vivant avec le VIH"@fr ;
-
+    dcterms:description "OntoVIH est une ontologie du domaine du VIH/SIDA destinée à représenter les connaissances nécessaires au suivi des personnes vivant avec le VIH. Elle couvre notamment les domaines de la maladie, de la biologie, du traitement et du patient."@fr ;
     dcterms:issued "2026-09-28"^^xsd:date ;
-
     dcterms:language "fr" ;
-
     dcterms:license "li3-uasz" ;
-
     dcterms:modified "2026-09-28"^^xsd:date ;
-
-    dcterms:publisher
-        "Université Assane Seck de Ziguinchor"@fr ;
-
-    dcterms:subject
-        "Ontologie biomédicale"@fr ,
-        "Suivi des personnes vivant avec le VIH"@fr ,
+    dcterms:publisher "Université Assane Seck de Ziguinchor"@fr ;
+    dcterms:subject "Ontologie biomédicale"@fr,
+        "Suivi des personnes vivant avec le VIH"@fr,
         "VIH/SIDA"@fr ;
-
+    dcterms:title "OntoVIH : Ontologie du domaine du VIH/SIDA pour le suivi des personnes vivant avec le VIH"@fr ;
     owl:versionInfo "1.0.0" .
 
-#################################################################
-#    Concepts
-#################################################################
+:Abacavir a owl:Class ;
+    rdfs:label "Abacavir"@fr ;
+    rdfs:comment "Antirétroviral nucléosidique utilisé dans certains protocoles de traitement du VIH."@fr ;
+    rdfs:subClassOf :Arv_INTI .
 
-######## Maladie #########
+:Adenopathie a owl:Class ;
+    rdfs:label "Adénopathie"@fr ;
+    rdfs:comment "Augmentation du volume d'un ou de plusieurs ganglions lymphatiques."@fr ;
+    rdfs:subClassOf :Signe .
 
-### Maladie ###
-:Maladie rdf:type owl:Class ;
-    rdfs:label "Maladie."@fr ;
-    rdfs:comment "État pathologique affectant un individu et pouvant être pris en compte dans le suivi médical des personnes vivant avec le VIH."@fr .
+:Allergie_Acarien a owl:Class ;
+    rdfs:label "Allergie aux acariens"@fr ;
+    rdfs:comment "Allergie associée aux allergènes produits par les acariens."@fr ;
+    rdfs:subClassOf :Allergie_Environnementale .
 
-### Maladie Transmissible ###
-:Maladie_Transmissible rdf:type owl:Class ;
+:Allergie_Alimentaire a owl:Class ;
+    rdfs:label "Allergie alimentaire"@fr ;
+    rdfs:comment "Réaction allergique déclenchée par un aliment ou l'un de ses composants."@fr ;
+    rdfs:subClassOf :Allergie .
+
+:Allergie_Antibiotique a owl:Class ;
+    rdfs:label "Allergie à un antibiotique"@fr ;
+    rdfs:comment "Allergie associée à un antibiotique."@fr ;
+    rdfs:subClassOf :Allergie_Medicamenteuse .
+
+:Allergie_Antifongique a owl:Class ;
+    rdfs:label "Allergie à un antifongique"@fr ;
+    rdfs:comment "Allergie associée à un médicament antifongique."@fr ;
+    rdfs:subClassOf :Allergie_Medicamenteuse .
+
+:Allergie_Antiretroviral a owl:Class ;
+    rdfs:label "Allergie à un antirétroviral"@fr ;
+    rdfs:comment "Allergie associée à un médicament antirétroviral."@fr ;
+    rdfs:subClassOf :Allergie_Medicamenteuse .
+
+:Allergie_Latex a owl:Class ;
+    rdfs:label "Allergie au latex"@fr ;
+    rdfs:comment "Allergie au latex, notamment à certaines protéines présentes dans le latex de caoutchouc naturel."@fr ;
+    rdfs:subClassOf :Allergie .
+
+:Allergie_Pollen a owl:Class ;
+    rdfs:label "Allergie au pollen"@fr ;
+    rdfs:comment "Allergie associée aux pollens."@fr ;
+    rdfs:subClassOf :Allergie_Environnementale .
+
+:Alopécie a owl:Class ;
+    rdfs:label "Alopécie"@fr ;
+    rdfs:comment "Perte partielle ou complète des cheveux ou des poils."@fr ;
+    rdfs:subClassOf :Symptome_Dermatologique .
+
+:Amaigrissement a owl:Class ;
+    rdfs:label "Amaigrissement"@fr ;
+    rdfs:comment "Diminution du poids corporel constatée chez un patient."@fr ;
+    rdfs:subClassOf :Signe .
+
+:Anorexie a owl:Class ;
+    rdfs:label "Anorexie"@fr ;
+    rdfs:comment "Perte ou diminution importante de l'appétit."@fr ;
+    rdfs:subClassOf :Symptome_Digestif .
+
+:Arthrite_Rhumatoide a owl:Class ;
+    rdfs:label "Arthrite rhumatoïde"@fr ;
+    rdfs:comment "Maladie inflammatoire chronique pouvant affecter plusieurs articulations."@fr ;
+    rdfs:subClassOf :Maladie_Inflammatoire .
+
+:Aspergillose a owl:Class ;
+    rdfs:label "Aspergillose"@fr ;
+    rdfs:comment "Infection ou affection liée à des champignons du genre Aspergillus."@fr ;
+    rdfs:subClassOf :Infection_Fongique .
+
+:Aspergillus_fumigatus a owl:Class ;
+    rdfs:label "Aspergillus fumigatus"@fr ;
+    rdfs:comment "Espèce fongique pouvant provoquer notamment des aspergilloses pulmonaires."@fr ;
+    rdfs:subClassOf :Champignon .
+
+:Assistant_Social a owl:Class ;
+    rdfs:label "Assistant social"@fr ;
+    rdfs:comment "Professionnel accompagnant le patient dans l'évaluation et la résolution de difficultés sociales pouvant affecter l'accès aux soins et la continuité du suivi."@fr ;
+    rdfs:subClassOf :Personnel_Sante .
+
+:Atazanavir a owl:Class ;
+    rdfs:label "Atazanavir"@fr ;
+    rdfs:comment "Antirétroviral inhibiteur de protéase utilisé dans certains protocoles contre le VIH."@fr ;
+    rdfs:subClassOf :Arv_IP .
+
+:Bictegravir a owl:Class ;
+    rdfs:label "Bictégravir"@fr ;
+    rdfs:comment "Antirétroviral inhibiteur de l'intégrase utilisé notamment dans des associations à dose fixe."@fr ;
+    rdfs:subClassOf :Arv_INI .
+
+:Cabotegravir a owl:Class ;
+    rdfs:label "Cabotégravir"@fr ;
+    rdfs:comment "Antirétroviral inhibiteur de l'intégrase utilisé dans certaines stratégies de traitement et de prévention du VIH."@fr ;
+    rdfs:subClassOf :Arv_INI .
+
+:Cancer_Anal a owl:Class ;
+    rdfs:label "Cancer anal"@fr ;
+    rdfs:comment "Cancer qui se développe au niveau du canal anal ou de la marge anale."@fr ;
+    rdfs:subClassOf :Cancer .
+
+:Cancer_Col_Uterin a owl:Class ;
+    rdfs:label "Cancer du col de l'utérus"@fr ;
+    rdfs:comment "Cancer qui se développe au niveau du col de l'utérus."@fr ;
+    rdfs:subClassOf :Cancer .
+
+:Candida_albicans a owl:Class ;
+    rdfs:label "Candida albicans"@fr ;
+    rdfs:comment "Espèce fongique fréquemment responsable de candidoses."@fr ;
+    rdfs:subClassOf :Champignon .
+
+:Candidose a owl:Class ;
+    rdfs:label "Candidose"@fr ;
+    rdfs:comment "Infection causée par des champignons du genre Candida."@fr ;
+    rdfs:subClassOf :Infection_Fongique .
+
+:Candidose_Buccale a owl:Class ;
+    rdfs:label "Candidose buccale"@fr ;
+    rdfs:comment "Manifestation clinique caractérisée par une infection à Candida au niveau de la cavité buccale."@fr ;
+    rdfs:subClassOf :Signe .
+
+:Cardiopathie_Ischemique a owl:Class ;
+    rdfs:label "Cardiopathie ischémique"@fr ;
+    rdfs:comment "Maladie cardiaque résultant d'un apport insuffisant de sang oxygéné au muscle cardiaque."@fr ;
+    rdfs:subClassOf :Maladie_Cardiovasculaire .
+
+:Cephalee a owl:Class ;
+    rdfs:label "Céphalée"@fr ;
+    rdfs:comment "Douleur ressentie au niveau de la tête."@fr ;
+    rdfs:subClassOf :Symptome_Neurologique .
+
+:Coma a owl:Class ;
+    rdfs:label "Coma"@fr ;
+    rdfs:comment "État profond d'altération de la conscience caractérisé par l'absence d'éveil et l'impossibilité de réveiller le patient."@fr ;
+    rdfs:subClassOf :Symptome_Neurologique .
+
+:Confusion_Mentale a owl:Class ;
+    rdfs:label "Confusion mentale"@fr ;
+    rdfs:comment "Altération de l'état mental caractérisée notamment par une désorientation ou une difficulté à organiser la pensée."@fr ;
+    rdfs:subClassOf :Symptome_Neurologique .
+
+:Consommation_Alcool a owl:Class ;
+    rdfs:label "Consommation d'alcool"@fr ;
+    rdfs:comment "Consommation d'alcool dont la fréquence, la quantité et les conséquences peuvent nécessiter une évaluation clinique."@fr ;
+    rdfs:subClassOf :Consommation_Substances .
+
+:Consommation_Drogues a owl:Class ;
+    rdfs:label "Consommation de drogues"@fr ;
+    rdfs:comment "Usage de substances psychoactives illicites ou non prescrites, à caractériser selon la substance, la fréquence et les circonstances."@fr ;
+    rdfs:subClassOf :Consommation_Substances .
+
+:Convulsion a owl:Class ;
+    rdfs:label "Convulsion"@fr ;
+    rdfs:comment "Épisode de manifestations motrices ou non motrices lié à une activité électrique anormale du cerveau."@fr ;
+    rdfs:subClassOf :Symptome_Neurologique .
+
+:Cryptococcose a owl:Class ;
+    rdfs:label "Cryptococcose"@fr ;
+    rdfs:comment "Infection causée par des champignons du genre Cryptococcus, pouvant notamment provoquer une méningite chez les personnes immunodéprimées."@fr ;
+    rdfs:subClassOf :Infection_Fongique .
+
+:Cryptococcus_neoformans a owl:Class ;
+    rdfs:label "Cryptococcus neoformans"@fr ;
+    rdfs:comment "Champignon pouvant provoquer une cryptococcose, notamment une méningite chez les personnes immunodéprimées."@fr ;
+    rdfs:subClassOf :Champignon .
+
+:Cryptosporidium a owl:Class ;
+    rdfs:label "Cryptosporidium"@fr ;
+    rdfs:comment "Genre de parasites protozoaires pouvant provoquer des infections intestinales, notamment chez les personnes immunodéprimées."@fr ;
+    rdfs:subClassOf :Parasite .
+
+:Cytomegalovirus a owl:Class ;
+    rdfs:label "Cytomégalovirus"@fr ;
+    rdfs:comment "Virus de la famille des Herpesviridae pouvant provoquer des complications chez les personnes immunodéprimées."@fr ;
+    rdfs:subClassOf :Virus .
+
+:Darunavir a owl:Class ;
+    rdfs:label "Darunavir"@fr ;
+    rdfs:comment "Antirétroviral inhibiteur de protéase utilisé dans différents protocoles de traitement du VIH."@fr ;
+    rdfs:subClassOf :Arv_IP .
+
+:Deficit_Moteur a owl:Class ;
+    rdfs:label "Déficit moteur"@fr ;
+    rdfs:comment "Diminution ou perte de la capacité à effectuer un mouvement volontaire."@fr ;
+    rdfs:subClassOf :Symptome_Neurologique .
+
+:Deshydratation a owl:Class ;
+    rdfs:label "Déshydratation"@fr ;
+    rdfs:comment "État résultant d'un déficit en eau de l'organisme, évalué à partir de signes cliniques et du contexte."@fr ;
+    rdfs:subClassOf :Signe .
+
+:Diabete_Type_1 a owl:Class ;
+    rdfs:label "Diabète de type 1"@fr ;
+    rdfs:comment "Forme de diabète généralement liée à une destruction auto-immune des cellules bêta du pancréas."@fr ;
+    rdfs:subClassOf :Diabete .
+
+:Diabete_Type_2 a owl:Class ;
+    rdfs:label "Diabète de type 2"@fr ;
+    rdfs:comment "Forme de diabète caractérisée principalement par une résistance à l'insuline et une insuffisance progressive de sa sécrétion."@fr ;
+    rdfs:subClassOf :Diabete .
+
+:Diarrhee_Chronique a owl:Class ;
+    rdfs:label "Diarrhée chronique"@fr ;
+    rdfs:comment "Épisodes de diarrhée persistants ou récurrents sur une période prolongée."@fr ;
+    rdfs:subClassOf :Symptome_Digestif .
+
+:Difficulte_Alimentaire a owl:Class ;
+    rdfs:label "Difficulté alimentaire"@fr ;
+    rdfs:comment "Difficulté rapportée par le patient lors de la prise alimentaire."@fr ;
+    rdfs:subClassOf :Symptome_Digestif .
+
+:Dolutegravir a owl:Class ;
+    rdfs:label "Dolutégravir"@fr ;
+    rdfs:comment "Antirétroviral inhibiteur de l'intégrase largement utilisé dans les protocoles de traitement du VIH."@fr ;
+    rdfs:subClassOf :Arv_INI .
+
+:Doravirine a owl:Class ;
+    rdfs:label "Doravirine"@fr ;
+    rdfs:comment "Antirétroviral non nucléosidique inhibant la transcriptase inverse du VIH."@fr ;
+    rdfs:subClassOf :Arv_INNTI .
+
+:Douleur_Abdominale a owl:Class ;
+    rdfs:label "Douleur abdominale"@fr ;
+    rdfs:comment "Douleur ressentie au niveau de l'abdomen."@fr ;
+    rdfs:subClassOf :Symptome_Digestif .
+
+:Douleur_Ganglionnaire a owl:Class ;
+    rdfs:label "Douleur ganglionnaire"@fr ;
+    rdfs:comment "Douleur ressentie au niveau d'un ou de plusieurs ganglions lymphatiques."@fr ;
+    rdfs:subClassOf :Symptome_Ganglionnaire .
+
+:Douleur_Thoracique a owl:Class ;
+    rdfs:label "Douleur thoracique"@fr ;
+    rdfs:comment "Douleur ressentie au niveau du thorax, pouvant avoir différentes origines."@fr ;
+    rdfs:subClassOf :Symptome_Respiratoire .
+
+:Dysphagie a owl:Class ;
+    rdfs:label "Dysphagie"@fr ;
+    rdfs:comment "Difficulté à avaler les aliments ou les liquides."@fr ;
+    rdfs:subClassOf :Symptome_Digestif .
+
+:Dyspnee a owl:Class ;
+    rdfs:label "Dyspnée"@fr ;
+    rdfs:comment "Sensation de difficulté respiratoire ou d'essoufflement."@fr ;
+    rdfs:subClassOf :Symptome_Respiratoire .
+
+:Echec_Clinique a owl:Class ;
+    rdfs:label "Échec clinique"@fr ;
+    rdfs:comment "Évolution clinique défavorable malgré le traitement, évaluée selon les critères médicaux applicables."@fr ;
+    rdfs:subClassOf :Echec_Therapeutique .
+
+:Echec_Immunologique a owl:Class ;
+    rdfs:label "Échec immunologique"@fr ;
+    rdfs:comment "Réponse immunologique insuffisante au traitement antirétroviral, évaluée notamment à partir de l'évolution des lymphocytes T CD4 selon les critères cliniques retenus."@fr ;
+    rdfs:subClassOf :Echec_Therapeutique .
+
+:Echec_Virologique a owl:Class ;
+    rdfs:label "Échec virologique"@fr ;
+    rdfs:comment "Échec du traitement antirétroviral caractérisé par une suppression virologique insuffisante ou une réplication virale persistante ou réapparue, selon les critères cliniques retenus."@fr ;
+    rdfs:subClassOf :Echec_Therapeutique .
+
+:Efavirenz a owl:Class ;
+    rdfs:label "Éfavirenz"@fr ;
+    rdfs:comment "Antirétroviral non nucléosidique utilisé dans certains protocoles de traitement du VIH."@fr ;
+    rdfs:subClassOf :Arv_INNTI .
+
+:Elvitegravir a owl:Class ;
+    rdfs:label "Elvitégravir"@fr ;
+    rdfs:comment "Antirétroviral inhibiteur de l'intégrase généralement utilisé dans des associations médicamenteuses."@fr ;
+    rdfs:subClassOf :Arv_INI .
+
+:Emtricitabine a owl:Class ;
+    rdfs:label "Emtricitabine"@fr ;
+    rdfs:comment "Antirétroviral nucléosidique utilisé dans plusieurs protocoles contre le VIH."@fr ;
+    rdfs:subClassOf :Arv_INTI .
+
+:Enfuvirtide a owl:Class ;
+    rdfs:label "Enfuvirtide"@fr ;
+    rdfs:comment "Antirétroviral qui inhibe la fusion du VIH avec la membrane de la cellule cible."@fr ;
+    rdfs:subClassOf :Arv_IF .
+
+:Eruption_Cutanée a owl:Class ;
+    rdfs:label "Éruption cutanée"@fr ;
+    rdfs:comment "Apparition de lésions cutanées multiples ou localisées."@fr ;
+    rdfs:subClassOf :Symptome_Dermatologique .
+
+:Etravirine a owl:Class ;
+    rdfs:label "Étravirine"@fr ;
+    rdfs:comment "Antirétroviral non nucléosidique utilisé notamment dans certaines situations de résistance."@fr ;
+    rdfs:subClassOf :Arv_INNTI .
+
+:Examen_ARN_VHC a owl:Class ;
+    rdfs:label "Recherche de l'ARN du VHC"@fr ;
+    rdfs:comment "Examen moléculaire recherchant l'ARN du virus de l'hépatite C afin de mettre en évidence une infection active."@fr ;
+    rdfs:subClassOf :Examen_Hepatite_C .
+
+:Examen_AgHBs a owl:Class ;
+    rdfs:label "Recherche de l'antigène HBs"@fr ;
+    rdfs:comment "Examen recherchant l'antigène de surface du virus de l'hépatite B (AgHBs), utilisé notamment dans le dépistage de l'infection."@fr ;
+    rdfs:subClassOf :Examen_Hepatite_B .
+
+:Examen_Albuminurie a owl:Class ;
+    rdfs:label "Recherche d'albuminurie"@fr ;
+    rdfs:comment "Recherche ou quantification de l'albumine dans les urines, notamment pour évaluer une atteinte rénale."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_Anticorps_VHC a owl:Class ;
+    rdfs:label "Recherche des anticorps anti-VHC"@fr ;
+    rdfs:comment "Examen recherchant les anticorps dirigés contre le virus de l'hépatite C ; un résultat positif nécessite généralement une recherche de l'infection active."@fr ;
+    rdfs:subClassOf :Examen_Hepatite_C .
+
+:Examen_Antigene_Cryptococcique a owl:Class ;
+    rdfs:label "Recherche de l'antigène cryptococcique"@fr ;
+    rdfs:comment "Examen recherchant un antigène cryptococcique dans un échantillon approprié."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_BAAR a owl:Class ;
+    rdfs:label "Recherche de bacilles acido-alcoolo-résistants dans les crachats"@fr ;
+    rdfs:comment "Examen d'un échantillon d'expectoration visant à rechercher des bacilles acido-alcoolo-résistants (BAAR), notamment dans le cadre du diagnostic de la tuberculose."@fr ;
+    rdfs:subClassOf :Examen_Tuberculose .
+
+:Examen_CD4 a owl:Class ;
+    rdfs:label "Dénombrement des lymphocytes T CD4"@fr ;
+    rdfs:comment "Examen mesurant le nombre ou la concentration des lymphocytes T CD4 dans le sang afin d'évaluer l'état immunitaire d'une personne vivant avec le VIH."@fr ;
+    rdfs:subClassOf :Examen_Infection_VIH .
+
+:Examen_Charge_Virale_VIH a owl:Class ;
+    rdfs:label "Mesure de la charge virale du VIH"@fr ;
+    rdfs:comment "Examen quantitatif mesurant la quantité d'ARN du VIH dans un prélèvement biologique afin d'évaluer la réplication virale et la réponse au traitement antirétroviral."@fr ;
+    rdfs:subClassOf :Examen_Infection_VIH .
+
+:Examen_Creatinine a owl:Class ;
+    rdfs:label "Dosage de la créatinine sanguine"@fr ;
+    rdfs:comment "Examen contribuant à l'évaluation de la fonction rénale."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_Culture_Bacterienne a owl:Class ;
+    rdfs:label "Culture bactérienne"@fr ;
+    rdfs:comment "Examen microbiologique permettant de rechercher et, selon le prélèvement, d'identifier des bactéries."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_DFG a owl:Class ;
+    rdfs:label "Estimation du débit de filtration glomérulaire"@fr ;
+    rdfs:comment "Estimation de la fonction de filtration des reins à partir de données biologiques et de paramètres individuels."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_Glycemie a owl:Class ;
+    rdfs:label "Mesure de la glycémie"@fr ;
+    rdfs:comment "Mesure de la concentration de glucose dans le sang."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_HbA1c a owl:Class ;
+    rdfs:label "Dosage de l'hémoglobine glyquée"@fr ;
+    rdfs:comment "Examen évaluant la glycémie moyenne sur une période de plusieurs semaines."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_Leishmaniose a owl:Class ;
+    rdfs:label "Examen de la leishmaniose"@fr ;
+    rdfs:comment "Examen parasitologique, moléculaire ou sérologique choisi selon la forme clinique suspectée."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_Mycologique a owl:Class ;
+    rdfs:label "Examen mycologique"@fr ;
+    rdfs:comment "Examen direct ou culture permettant de rechercher des champignons dans un prélèvement adapté."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_NFS a owl:Class ;
+    rdfs:label "Numération formule sanguine"@fr ;
+    rdfs:comment "Examen évaluant les principales populations de cellules sanguines, notamment les globules rouges, les globules blancs et les plaquettes."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_PCR_CMV a owl:Class ;
+    rdfs:label "Recherche moléculaire du cytomégalovirus"@fr ;
+    rdfs:comment "Examen moléculaire recherchant l'ADN du cytomégalovirus dans un prélèvement adapté au contexte clinique."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_PCR_VZV a owl:Class ;
+    rdfs:label "Recherche moléculaire du virus varicelle-zona"@fr ;
+    rdfs:comment "Examen moléculaire pouvant confirmer une infection par le virus varicelle-zona à partir d'un prélèvement adapté."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_Paludisme a owl:Class ;
+    rdfs:label "Examen biologique du paludisme"@fr ;
+    rdfs:comment "Examen parasitologique sanguin ou test rapide contribuant au diagnostic du paludisme."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_Reticulocytes a owl:Class ;
+    rdfs:label "Dénombrement des réticulocytes"@fr ;
+    rdfs:comment "Examen permettant d'évaluer la production récente de globules rouges par la moelle osseuse."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_Salmonellose a owl:Class ;
+    rdfs:label "Examen de la salmonellose"@fr ;
+    rdfs:comment "Examens microbiologiques, notamment culture de selles ou hémoculture selon la présentation clinique."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_Serologie_Syphilis a owl:Class ;
+    rdfs:label "Sérologie de la syphilis"@fr ;
+    rdfs:comment "Examens sérologiques tréponémiques et non tréponémiques contribuant au diagnostic et au suivi de la syphilis."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_Toxoplasmose a owl:Class ;
+    rdfs:label "Examen de la toxoplasmose"@fr ;
+    rdfs:comment "Examens sérologiques, moléculaires ou autres examens ciblés contribuant à l'évaluation d'une toxoplasmose."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Expectoration a owl:Class ;
+    rdfs:label "Expectoration"@fr ;
+    rdfs:comment "Émission de sécrétions provenant des voies respiratoires lors de la toux."@fr ;
+    rdfs:subClassOf :Symptome_Respiratoire .
+
+:Fatigue a owl:Class ;
+    rdfs:label "Fatigue"@fr ;
+    rdfs:comment "Sensation persistante de fatigue ou de manque d'énergie rapportée par le patient."@fr ;
+    rdfs:subClassOf :Symptome_General .
+
+:Fievre a owl:Class ;
+    rdfs:label "Fièvre"@fr ;
+    rdfs:comment "Élévation de la température corporelle au-dessus des valeurs normales."@fr ;
+    rdfs:subClassOf :Signe .
+
+:Frissons a owl:Class ;
+    rdfs:label "Frissons"@fr ;
+    rdfs:comment "Sensation de froid accompagnée ou non de tremblements."@fr ;
+    rdfs:subClassOf :Symptome_General .
+
+:Haemophilus_influenzae a owl:Class ;
+    rdfs:label "Haemophilus influenzae"@fr ;
+    rdfs:comment "Bactérie pouvant provoquer différentes infections respiratoires et invasives."@fr ;
+    rdfs:subClassOf :Bacterie .
+
+:Hemoptysie a owl:Class ;
+    rdfs:label "Hémoptysie"@fr ;
+    rdfs:comment "Émission de sang provenant des voies respiratoires lors d'un effort de toux."@fr ;
+    rdfs:subClassOf :Symptome_Respiratoire .
+
+:Hepatite_B a owl:Class ;
+    rdfs:label "Hépatite B"@fr ;
+    rdfs:comment "Infection du foie causée par le virus de l'hépatite B."@fr ;
+    rdfs:subClassOf :Infection_Virale .
+
+:Hepatite_C a owl:Class ;
+    rdfs:label "Hépatite C"@fr ;
+    rdfs:comment "Infection du foie causée par le virus de l'hépatite C."@fr ;
+    rdfs:subClassOf :Infection_Virale .
+
+:Herpes_Zoster a owl:Class ;
+    rdfs:label "Zona"@fr ;
+    rdfs:comment "Maladie due à la réactivation du virus varicelle-zona."@fr ;
+    rdfs:subClassOf :Infection_Virale .
+
+:Herpesvirus_Humain_8 a owl:Class ;
+    rdfs:label "Herpèsvirus humain 8"@fr ;
+    rdfs:comment "Virus associé au sarcome de Kaposi."@fr ;
+    rdfs:subClassOf :Virus .
+
+:Hypertension_Arterielle a owl:Class ;
+    rdfs:label "Hypertension artérielle"@fr ;
+    rdfs:comment "Affection caractérisée par une élévation persistante de la pression artérielle."@fr ;
+    rdfs:subClassOf :Maladie_Cardiovasculaire .
+
+:Ictere a owl:Class ;
+    rdfs:label "Ictère"@fr ;
+    rdfs:comment "Coloration jaune de la peau et des muqueuses, notamment liée à une accumulation de bilirubine."@fr ;
+    rdfs:subClassOf :Signe .
+
+:Infection_Cytomegalovirus a owl:Class ;
+    rdfs:label "Infection à cytomégalovirus"@fr ;
+    rdfs:comment "Infection causée par le cytomégalovirus, susceptible de provoquer des complications chez les personnes immunodéprimées."@fr ;
+    rdfs:subClassOf :Infection_Virale .
+
+:Insuffisance_Cardiaque a owl:Class ;
+    rdfs:label "Insuffisance cardiaque"@fr ;
+    rdfs:comment "Syndrome dans lequel le cœur ne parvient pas à assurer un débit sanguin adapté aux besoins de l'organisme."@fr ;
+    rdfs:subClassOf :Maladie_Cardiovasculaire .
+
+:Intolerance_Cutanée a owl:Class ;
+    rdfs:label "Intolérance médicamenteuse cutanée"@fr ;
+    rdfs:comment "Intolérance médicamenteuse caractérisée par des manifestations cutanées qui ne sont pas nécessairement d'origine allergique."@fr ;
+    rdfs:subClassOf :Intolerance_Medicament .
+
+:Intolerance_Digestive a owl:Class ;
+    rdfs:label "Intolérance médicamenteuse digestive"@fr ;
+    rdfs:comment "Intolérance médicamenteuse se manifestant principalement par des troubles digestifs."@fr ;
+    rdfs:subClassOf :Intolerance_Medicament .
+
+:Intolerance_Neurologique a owl:Class ;
+    rdfs:label "Intolérance médicamenteuse neurologique"@fr ;
+    rdfs:comment "Intolérance médicamenteuse se manifestant principalement par des symptômes neurologiques."@fr ;
+    rdfs:subClassOf :Intolerance_Medicament .
+
+:Lamivudine a owl:Class ;
+    rdfs:label "Lamivudine"@fr ;
+    rdfs:comment "Antirétroviral de la classe des inhibiteurs nucléosidiques de la transcriptase inverse."@fr ;
+    rdfs:subClassOf :Arv_INTI .
+
+:Leishmania a owl:Class ;
+    rdfs:label "Leishmania"@fr ;
+    rdfs:comment "Genre de protozoaires responsables des leishmanioses."@fr ;
+    rdfs:subClassOf :Parasite .
+
+:Leishmaniose a owl:Class ;
+    rdfs:label "Leishmaniose"@fr ;
+    rdfs:comment "Maladie parasitaire causée par des protozoaires du genre Leishmania."@fr ;
+    rdfs:subClassOf :Infection_Parasitaire .
+
+:Lesion_Cutanée a owl:Class ;
+    rdfs:label "Lésion cutanée"@fr ;
+    rdfs:comment "Altération visible de la peau associée à une affection."@fr ;
+    rdfs:subClassOf :Signe .
+
+:Lopinavir a owl:Class ;
+    rdfs:label "Lopinavir"@fr ;
+    rdfs:comment "Antirétroviral inhibiteur de protéase souvent administré en association avec le ritonavir."@fr ;
+    rdfs:subClassOf :Arv_IP .
+
+:Lupus_Erythemateux_Systemique a owl:Class ;
+    rdfs:label "Lupus érythémateux systémique"@fr ;
+    rdfs:comment "Maladie auto-immune systémique pouvant toucher plusieurs organes."@fr ;
+    rdfs:subClassOf :Maladie_Inflammatoire .
+
+:Lymphome_Non_Hodgkinien a owl:Class ;
+    rdfs:label "Lymphome non hodgkinien"@fr ;
+    rdfs:comment "Groupe de cancers qui se développent à partir des lymphocytes."@fr ;
+    rdfs:subClassOf :Cancer .
+
+:Maladie_Co_Infectieuse a owl:Class ;
+    rdfs:label "Co-infection associée au VIH"@fr ;
+    rdfs:comment "Infection concomitante à l'infection par le VIH, provoquée par un autre agent infectieux."@fr ;
     rdfs:subClassOf :Maladie_Infectieuse ;
-    owl:disjointWith :Maladie_Non_Transmissible ;
-    rdfs:comment "C'est une maladie transmissible."@fr ;
-    rdfs:label "Maladie Transmissible."@fr .
+    owl:subClassOf [ a owl:Restriction ;
+            owl:onProperty :est_une_co_infection ;
+            owl:someValuesFrom :Infection_VIH ] .
 
-### Maladie Non Transmissible ###
-:Maladie_Non_Transmissible rdf:type owl:Class ;
+:Maladie_Comorbidite a owl:Class ;
+    rdfs:label "Comorbidité associée au VIH"@fr ;
+    rdfs:comment "Maladie ou affection concomitante à l'infection par le VIH."@fr ;
     rdfs:subClassOf :Maladie ;
-    owl:disjointWith :Maladie_Transmissible ;
-    rdfs:comment "C'est une maladie non transmissible."@fr ;
-    rdfs:label "Maladie Non Transmissible."@fr .
-
-        :Cancer rdf:type owl:Class ;
-            rdfs:subClassOf :Maladie_Non_Transmissible ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr . 
-
-        :Diabete rdf:type owl:Class ;
-            rdfs:subClassOf :Maladie_Non_Transmissible ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr .             
-
-        :Maladie_Cardiovasculaire rdf:type owl:Class ;
-            rdfs:subClassOf :Maladie_Non_Transmissible ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr .             
-
-        :Maladie_Inflammatoire rdf:type owl:Class ;
-            rdfs:subClassOf :Maladie_Non_Transmissible ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr .                                                                       
-
-### Maladie Infectieuse ###
-:Maladie_Infectieuse rdf:type owl:Class ;
-    rdfs:subClassOf :Maladie ;
-    rdfs:comment "C'est une maladie infectieuse."@fr ;
-    rdfs:label "Maladie Infectieuse."@fr .
-
-### Infection Bacterienne ###
-:Infection_Bacterienne rdf:type owl:Class ;
-    rdfs:subClassOf :Maladie_Infectieuse ;
-    rdfs:comment "C'est une infection causée par une bacterie."@fr ;
-    rdfs:label "Infection Bacterienne."@fr .                                                                                         
-
-### Infection Fongique ###
-:Infection_Fongique rdf:type owl:Class ;
-    rdfs:subClassOf :Maladie_Infectieuse ;
-    rdfs:comment "C'est une infection causée par un champignon."@fr ;
-    rdfs:label "Infection Fongique."@fr .                                                                          
-
-### Infection Parasitaire ###
-:Infection_Parasitaire rdf:type owl:Class ;
-    rdfs:subClassOf :Maladie_Infectieuse ;
-    rdfs:comment "C'est une infection causée par un parasite."@fr ;
-    rdfs:label "Infection Parasitaire."@fr .                                                         
-
-### Infection Virale ###
-:Infection_Virale rdf:type owl:Class ;
-    rdfs:subClassOf :Maladie_Infectieuse ;
-    rdfs:comment "C'est une infection causée par un virus."@fr ;
-    rdfs:label "Infection Virale."@fr .
-
-### Infection VIH ###
-:Infection_VIH rdf:type owl:Class ;
-    rdfs:subClassOf :Infection_Virale ; 
-    rdfs:comment "C'est la maladie du VIH/SIDA."@fr ;
-    rdfs:label "Infection VIH."@fr .                                                                                                                                  
-
-### Maladie Co Infectieuse ###
-:Maladie_Co_Infectieuse rdf:type owl:Class ;
-    rdfs:subClassOf :Maladie_Infectieuse ;
-    rdfs:comment "C'est une maladie infectieuse qui co existe avec la maladie du VIH/SIDA."@fr ;
-    rdfs:label "Maladie Co Infectieuse."@fr .                                         
-
-### Maladie Comorbidite ###
-:Maladie_Comorbidite rdf:type owl:Class ;
-    rdfs:subClassOf :Maladie ;
-    rdfs:comment "C'est une maladie non transmissible qui co existe avec la maladie du VIH/SIDA."@fr ;
-    rdfs:label "Maladie Comorbidité."@fr .       
-
-### Maladie Opportuniste ###
-:Maladie_Opportuniste rdf:type owl:Class ;
-    rdfs:subClassOf :Maladie ;
-    rdfs:comment "C'est une maladie infectieuse qui apparait au Stade SIDA."@fr ;
-    rdfs:label "Maladie Opportuniste."@fr . 
-                                                                                                                                  
-### Stade OMS ###
-:Stade rdf:type owl:Class ;
-    rdfs:comment "C'est un Stade du VIH/SIDA définit par l'OMS."@fr ;
-    rdfs:label "Stade OMS."@fr .  
-
-### Stade 1 OMS ###
-:Stade_1 rdf:type owl:Class ;
-    rdfs:subClassOf :Stade ;
-    rdfs:comment "C'est la primo infection du VIH/SIDA définit par l'OMS."@fr ;
-    rdfs:label "Stade Primo Infection."@fr .
-
-### Stade 2 OMS ###
-:Stade_2 rdf:type owl:Class ;
-    rdfs:subClassOf :Stade ;
-    rdfs:comment "C'est la partie asymptomatique du VIH/SIDA définit par l'OMS."@fr ;
-    rdfs:label "Stade Asymptomatique."@fr .
-
-### Stade 3 OMS ###
-:Stade_3 rdf:type owl:Class ;
-    rdfs:subClassOf :Stade ;
-    rdfs:comment "C'est la partie symptomatique du VIH/SIDA définit par l'OMS."@fr ;
-    rdfs:label "Stade Symptomatique."@fr .
-
-### Stade 4 OMS ###
-:Stade_4 rdf:type owl:Class ;
-    rdfs:subClassOf :Stade ;
-    rdfs:comment "C'est le Stade SIDA du VIH/SIDA définit par l'OMS."@fr ;
-    rdfs:label "Stade SIDA."@fr .                        
-
-### Mode de Transmission ###
-:Mode_Transmission rdf:type owl:Class ;
-    rdfs:comment "C'est le mode de transmission de la maladie infectieuse."@fr ;
-    rdfs:label "Mode Transmission."@fr .
-
-:Transmission_Directe rdf:type owl:Class ;
-    rdfs:subClassOf :Mode_Transmission ;
-    rdfs:comment "C'est le mode de transmission directe de la maladie infectieuse."@fr ;
-    rdfs:label "Transmission Directe."@fr .
-
-:Transmission_Indirecte rdf:type owl:Class ;
-    rdfs:subClassOf :Mode_Transmission ;
-    rdfs:comment "C'est le mode de transmission indirecte de la maladie infectieuse."@fr ;
-    rdfs:label "Transmission Indirecte."@fr .        
-
-### Agent de Transmission ###
-:Agent_Infectieux rdf:type owl:Class ;
-    rdfs:comment "C'est l'agent infectieux qui est responsable de la maladie infectieuse."@fr ;
-    rdfs:label "Agent Infectieux."@fr .
-
-### Agent Bacterie ###
-:Bacterie rdf:type owl:Class ;
-    rdfs:subClassOf :Agent_Infectieux ;
-    rdfs:comment "C'est la bacterie qui est responsable de la maladie infectieuse."@fr ;
-    rdfs:label "Agent Bacterie."@fr .
-
-### Agent Champignon ###
-:Champignon rdf:type owl:Class ;
-    rdfs:subClassOf :Agent_Infectieux ;
-    rdfs:comment "C'est le champignon qui est responsable de la maladie infectieuse."@fr ;
-    rdfs:label "Agent Champignon."@fr .
-
-### Agent Parasite ###
-:Parasite rdf:type owl:Class ;
-    rdfs:subClassOf :Agent_Infectieux ;
-    rdfs:comment "C'est le parasite qui est responsable de la maladie infectieuse."@fr ;
-    rdfs:label "Agent Parasite."@fr .
-
-### Agent Virus ###
-:Virus rdf:type owl:Class ;
-    rdfs:subClassOf :Agent_Infectieux ;
-    rdfs:comment "C'est le virus qui est responsable de la maladie infectieuse."@fr ;
-    rdfs:label "Agent Virus."@fr .    
-
-### Manifestation Clinique Maladie ###
-:Manifestation_Clinique rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .                                
-
-### Signe Maladie ###
-:Signe rdf:type owl:Class ;
-    rdfs:subClassOf :Manifestation_Clinique ;
-    rdfs:comment "C'est un signe de la maladie du VIH/SIDA."@fr ;
-    rdfs:label "Signe."@fr .     
-
-### Symptome Maladie ###
-:Symptome rdf:type owl:Class ;
-    rdfs:subClassOf :Manifestation_Clinique ;
-    rdfs:comment "C'est un symptome d'une maladie."@fr ;
-    rdfs:label "Symptome."@fr .     
-
-### Symptome Respiratoire ###
-:Symptome_Respiratoire rdf:type owl:Class ;
-    rdfs:subClassOf :Symptome ;
-    rdfs:comment "C'est un symptome respiratoire d'une maladie."@fr ;
-    rdfs:label "Symptome."@fr .   
-
-        :Hemoptysie rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome_Respiratoire ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr .                  
-
-        :Toux_Chronique rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome_Respiratoire ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr .              
-
-        :Dyspnee rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome_Respiratoire ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr .                                                    
-
-### Symptome Digestif ###
-:Symptome_Digestif rdf:type owl:Class ;
-    rdfs:subClassOf :Symptome ;
-    rdfs:comment "C'est un symptome digestif d'une maladie."@fr ;
-    rdfs:label "Symptome."@fr .   
-
-        :Dysphagie rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome_Digestif ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr .                  
-
-        :Vomissements rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome_Digestif ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr .              
-
-        :Diarrhee_Chronique rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome_Digestif ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr .                 
-
-        :Anorexie rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome_Digestif ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr .                                   
-
-### Symptome Dermatologique ###
-:Symptome_Dermatologique rdf:type owl:Class ;
-    rdfs:subClassOf :Symptome ;
-    rdfs:comment "C'est un symptome d'une maladie."@fr ;
-    rdfs:label "Symptome."@fr .   
-
-### Symptome Neurologique ###
-:Symptome_Neurologique rdf:type owl:Class ;
-    rdfs:subClassOf :Symptome ;
-    rdfs:comment "C'est un symptome neurologique d'une maladie."@fr ;
-    rdfs:label "Symptome."@fr .    
-
-        :Neuropathies_Peripheriques rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome_Neurologique ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr .                  
-
-        :Cephalee rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome_Neurologique ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr .              
-
-        :Deficit_Moteur rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome_Neurologique ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr .                 
-
-        :Convulsion rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome_Neurologique ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr .                   
-
-        :Coma rdf:type owl:Class ;
-            rdfs:subClassOf :Symptome_Neurologique ;
-            rdfs:comment " ."@fr ;
-            rdfs:label " ."@fr .                                 
-
-######## Traitement #########
-
-### Traitement ###
-:Traitement rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .    
-
-### Traitement Infection VIH ###
-:Traitement_Infection_VIH rdf:type owl:Class ;
-    rdfs:subClassOf :Traitement ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
-
-### Echec Traitement ###
-:Echec_Therapeutique rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .     
-
-### Resistance Traitement ###
-:Resistance_Therapeutique rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .     
-
-### Medicament ###
-:Medicament rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .     
-
-### Antiretroviral ###
-:Antiretroviral rdf:type owl:Class ; 
-    rdfs:subClassOf :Medicament ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .      
-
-### IF (Inhibiteur de Fusion) ###
-:Arv_IF rdf:type owl:Class ;
-    rdfs:subClassOf :Antiretroviral ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
-
-### INTI (Inhibiteurs nucleosidiques de la transcriptase inverse) ###
-:Arv_INTI rdf:type owl:Class ;
-    rdfs:subClassOf :Antiretroviral ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
-
-### INNTI (Inhibiteurs non nucleosidiques de la transcriptase inverse) ###
-:Arv_INNTI rdf:type owl:Class ;
-    rdfs:subClassOf :Antiretroviral ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
-
-### IP (Inhibiteurs de protease) ###
-:Arv_IP rdf:type owl:Class ;
-    rdfs:subClassOf :Antiretroviral ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
-
-### INI (inhibiteurs de l'integrase)  ###
-:Arv_INI rdf:type owl:Class ;
-    rdfs:subClassOf :Antiretroviral ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
-
-### Effet Secondaire ###
-:Effet_Secondaire rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .     
-
-### Effet Indesirable ###
-:Effet_Indesirable rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .     
-
-### Protocole Therapeutique ###
-:Protocole_ARV rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
-
-### Protocole Ligne 1 VIH ###
-:Protocole_Ligne_1 rdf:type owl:Class ;
-    rdfs:subClassOf :Protocole_ARV ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
-
-### Protocole Ligne 2 VIH ###
-:Protocole_Ligne_2 rdf:type owl:Class ;
-    rdfs:subClassOf :Protocole_ARV ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
-
-### Protocole Ligne 3 VIH ###
-:Protocole_Ligne_3 rdf:type owl:Class ;
-    rdfs:subClassOf :Protocole_ARV ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
-
-######## Biologie #########
-
-### Examen Biologique ###
-:Examen_Biologique rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
-
-### Examen Infection VIH ###
-:Examen_Infection_VIH rdf:type owl:Class ;
-    rdfs:subClassOf :Examen_Biologique ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
-
-### Charge Virale VIH ###
-:Examen_Charge_Virale_VIH rdf:type owl:Class ;
-    rdfs:subClassOf :Examen_Infection_VIH ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
-
-### Lymphocyte T CD4 ###
-:Examen_CD4 rdf:type owl:Class ;
-    rdfs:subClassOf :Examen_Infection_VIH ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .                   
-
-### Examen Hepatite B ###
-:Examen_Hepatite_B rdf:type owl:Class ;
-    rdfs:subClassOf :Examen_Biologique ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
-
-### AgHBs ###
-:Examen_AgHBs rdf:type owl:Class ;
-    rdfs:subClassOf :Examen_Hepatite_B ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .           
-
-### Examen Tuberculose ###
-:Examen_Tuberculose rdf:type owl:Class ;
-    rdfs:subClassOf :Examen_Biologique ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
-
-### Crachat_BAAR ###
-:Examen_BAAR rdf:type owl:Class ;
-    rdfs:subClassOf :Examen_Tuberculose ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
-
-######## Patient #########
-
-### Patient ###
-:Patient rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
-
- ### Allergie ###
-:Allergie rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .    
-
-### Comportement a risque ###
-:Comportement_Risque rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .    
-
-### Reference ###
-:Reference rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .    
-
-### Motif ###
-:Motif rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .    
-
-### Renseignement Clinique ###
-:Renseignement_Clinique rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
-
- ### Personnel Sante ###
-:Personnel_Sante rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .    
-
-### Medecin ###
-:Medecin rdf:type owl:Class ;
-    rdfs:subClassOf :Personnel_Sante ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
-
-### Assistant Social###
-:Assistant_Social rdf:type owl:Class ;
-    rdfs:subClassOf :Personnel_Sante ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .  
-
-#################################################################
-#    Relations
-#################################################################
-
-######## Maladie #########
-
-###  :a_pour_agent_infectieux
-:a_pour_agent_infectieux rdf:type owl:ObjectProperty ;
-    rdfs:domain :Maladie_Infectieuse ;
-    rdfs:range :Agent_Infectieux ;
-    rdfs:comment "Une maladie infectieuse a un agent infectieux."@fr ;
-    rdfs:label "a pour agent infectieux."@fr .
-
-
-###  :a_pour_co_infection
-:a_pour_co_infection rdf:type owl:ObjectProperty ;
-    rdfs:domain :Infection_VIH ;
-    rdfs:range :Maladie_Infectieuse ;
-    rdfs:comment "Une maladie du VIH/SIDA co existe avec une maladie infectieuse."@fr ;
-    rdfs:label "a pour co infection."@fr .
-
-
-###  :a_pour_comorbidite
-:a_pour_comorbidite rdf:type owl:ObjectProperty ;
-    owl:inverseOf :est_une_comorbidite ;
-    rdfs:domain :Infection_VIH ;
-    rdfs:range :Maladie ;
-    rdfs:comment "Une maladie du VIH/SIDA co existe avec une maladie non transmissible."@fr ;
-    rdfs:label "a pour comorbidite."@fr .
-
-
-###  :a_pour_manifestation
-:a_pour_manifestation rdf:type owl:ObjectProperty ;
-    owl:inverseOf :est_une_manifestation_de ;
-    rdfs:domain :Maladie ;
-    rdfs:range :Manifestation_Clinique ;
-    rdfs:comment "Une maladie a pour manisfestation clinique."@fr ;
-    rdfs:label "a pour manifestation."@fr .
-
-
-###  :a_pour_mode_transmission
-:a_pour_mode_transmission rdf:type owl:ObjectProperty ;
-    rdfs:domain :Maladie_Transmissible ;
-    rdfs:range :Mode_Transmission ;
-    rdfs:comment "Une maladie transmissible a un mode de transmission."@fr ;
-    rdfs:label "a pour mode transmission."@fr .
-
-
-###  :a_pour_opportuniste
-:a_pour_opportuniste rdf:type owl:ObjectProperty ;
-    owl:inverseOf :est_une_opportuniste ;
-    rdfs:domain :Stade ;
-    rdfs:range :Maladie ;
-    rdfs:comment "Le Stade SIDA a une maladie opportuniste."@fr ;
-    rdfs:label "a pour opportuniste."@fr .
-
-
-###  :a_pour_stade
-:a_pour_stade rdf:type owl:ObjectProperty ;
-    rdfs:domain :Infection_VIH ;
-    rdfs:range :Stade ;
-    rdfs:comment "Une maladie du VIH/SIDA a un Stade OMS."@fr ;
-    rdfs:label "a pour stade."@fr .
-
-
-###  :est_un_agent_infectieux
-:est_un_agent_infectieux rdf:type owl:ObjectProperty ;
-    owl:inverseOf :a_pour_agent_infectieux ;
-    rdfs:domain :Agent_Infectieux ;
-    rdfs:range :Maladie_Infectieuse ;
-    rdfs:comment "Un agent infectieux d'une maladie infectieuse."@fr ;
-    rdfs:label "est un agent infectieux."@fr .
-
-
-###  :est_un_mode_transmission
-:est_un_mode_transmission rdf:type owl:ObjectProperty ;
-    owl:inverseOf :a_pour_mode_transmission ;
-    rdfs:domain :Mode_Transmission ;
-    rdfs:range :Maladie_Transmissible ;
-    rdfs:comment "Un mode de transmission d'une maladie transmissible."@fr ;
-    rdfs:label "est un mode transmission."@fr .
-
-
-###  :est_un_stade
-:est_un_stade rdf:type owl:ObjectProperty ;
-    owl:inverseOf :a_pour_stade ;
-    rdfs:domain :Stade ;
-    rdfs:range :Infection_VIH ;
-    rdfs:comment "Un Stade OMS d'une maladie du VIH/SIDA."@fr ;
-    rdfs:label "est un stade."@fr .
-
-
-###  :est_une_co_infection
-:est_une_co_infection rdf:type owl:ObjectProperty ;
-    owl:inverseOf :a_pour_co_infection ;
-    rdfs:domain :Maladie_Infectieuse ;
-    rdfs:range :Infection_VIH ;
-    rdfs:comment "Une maladie infectieuse co existe avec une maladie du du VIH/SIDA."@fr ;
-    rdfs:label "est une co infection."@fr .
-
-
-###  :est_une_comorbidite
-:est_une_comorbidite rdf:type owl:ObjectProperty ;
-    rdfs:domain :Maladie ;
-    rdfs:range :Infection_VIH ;
-    rdfs:comment "Une maladie transmissible co existe avec une maladie du du VIH/SIDA."@fr ;
-    rdfs:label "est une comorbidite."@fr .
-
-
-###  :est_une_manifestation_de
-:est_une_manifestation_de rdf:type owl:ObjectProperty ;
-    rdfs:domain :Manifestation_Clinique ;
-    rdfs:range :Maladie ;
-    rdfs:comment "Une manisfestation clinique d'une maladie ."@fr ;
-    rdfs:label "est une manifestation de ."@fr .
-
-
-###  :est_une_manifestation_du
-:est_une_manifestation_du rdf:type owl:ObjectProperty ;
-    owl:inverseOf :se_manifeste_par ;
-    rdfs:domain :Manifestation_Clinique ;
-    rdfs:range :Stade ;
-    rdfs:comment "Une manisfestation clinique d'un stade ."@fr ;
-    rdfs:label "est une manifestation du ."@fr .
-
-
-###  :est_une_opportuniste
-:est_une_opportuniste rdf:type owl:ObjectProperty ;
-    rdfs:domain :Maladie ;
-    rdfs:range :Stade ;
-    rdfs:comment "Une maladie opportuniste apparait au Stade SIDA."@fr ;
-    rdfs:label "est une opportuniste."@fr .
-
-
-###  :se_manifeste_par
-:se_manifeste_par rdf:type owl:ObjectProperty ;
-    rdfs:domain :Stade ;
-    rdfs:range :Manifestation_Clinique ;
-    rdfs:comment "Un Stade a une manisfestation clinique."@fr ;
-    rdfs:label "se manifeste par."@fr .
-
-######## Traitement #########
-
-:a_pour_echec_therapeutique rdf:type owl:ObjectProperty ;
-    rdfs:domain :Traitement ;
-    rdfs:range :Echec_Therapeutique ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
-
-:a_pour_resistance_therapeutique rdf:type owl:ObjectProperty ;
-    rdfs:domain :Traitement ;
-    rdfs:range :Resistance_Therapeutique ; 
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .             
-
-:a_comme_medicament rdf:type owl:ObjectProperty ;
+    owl:subClassOf [ a owl:Restriction ;
+            owl:onProperty :est_une_comorbidite ;
+            owl:someValuesFrom :Infection_VIH ] .
+
+:Maladie_Neurologique_Non_Infectieuse a owl:Class ;
+    rdfs:label "Maladie neurologique non infectieuse"@fr ;
+    rdfs:comment "Maladie du système nerveux qui n'est pas causée par un agent infectieux."@fr ;
+    rdfs:subClassOf :Maladie_Non_Transmissible .
+
+:Maladie_Renale_Chronique a owl:Class ;
+    rdfs:label "Maladie rénale chronique"@fr ;
+    rdfs:comment "Altération persistante de la structure ou de la fonction des reins."@fr ;
+    rdfs:subClassOf :Maladie_Non_Transmissible .
+
+:Maladie_Respiratoire_Chronique a owl:Class ;
+    rdfs:label "Maladie respiratoire chronique"@fr ;
+    rdfs:comment "Maladie chronique affectant les voies respiratoires ou les poumons."@fr ;
+    rdfs:subClassOf :Maladie_Non_Transmissible .
+
+:Medecin a owl:Class ;
+    rdfs:label "Médecin"@fr ;
+    rdfs:comment "Professionnel de santé habilité à évaluer l'état clinique du patient, à établir un diagnostic et à assurer ou coordonner les soins médicaux."@fr ;
+    rdfs:subClassOf :Personnel_Sante .
+
+:Motif_Autre a owl:Class ;
+    rdfs:label "Autre motif de référence"@fr ;
+    rdfs:comment "Motif de référence ne correspondant pas aux catégories spécifiquement définies."@fr ;
+    rdfs:subClassOf :Motif .
+
+:Motif_Changement_Adresse a owl:Class ;
+    rdfs:label "Changement d'adresse"@fr ;
+    rdfs:comment "Motif de référence lié au changement d'adresse ou de lieu de résidence du patient."@fr ;
+    rdfs:subClassOf :Motif .
+
+:Motif_Service a owl:Class ;
+    rdfs:label "Changement ou orientation vers un service"@fr ;
+    rdfs:comment "Motif de référence lié à la nécessité d'un autre service ou d'une prise en charge spécialisée."@fr ;
+    rdfs:subClassOf :Motif .
+
+:Mycobacterium_tuberculosis a owl:Class ;
+    rdfs:label "Mycobacterium tuberculosis"@fr ;
+    rdfs:comment "Bactérie responsable de la tuberculose."@fr ;
+    rdfs:subClassOf :Bacterie .
+
+:Nausees a owl:Class ;
+    rdfs:label "Nausées"@fr ;
+    rdfs:comment "Sensation désagréable donnant envie de vomir."@fr ;
+    rdfs:subClassOf :Symptome_Digestif .
+
+:Neuropathies_Peripheriques a owl:Class ;
+    rdfs:label "Neuropathies périphériques"@fr ;
+    rdfs:comment "Affections des nerfs périphériques pouvant provoquer des douleurs, des fourmillements ou une diminution de la sensibilité."@fr ;
+    rdfs:subClassOf :Symptome_Neurologique .
+
+:Nevirapine a owl:Class ;
+    rdfs:label "Névirapine"@fr ;
+    rdfs:comment "Antirétroviral non nucléosidique inhibant la transcriptase inverse du VIH."@fr ;
+    rdfs:subClassOf :Arv_INNTI .
+
+:Paleur_Cutanéomuqueuse a owl:Class ;
+    rdfs:label "Pâleur cutanéomuqueuse"@fr ;
+    rdfs:comment "Pâleur de la peau et des muqueuses pouvant notamment être associée à une anémie."@fr ;
+    rdfs:subClassOf :Signe .
+
+:Paludisme a owl:Class ;
+    rdfs:label "Paludisme"@fr ;
+    rdfs:comment "Maladie parasitaire transmise principalement par la piqûre de moustiques Anopheles infectés."@fr ;
+    rdfs:subClassOf :Infection_Parasitaire .
+
+:Paresthesie a owl:Class ;
+    rdfs:label "Paresthésie"@fr ;
+    rdfs:comment "Sensation anormale, telle que des fourmillements ou des picotements."@fr ;
+    rdfs:subClassOf :Symptome_Neurologique .
+
+:Partenaires_Sexuels_Multiples a owl:Class ;
+    rdfs:label "Partenaires sexuels multiples"@fr ;
+    rdfs:comment "Situation impliquant plusieurs partenaires sexuels, à évaluer en fonction des pratiques de prévention, du consentement et des expositions éventuelles."@fr ;
+    rdfs:subClassOf :Comportement_Risque_Sexuel .
+
+:Perte_Appetit a owl:Class ;
+    rdfs:label "Perte d'appétit"@fr ;
+    rdfs:comment "Diminution de l'envie de manger rapportée par le patient."@fr ;
+    rdfs:subClassOf :Symptome_General .
+
+:Plasmodium_falciparum a owl:Class ;
+    rdfs:label "Plasmodium falciparum"@fr ;
+    rdfs:comment "Parasite responsable de la forme la plus grave du paludisme humain dans de nombreux contextes."@fr ;
+    rdfs:subClassOf :Parasite .
+
+:Pneumocystis_jirovecii a owl:Class ;
+    rdfs:label "Pneumocystis jirovecii"@fr ;
+    rdfs:comment "Champignon responsable de la pneumocystose."@fr ;
+    rdfs:subClassOf :Champignon .
+
+:Pneumocystose a owl:Class ;
+    rdfs:label "Pneumocystose"@fr ;
+    rdfs:comment "Infection pulmonaire opportuniste causée par Pneumocystis jirovecii."@fr ;
+    rdfs:subClassOf :Infection_Fongique .
+
+:Pneumonie_Bacterienne a owl:Class ;
+    rdfs:label "Pneumonie bactérienne"@fr ;
+    rdfs:comment "Infection bactérienne du tissu pulmonaire."@fr ;
+    rdfs:subClassOf :Infection_Bacterienne .
+
+:Protocole_Ligne_1 a owl:Class ;
+    rdfs:label "Protocole antirétroviral de première ligne"@fr ;
+    rdfs:comment "Schéma antirétroviral recommandé en première intention pour une situation clinique donnée."@fr ;
+    rdfs:subClassOf :Protocole_ARV .
+
+:Protocole_Ligne_2 a owl:Class ;
+    rdfs:label "Protocole antirétroviral de deuxième ligne"@fr ;
+    rdfs:comment "Schéma antirétroviral utilisé lorsque le traitement de première ligne doit être remplacé, selon les recommandations applicables."@fr ;
+    rdfs:subClassOf :Protocole_ARV .
+
+:Protocole_Ligne_3 a owl:Class ;
+    rdfs:label "Protocole antirétroviral de troisième ligne"@fr ;
+    rdfs:comment "Schéma antirétroviral utilisé dans certaines situations complexes après échec de lignes antérieures, selon les recommandations applicables."@fr ;
+    rdfs:subClassOf :Protocole_ARV .
+
+:Prurit a owl:Class ;
+    rdfs:label "Prurit"@fr ;
+    rdfs:comment "Sensation de démangeaison provoquant le besoin de se gratter."@fr ;
+    rdfs:subClassOf :Symptome_Dermatologique .
+
+:Raltegravir a owl:Class ;
+    rdfs:label "Raltégravir"@fr ;
+    rdfs:comment "Antirétroviral inhibiteur de l'intégrase utilisé dans différents contextes de traitement du VIH."@fr ;
+    rdfs:subClassOf :Arv_INI .
+
+:Rapport_Sexuel_Non_Protege a owl:Class ;
+    rdfs:label "Rapport sexuel non protégé"@fr ;
+    rdfs:comment "Rapport sexuel sans utilisation de préservatif ou avec une protection insuffisante, dont le risque dépend notamment du type de rapport et du contexte préventif."@fr ;
+    rdfs:subClassOf :Comportement_Risque_Sexuel .
+
+:Rapport_Sexuel_Sous_Substances a owl:Class ;
+    rdfs:label "Rapport sexuel dans un contexte de consommation de substances"@fr ;
+    rdfs:comment "Situation dans laquelle la consommation de substances psychoactives peut altérer le jugement ou la capacité à appliquer les mesures de prévention sexuelle."@fr ;
+    rdfs:subClassOf :Comportement_Risque_Sexuel .
+
+:Resistance_Acquise a owl:Class ;
+    rdfs:label "Résistance acquise"@fr ;
+    rdfs:comment "Résistance apparue au cours de l'exposition à un traitement, notamment à la suite de mutations de l'agent pathogène."@fr ;
+    rdfs:subClassOf :Resistance_Therapeutique .
+
+:Resistance_Aux_Antiretroviraux a owl:Class ;
+    rdfs:label "Résistance aux antirétroviraux"@fr ;
+    rdfs:comment "Résistance du VIH à un ou plusieurs médicaments antirétroviraux, susceptible de diminuer leur activité."@fr ;
+    rdfs:subClassOf :Resistance_Therapeutique .
+
+:Resistance_Transmise a owl:Class ;
+    rdfs:label "Résistance transmise"@fr ;
+    rdfs:comment "Résistance présente chez l'agent pathogène et transmise lors de la contamination, avant l'exposition au traitement de la personne concernée."@fr ;
+    rdfs:subClassOf :Resistance_Therapeutique .
+
+:Rilpivirine a owl:Class ;
+    rdfs:label "Rilpivirine"@fr ;
+    rdfs:comment "Antirétroviral non nucléosidique utilisé dans certains traitements du VIH."@fr ;
+    rdfs:subClassOf :Arv_INNTI .
+
+:Ritonavir a owl:Class ;
+    rdfs:label "Ritonavir"@fr ;
+    rdfs:comment "Inhibiteur de protéase utilisé notamment à faible dose comme potentialisateur pharmacocinétique d'autres antirétroviraux."@fr ;
+    rdfs:subClassOf :Arv_IP .
+
+:Salmonella a owl:Class ;
+    rdfs:label "Salmonella"@fr ;
+    rdfs:comment "Genre bactérien comprenant des espèces responsables de salmonelloses."@fr ;
+    rdfs:subClassOf :Bacterie .
+
+:Salmonellose a owl:Class ;
+    rdfs:label "Salmonellose"@fr ;
+    rdfs:comment "Infection causée par des bactéries du genre Salmonella."@fr ;
+    rdfs:subClassOf :Infection_Bacterienne .
+
+:Sarcome_Kaposi a owl:Class ;
+    rdfs:label "Sarcome de Kaposi"@fr ;
+    rdfs:comment "Tumeur associée à l'herpèsvirus humain 8, pouvant apparaître notamment chez les personnes immunodéprimées."@fr ;
+    rdfs:subClassOf :Cancer .
+
+:Stade_1 a owl:Class ;
+    rdfs:label "Stade 1 de l'OMS"@fr ;
+    rdfs:comment "Stade clinique correspondant notamment à une infection asymptomatique ou à une adénopathie persistante généralisée selon la classification de l'OMS."@fr ;
+    rdfs:subClassOf :Stade .
+
+:Stade_2 a owl:Class ;
+    rdfs:label "Stade 2 de l'OMS"@fr ;
+    rdfs:comment "Stade clinique caractérisé par des symptômes légers selon la classification de l'OMS."@fr ;
+    rdfs:subClassOf :Stade .
+
+:Stade_3 a owl:Class ;
+    rdfs:label "Stade 3 de l'OMS"@fr ;
+    rdfs:comment "Stade clinique caractérisé par des symptômes avancés selon la classification de l'OMS."@fr ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty :se_manifeste_par ;
+            owl:someValuesFrom :Manifestation_Clinique ],
+        :Stade .
+
+:Stade_4 a owl:Class ;
+    rdfs:label "Stade 4 de l'OMS (SIDA)"@fr ;
+    rdfs:comment "Stade clinique correspondant à des affections définissant le SIDA selon la classification de l'OMS."@fr ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty :se_manifeste_par ;
+            owl:someValuesFrom :Manifestation_Clinique ],
+        [ a owl:Restriction ;
+            owl:onProperty :a_pour_opportuniste ;
+            owl:someValuesFrom :Maladie_Opportuniste ],
+        :Stade .
+
+:Streptococcus_pneumoniae a owl:Class ;
+    rdfs:label "Streptococcus pneumoniae"@fr ;
+    rdfs:comment "Bactérie pouvant provoquer notamment des pneumonies et d'autres infections invasives."@fr ;
+    rdfs:subClassOf :Bacterie .
+
+:Sueurs_Nocturnes a owl:Class ;
+    rdfs:label "Sueurs nocturnes"@fr ;
+    rdfs:comment "Épisodes de transpiration importante survenant pendant le sommeil."@fr ;
+    rdfs:subClassOf :Symptome_General .
+
+:Syphilis a owl:Class ;
+    rdfs:label "Syphilis"@fr ;
+    rdfs:comment "Infection sexuellement transmissible causée par Treponema pallidum."@fr ;
+    rdfs:subClassOf :Infection_Bacterienne .
+
+:Tenofovir a owl:Class ;
+    rdfs:label "Ténofovir"@fr ;
+    rdfs:comment "Antirétroviral nucléotidique utilisé dans le traitement du VIH et dans certaines stratégies de prévention."@fr ;
+    rdfs:subClassOf :Arv_INTI .
+
+:Toux_Chronique a owl:Class ;
+    rdfs:label "Toux chronique"@fr ;
+    rdfs:comment "Toux persistante ou prolongée pouvant être associée à une affection respiratoire."@fr ;
+    rdfs:subClassOf :Symptome_Respiratoire .
+
+:Toxoplasma_gondii a owl:Class ;
+    rdfs:label "Toxoplasma gondii"@fr ;
+    rdfs:comment "Protozoaire responsable de la toxoplasmose."@fr ;
+    rdfs:subClassOf :Parasite .
+
+:Toxoplasmose a owl:Class ;
+    rdfs:label "Toxoplasmose"@fr ;
+    rdfs:comment "Infection causée par Toxoplasma gondii, pouvant entraîner une atteinte cérébrale chez les personnes immunodéprimées."@fr ;
+    rdfs:subClassOf :Infection_Parasitaire .
+
+:Traitement_Infection_VIH a owl:Class ;
+    rdfs:label "Traitement de l’infection par le VIH"@fr ;
+    rdfs:comment "Prise en charge thérapeutique visant à contrôler l’infection par le VIH, notamment au moyen d’un traitement antirétroviral."@fr ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty :a_pour_protocole_ARV ;
+            owl:someValuesFrom :Protocole_ARV ],
+        :Traitement .
+
+:Transmission_Directe a owl:Class ;
+    rdfs:label "Transmission directe"@fr ;
+    rdfs:comment "Transmission par contact direct entre une source infectieuse et une personne exposée."@fr ;
+    rdfs:subClassOf :Mode_Transmission .
+
+:Transmission_Indirecte a owl:Class ;
+    rdfs:label "Transmission indirecte"@fr ;
+    rdfs:comment "Transmission par l'intermédiaire d'un vecteur, d'un objet, d'un milieu ou d'un autre support."@fr ;
+    rdfs:subClassOf :Mode_Transmission .
+
+:Treponema_pallidum a owl:Class ;
+    rdfs:label "Treponema pallidum"@fr ;
+    rdfs:comment "Bactérie responsable de la syphilis."@fr ;
+    rdfs:subClassOf :Bacterie .
+
+:Trouble_Cognitif a owl:Class ;
+    rdfs:label "Trouble cognitif"@fr ;
+    rdfs:comment "Altération d'une ou plusieurs fonctions cognitives, notamment la mémoire, l'attention ou le raisonnement."@fr ;
+    rdfs:subClassOf :Symptome_Neurologique .
+
+:Tuberculose a owl:Class ;
+    rdfs:label "Tuberculose"@fr ;
+    rdfs:comment "Maladie infectieuse principalement causée par Mycobacterium tuberculosis, pouvant toucher les poumons et d'autres organes."@fr ;
+    rdfs:subClassOf :Infection_Bacterienne .
+
+:Ulcere_Cutané a owl:Class ;
+    rdfs:label "Ulcère cutané"@fr ;
+    rdfs:comment "Perte de substance cutanée pouvant atteindre les tissus sous-jacents."@fr ;
+    rdfs:subClassOf :Symptome_Dermatologique .
+
+:VIH a owl:Class ;
+    rdfs:label "Virus de l'immunodéficience humaine"@fr ;
+    rdfs:comment "Virus de l'immunodéficience humaine, responsable de l'infection par le VIH."@fr ;
+    rdfs:subClassOf :Virus .
+
+:Virus_Hepatite_B a owl:Class ;
+    rdfs:label "Virus de l'hépatite B"@fr ;
+    rdfs:comment "Virus responsable de l'hépatite B."@fr ;
+    rdfs:subClassOf :Virus .
+
+:Virus_Hepatite_C a owl:Class ;
+    rdfs:label "Virus de l'hépatite C"@fr ;
+    rdfs:comment "Virus responsable de l'hépatite C."@fr ;
+    rdfs:subClassOf :Virus .
+
+:Virus_Varicelle_Zona a owl:Class ;
+    rdfs:label "Virus varicelle-zona"@fr ;
+    rdfs:comment "Virus responsable de la varicelle et du zona lors de sa réactivation."@fr ;
+    rdfs:subClassOf :Virus .
+
+:Vomissements a owl:Class ;
+    rdfs:label "Vomissements"@fr ;
+    rdfs:comment "Rejet actif du contenu de l'estomac par la bouche."@fr ;
+    rdfs:subClassOf :Symptome_Digestif .
+
+:Zidovudine a owl:Class ;
+    rdfs:label "Zidovudine"@fr ;
+    rdfs:comment "Antirétroviral nucléosidique utilisé dans le traitement du VIH et dans certaines situations de prévention de la transmission."@fr ;
+    rdfs:subClassOf :Arv_INTI .
+
+:a_comme_medicament a owl:ObjectProperty ;
+    rdfs:label "comprend comme antirétroviral"@fr,
+        "comprend comme médicament"@fr ;
+    rdfs:comment "Relie un protocole antirétroviral aux médicaments antirétroviraux qui le composent."@fr,
+        "Relie un traitement à un médicament qui le compose."@fr ;
     rdfs:domain :Traitement ;
     rdfs:range :Medicament ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+    owl:propertyChainAxiom ( :a_pour_protocole_ARV :a_comme_antiretroviral ) .
 
-:a_pour_effet_secondaire rdf:type owl:ObjectProperty ;
-    rdfs:domain :Medicament ;
-    rdfs:range :Effet_Secondaire ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+:a_pour_allergie a owl:ObjectProperty ;
+    rdfs:label "a pour allergie"@fr ;
+    rdfs:comment "Relie un patient à une allergie documentée dans son dossier médical."@fr ;
+    rdfs:domain :Patient ;
+    rdfs:range :Allergie .
 
-:a_pour_effet_indesirable rdf:type owl:ObjectProperty ;
-    rdfs:domain :Medicament ;
-    rdfs:range :Effet_Indesirable ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+:a_pour_comorbidite a owl:ObjectProperty ;
+    rdfs:label "a pour comorbidité"@fr ;
+    rdfs:comment "Relie une infection par le VIH à une maladie ou affection concomitante."@fr ;
+    rdfs:domain :Infection_VIH ;
+    rdfs:range :Maladie ;
+    owl:inverseOf :est_une_comorbidite .
 
-:a_pour_protocole_ARV rdf:type owl:ObjectProperty ;
+:a_pour_comportement_risque a owl:ObjectProperty ;
+    rdfs:label "a pour comportement à risque"@fr ;
+    rdfs:comment "Relie un patient à un comportement ou à une situation à risque documenté dans le cadre de son suivi."@fr ;
+    rdfs:domain :Patient ;
+    rdfs:range :Comportement_Risque .
+
+:a_pour_echec_therapeutique a owl:ObjectProperty ;
+    rdfs:label "a pour échec thérapeutique"@fr ;
+    rdfs:comment "Relie un traitement à un échec thérapeutique qui lui est associé."@fr ;
     rdfs:domain :Traitement ;
-    rdfs:range :Protocole_ARV ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .           
+    rdfs:range :Echec_Therapeutique .
 
-:a_comme_antiretroviral rdf:type owl:ObjectProperty ;
+:a_pour_effet_indesirable a owl:ObjectProperty ;
+    rdfs:label "a pour effet indésirable"@fr ;
+    rdfs:comment "Relie un médicament à un effet indésirable susceptible de survenir lors de son utilisation."@fr ;
+    rdfs:domain :Medicament ;
+    rdfs:range :Effet_Indesirable .
+
+:a_pour_effet_secondaire a owl:ObjectProperty ;
+    rdfs:label "a pour effet secondaire"@fr ;
+    rdfs:comment "Relie un médicament à un effet secondaire qui peut lui être associé."@fr ;
+    rdfs:domain :Medicament ;
+    rdfs:range :Effet_Secondaire .
+
+:a_pour_intolerance_medicament a owl:ObjectProperty ;
+    rdfs:label "a pour intolérance médicamenteuse"@fr ;
+    rdfs:comment "Relie un patient à une intolérance médicamenteuse documentée dans son dossier médical."@fr ;
+    rdfs:domain :Patient ;
+    rdfs:range :Intolerance_Medicament .
+
+:a_pour_manifestation a owl:ObjectProperty ;
+    rdfs:label "a pour manifestation clinique"@fr ;
+    rdfs:comment "Relie une maladie à l'un de ses signes ou symptômes."@fr ;
+    rdfs:domain :Maladie ;
+    rdfs:range :Manifestation_Clinique ;
+    owl:inverseOf :est_une_manifestation_de .
+
+:a_pour_motif a owl:ObjectProperty ;
+    rdfs:label "a pour motif"@fr ;
+    rdfs:comment "Relie une référence médicale au motif qui justifie l'orientation du patient."@fr ;
+    rdfs:domain :Reference ;
+    rdfs:range :Motif_Reference .
+
+:a_pour_renseignement_clinique a owl:ObjectProperty ;
+    rdfs:label "a pour renseignement clinique"@fr ;
+    rdfs:comment "Relie une référence médicale aux renseignements cliniques transmis pour assurer la continuité des soins."@fr ;
+    rdfs:domain :Reference ;
+    rdfs:range :Renseignement_Clinique_Reference .
+
+:a_pour_resistance_therapeutique a owl:ObjectProperty ;
+    rdfs:label "a pour résistance thérapeutique"@fr ;
+    rdfs:comment "Relie un traitement à une résistance susceptible d'en diminuer l'efficacité."@fr ;
+    rdfs:domain :Traitement ;
+    rdfs:range :Resistance_Therapeutique .
+
+:est_un_agent_infectieux a owl:ObjectProperty ;
+    rdfs:label "est l'agent infectieux de"@fr ;
+    rdfs:comment "Relation inverse de « a pour agent infectieux » : relie un agent infectieux à la maladie qu'il peut provoquer."@fr ;
+    rdfs:domain :Agent_Infectieux ;
+    rdfs:range :Maladie_Infectieuse ;
+    owl:inverseOf :a_pour_agent_infectieux .
+
+:est_un_mode_transmission a owl:ObjectProperty ;
+    rdfs:label "est le mode de transmission de"@fr ;
+    rdfs:comment "Relation inverse de « a pour mode de transmission » : relie un mode de transmission à la maladie concernée."@fr ;
+    rdfs:domain :Mode_Transmission ;
+    rdfs:range :Maladie_Transmissible ;
+    owl:inverseOf :a_pour_mode_transmission .
+
+:est_un_stade a owl:ObjectProperty ;
+    rdfs:label "est un stade clinique de"@fr ;
+    rdfs:comment "Relation inverse de « a pour stade clinique » : relie un stade clinique à l'infection par le VIH concernée."@fr ;
+    rdfs:domain :Stade ;
+    rdfs:range :Infection_VIH ;
+    owl:inverseOf :a_pour_stade .
+
+:est_une_manifestation_du a owl:ObjectProperty ;
+    rdfs:label "est une manifestation clinique du stade"@fr ;
+    rdfs:comment "Relie une manifestation clinique à un stade de l'infection par le VIH."@fr ;
+    rdfs:domain :Manifestation_Clinique ;
+    rdfs:range :Stade ;
+    owl:inverseOf :se_manifeste_par .
+
+:Arv_IF a owl:Class ;
+    rdfs:label "Inhibiteur de fusion (IF)"@fr ;
+    rdfs:comment "Classe d'antirétroviraux qui empêche la fusion du VIH avec la membrane de la cellule cible."@fr ;
+    rdfs:subClassOf :Antiretroviral .
+
+:Effet_Indesirable a owl:Class ;
+    rdfs:label "Effet indésirable"@fr ;
+    rdfs:comment "Réaction nocive et non souhaitée survenant lors de l'utilisation d'un médicament."@fr .
+
+:Effet_Secondaire a owl:Class ;
+    rdfs:label "Effet secondaire"@fr ;
+    rdfs:comment "Effet supplémentaire associé à l'utilisation d'un médicament, qui peut être bénéfique, neutre ou défavorable."@fr .
+
+:Examen_Hepatite_B a owl:Class ;
+    rdfs:label "Examen de l'hépatite B"@fr ;
+    rdfs:comment "Ensemble des examens biologiques utilisés pour dépister, caractériser ou suivre une infection par le virus de l'hépatite B."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_Tuberculose a owl:Class ;
+    rdfs:label "Examen de la tuberculose"@fr ;
+    rdfs:comment "Ensemble des examens biologiques et microbiologiques contribuant au dépistage, au diagnostic ou au suivi de la tuberculose."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Maladie_Opportuniste a owl:Class ;
+    rdfs:label "Maladie opportuniste"@fr ;
+    rdfs:comment "Maladie survenant plus fréquemment ou sous une forme plus grave lorsque les défenses immunitaires sont affaiblies."@fr ;
+    rdfs:subClassOf :Maladie ;
+    owl:subClassOf [ a owl:Restriction ;
+            owl:onProperty :est_une_opportuniste ;
+            owl:someValuesFrom :Stade ] .
+
+:Motif_Reference a owl:Class ;
+    rdfs:label "Motif de référence"@fr ;
+    rdfs:comment "Raison justifiant l'orientation ou le transfert d'un patient vers un autre professionnel ou établissement de santé."@fr .
+
+:Renseignement_Clinique_Reference a owl:Class ;
+    rdfs:label "Renseignement clinique de référence"@fr ;
+    rdfs:comment "Information clinique transmise avec la référence afin de faciliter la continuité des soins, notamment les éléments pertinents du dossier, les examens biologiques et les traitements."@fr .
+
+:Symptome_Ganglionnaire a owl:Class ;
+    rdfs:label "Manifestation ganglionnaire"@fr ;
+    rdfs:comment "Manifestation clinique concernant un ou plusieurs ganglions lymphatiques."@fr ;
+    rdfs:subClassOf :Symptome .
+
+:a_pour_co_infection a owl:ObjectProperty ;
+    rdfs:label "a pour co-infection"@fr ;
+    rdfs:comment "Relie une infection par le VIH à une autre maladie infectieuse concomitante."@fr ;
+    rdfs:domain :Infection_VIH ;
+    rdfs:range :Maladie_Infectieuse .
+
+:a_pour_opportuniste a owl:ObjectProperty ;
+    rdfs:label "est associée à une maladie opportuniste"@fr ;
+    rdfs:comment "Relie un stade clinique de l'infection par le VIH à une maladie opportuniste associée."@fr ;
+    rdfs:domain :Stade ;
+    rdfs:range :Maladie ;
+    owl:inverseOf :est_une_opportuniste .
+
+:a_pour_reference a owl:ObjectProperty ;
+    rdfs:label "a pour référence"@fr ;
+    rdfs:comment "Relie un patient à une référence médicale le concernant."@fr ;
+    rdfs:domain :Patient ;
+    rdfs:range :Reference ;
+    owl:inverseOf :concerne_patient .
+
+:envoie_reference a owl:ObjectProperty ;
+    rdfs:label "envoie une référence"@fr ;
+    rdfs:comment "Relie un professionnel de santé à la référence médicale qu'il envoie."@fr ;
+    rdfs:domain :Personnel_Sante ;
+    rdfs:range :Reference ;
+    owl:inverseOf :est_envoye_par .
+
+:est_suivi_par a owl:ObjectProperty ;
+    rdfs:label "est suivi par"@fr ;
+    rdfs:comment "Relie un patient au professionnel de santé qui assure son suivi."@fr ;
+    rdfs:domain :Patient ;
+    rdfs:range :Personnel_Sante ;
+    owl:inverseOf :suit_patient .
+
+:est_une_co_infection a owl:ObjectProperty ;
+    rdfs:label "est une co-infection associée à"@fr ;
+    rdfs:comment "Relation inverse de « a pour co-infection » : relie une autre infection à l'infection par le VIH concomitante."@fr ;
+    rdfs:domain :Maladie_Infectieuse ;
+    rdfs:range :Infection_VIH ;
+    owl:inverseOf :a_pour_co_infection .
+
+:est_une_manifestation_de a owl:ObjectProperty ;
+    rdfs:label "est une manifestation clinique de"@fr ;
+    rdfs:comment "Relie un signe ou un symptôme à la maladie dont il constitue une manifestation."@fr ;
+    rdfs:domain :Manifestation_Clinique ;
+    rdfs:range :Maladie .
+
+:recoit_reference a owl:ObjectProperty ;
+    rdfs:label "reçoit une référence"@fr ;
+    rdfs:comment "Relie un professionnel de santé à la référence médicale qu'il reçoit."@fr ;
+    rdfs:domain :Personnel_Sante ;
+    rdfs:range :Reference ;
+    owl:inverseOf :est_recu_par .
+
+:suit_patient a owl:ObjectProperty ;
+    rdfs:label "suit le patient"@fr ;
+    rdfs:comment "Relie un professionnel de santé au patient dont il assure le suivi."@fr ;
+    rdfs:domain :Personnel_Sante ;
+    rdfs:range :Patient ;
+    owl:inverseOf :est_suivi_par .
+
+:Allergie_Environnementale a owl:Class ;
+    rdfs:label "Allergie environnementale"@fr ;
+    rdfs:comment "Allergie provoquée par un allergène présent dans l'environnement."@fr ;
+    rdfs:subClassOf :Allergie .
+
+:Consommation_Substances a owl:Class ;
+    rdfs:label "Consommation de substances psychoactives"@fr ;
+    rdfs:comment "Consommation de substances psychoactives pouvant avoir des conséquences sur la santé, la prévention ou le suivi thérapeutique."@fr ;
+    rdfs:subClassOf :Comportement_Risque .
+
+:Diabete a owl:Class ;
+    rdfs:label "Diabète"@fr ;
+    rdfs:comment "Maladie métabolique caractérisée par une hyperglycémie chronique."@fr ;
+    rdfs:subClassOf :Maladie_Non_Transmissible .
+
+:Examen_Hepatite_C a owl:Class ;
+    rdfs:label "Examen de l'hépatite C"@fr ;
+    rdfs:comment "Ensemble des examens contribuant au dépistage et à la confirmation de l'infection par le virus de l'hépatite C."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Examen_Infection_VIH a owl:Class ;
+    rdfs:label "Examen de l'infection par le VIH"@fr ;
+    rdfs:comment "Examen biologique contribuant au dépistage, au diagnostic ou au suivi de l'infection par le virus de l'immunodéficience humaine (VIH)."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
+
+:Maladie_Inflammatoire a owl:Class ;
+    rdfs:label "Maladie inflammatoire"@fr ;
+    rdfs:comment "Maladie caractérisée par une réaction inflammatoire anormale, persistante ou excessive, qui n'est pas nécessairement due à une infection."@fr ;
+    rdfs:subClassOf :Maladie_Non_Transmissible .
+
+:a_pour_mode_transmission a owl:ObjectProperty ;
+    rdfs:label "a pour mode de transmission"@fr ;
+    rdfs:comment "Relie une maladie transmissible à son mode de transmission."@fr ;
+    rdfs:domain :Maladie_Transmissible ;
+    rdfs:range :Mode_Transmission .
+
+:a_pour_protocole_ARV a owl:ObjectProperty ;
+    rdfs:label "utilise le protocole antirétroviral"@fr ;
+    rdfs:comment "Relie un traitement de l'infection par le VIH au protocole antirétroviral utilisé."@fr ;
+    rdfs:domain :Traitement ;
+    rdfs:range :Protocole_ARV .
+
+:a_pour_stade a owl:ObjectProperty ;
+    rdfs:label "a pour stade clinique"@fr ;
+    rdfs:comment "Relie l'infection par le VIH à un stade clinique."@fr ;
+    rdfs:domain :Infection_VIH ;
+    rdfs:range :Stade .
+
+:concerne_patient a owl:ObjectProperty ;
+    rdfs:label "concerne le patient"@fr ;
+    rdfs:comment "Relie une référence médicale au patient concerné."@fr ;
+    rdfs:domain :Reference ;
+    rdfs:range :Patient ;
+    owl:inverseOf :a_pour_reference .
+
+:est_envoye_par a owl:ObjectProperty ;
+    rdfs:label "est envoyée par"@fr ;
+    rdfs:comment "Relie une référence médicale au professionnel de santé qui l'a envoyée."@fr ;
+    rdfs:domain :Reference ;
+    rdfs:range :Personnel_Sante ;
+    owl:inverseOf :envoie_reference .
+
+:est_recu_par a owl:ObjectProperty ;
+    rdfs:label "est reçue par"@fr ;
+    rdfs:comment "Relie une référence médicale au professionnel de santé qui la reçoit."@fr ;
+    rdfs:domain :Reference ;
+    rdfs:range :Personnel_Sante ;
+    owl:inverseOf :recoit_reference .
+
+:est_une_comorbidite a owl:ObjectProperty ;
+    rdfs:label "est une comorbidité associée à"@fr ;
+    rdfs:comment "Relation inverse de « a pour comorbidité » : relie une affection concomitante à l'infection par le VIH."@fr ;
+    rdfs:domain :Maladie ;
+    rdfs:range :Infection_VIH .
+
+:est_une_opportuniste a owl:ObjectProperty ;
+    rdfs:label "est une maladie opportuniste associée au stade"@fr ;
+    rdfs:comment "Relie une maladie opportuniste au stade clinique auquel elle est associée."@fr ;
+    rdfs:domain :Maladie ;
+    rdfs:range :Stade .
+
+:Allergie_Medicamenteuse a owl:Class ;
+    rdfs:label "Allergie médicamenteuse"@fr ;
+    rdfs:comment "Allergie déclenchée par un médicament ou l'un de ses composants."@fr ;
+    rdfs:subClassOf :Allergie .
+
+:Comportement_Risque a owl:Class ;
+    rdfs:label "Comportement à risque"@fr ;
+    rdfs:comment "Comportement ou situation pouvant être associé à une exposition accrue à un risque pour la santé ou à des difficultés de prévention et de suivi."@fr .
+
+:Comportement_Risque_Sexuel a owl:Class ;
+    rdfs:label "Comportement sexuel à risque"@fr ;
+    rdfs:comment "Comportement sexuel susceptible d'augmenter l'exposition au VIH ou à d'autres infections sexuellement transmissibles, selon les circonstances."@fr ;
+    rdfs:subClassOf :Comportement_Risque .
+
+:Infection_Parasitaire a owl:Class ;
+    rdfs:label "Infection parasitaire"@fr ;
+    rdfs:comment "Infection provoquée par un parasite."@fr ;
+    rdfs:subClassOf :Maladie_Infectieuse ;
+    owl:equivalentClass [ a owl:Restriction ;
+            owl:onProperty :a_pour_agent_infectieux ;
+            owl:someValuesFrom :Parasite ] .
+
+:Maladie_Cardiovasculaire a owl:Class ;
+    rdfs:label "Maladie cardiovasculaire"@fr ;
+    rdfs:comment "Maladie affectant le cœur ou les vaisseaux sanguins."@fr ;
+    rdfs:subClassOf :Maladie_Non_Transmissible .
+
+:Maladie_Transmissible a owl:Class ;
+    rdfs:label "Maladie transmissible"@fr ;
+    rdfs:comment "Maladie susceptible de se transmettre d'un individu à un autre ou par un autre mode de transmission."@fr ;
+    rdfs:subClassOf :Maladie_Infectieuse ;
+    owl:disjointWith :Maladie_Non_Transmissible ;
+    owl:equivalentClass [ a owl:Restriction ;
+            owl:onProperty :a_pour_mode_transmission ;
+            owl:someValuesFrom :Mode_Transmission ] .
+
+:a_comme_antiretroviral a owl:ObjectProperty ;
+    rdfs:label "comprend comme antirétroviral"@fr ;
+    rdfs:comment "Relie un protocole antirétroviral aux médicaments antirétroviraux qui le composent."@fr ;
     rdfs:domain :Protocole_ARV ;
-    rdfs:range :Antiretroviral ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .          
+    rdfs:range :Antiretroviral .
 
-:a_comme_medicament owl:propertyChainAxiom (
-    :a_pour_protocole_ARV
-    :a_comme_antiretroviral
-    ) ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .   
+:se_manifeste_par a owl:ObjectProperty ;
+    rdfs:label "se manifeste par"@fr ;
+    rdfs:comment "Relie un stade clinique à un signe ou à un symptôme qui peut lui être associé."@fr ;
+    rdfs:domain :Stade ;
+    rdfs:range :Manifestation_Clinique .
 
-######## Biologie #########
+:Arv_IP a owl:Class ;
+    rdfs:label "Inhibiteur de protéase (IP)"@fr ;
+    rdfs:comment "Classe d'antirétroviraux qui inhibe la protéase du VIH et perturbe la maturation des particules virales."@fr ;
+    rdfs:subClassOf :Antiretroviral .
 
-######## Patient #########
+:Cancer a owl:Class ;
+    rdfs:label "Cancer"@fr ;
+    rdfs:comment "Maladie caractérisée par une prolifération incontrôlée de cellules anormales pouvant envahir les tissus voisins ou se propager à distance."@fr ;
+    rdfs:subClassOf :Maladie_Non_Transmissible .
 
-:a_pour_allergie rdf:type owl:ObjectProperty ;
-    rdfs:domain :Patient ;
-    rdfs:range :Allergie ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
+:Echec_Therapeutique a owl:Class ;
+    rdfs:label "Échec thérapeutique"@fr ;
+    rdfs:comment "Situation dans laquelle le traitement n'atteint pas les objectifs thérapeutiques attendus."@fr .
 
-:a_pour_comportement_risque rdf:type owl:ObjectProperty ;
-    rdfs:domain :Patient ;
-    rdfs:range :Comportement_Risque ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .             
+:Infection_Bacterienne a owl:Class ;
+    rdfs:label "Infection bactérienne"@fr ;
+    rdfs:comment "Infection provoquée par une bactérie."@fr ;
+    rdfs:subClassOf :Maladie_Infectieuse ;
+    owl:equivalentClass [ a owl:Restriction ;
+            owl:onProperty :a_pour_agent_infectieux ;
+            owl:someValuesFrom :Bacterie ] .
 
-:est_suivi_par rdf:type owl:ObjectProperty ;
-    rdfs:domain :Patient ;
-    rdfs:range :Personnel_Sante;
-    owl:inverseOf :suit_patient ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+:Infection_Fongique a owl:Class ;
+    rdfs:label "Infection fongique"@fr ;
+    rdfs:comment "Infection provoquée par un champignon."@fr ;
+    rdfs:subClassOf :Maladie_Infectieuse ;
+    owl:equivalentClass [ a owl:Restriction ;
+            owl:onProperty :a_pour_agent_infectieux ;
+            owl:someValuesFrom :Champignon ] .
 
-:suit_patient rdf:type owl:ObjectProperty ;
-    rdfs:domain :Personnel_Sante ;
-    rdfs:range :Patient;
-    owl:inverseOf :est_suivi_par ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .             
+:Intolerance_Medicament a owl:Class ;
+    rdfs:label "Intolérance médicamenteuse"@fr ;
+    rdfs:comment "Réaction ou difficulté de tolérance à un médicament, pouvant nécessiter une évaluation clinique et une adaptation du traitement."@fr .
 
-:a_pour_reference rdf:type owl:ObjectProperty ;
-    rdfs:domain :Patient ;
-    rdfs:range :Reference ;
-    owl:inverseOf :concerne_patient ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .          
+:Medicament a owl:Class ;
+    rdfs:label "Médicament"@fr ;
+    rdfs:comment "Substance ou préparation utilisée pour prévenir, diagnostiquer ou traiter une maladie, ou pour modifier une fonction physiologique."@fr .
 
-:concerne_patient rdf:type owl:ObjectProperty ;
-    rdfs:domain :Reference ;
-    rdfs:range :Patient ;
-    owl:inverseOf :a_pour_reference ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .              
+:Resistance_Therapeutique a owl:Class ;
+    rdfs:label "Résistance thérapeutique"@fr ;
+    rdfs:comment "Diminution ou perte de sensibilité d'un agent pathogène à un traitement, pouvant réduire l'efficacité de celui-ci."@fr .
 
-:a_pour_motif rdf:type owl:ObjectProperty ;
-    rdfs:domain :Reference ;
-    rdfs:range :Motif ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .             
+:Symptome_Dermatologique a owl:Class ;
+    rdfs:label "Symptôme dermatologique"@fr ;
+    rdfs:comment "Symptôme concernant la peau ou ses annexes."@fr ;
+    rdfs:subClassOf :Symptome .
 
-:a_pour_renseignement_clinique rdf:type owl:ObjectProperty ;
-    rdfs:domain :Reference ;
-    rdfs:range :Renseignement_Clinique ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .             
+:Symptome_General a owl:Class ;
+    rdfs:label "Symptôme général"@fr ;
+    rdfs:comment "Symptôme non limité à un organe précis et pouvant accompagner différentes maladies."@fr ;
+    rdfs:subClassOf :Symptome .
 
-:est_envoye_par rdf:type owl:ObjectProperty ;
-    rdfs:domain :Reference ;
-    rdfs:range :Personnel_Sante ;
-    owl:inverseOf :envoie_reference ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+:Allergie a owl:Class ;
+    rdfs:label "Allergie"@fr ;
+    rdfs:comment "Réaction d'hypersensibilité déclenchée par un allergène, notamment un médicament, un aliment ou une substance présente dans l'environnement."@fr .
 
-:envoie_reference rdf:type owl:ObjectProperty ;
-    rdfs:domain :Personnel_Sante ;
-    rdfs:range :Reference ;
-    owl:inverseOf :est_envoye_par ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .           
+:Arv_INI a owl:Class ;
+    rdfs:label "Inhibiteur de l’intégrase (INI)"@fr ;
+    rdfs:comment "Classe d'antirétroviraux qui empêche l'intégration du matériel génétique du VIH dans celui de la cellule hôte."@fr ;
+    rdfs:subClassOf :Antiretroviral .
 
-:est_recu_par rdf:type owl:ObjectProperty ;
-    rdfs:domain :Reference ;
-    rdfs:range :Personnel_Sante ;
-    owl:inverseOf :recoit_reference ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .       
+:Arv_INNTI a owl:Class ;
+    rdfs:label "Inhibiteur non nucléosidique de la transcriptase inverse (INNTI)"@fr ;
+    rdfs:comment "Classe d'antirétroviraux qui inhibe la transcriptase inverse du VIH par un mécanisme non nucléosidique."@fr ;
+    rdfs:subClassOf :Antiretroviral .
 
-:recoit_reference rdf:type owl:ObjectProperty ;
-    rdfs:domain :Personnel_Sante ;
-    rdfs:range :Reference ;
-    owl:inverseOf :est_recu_par ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
+:Arv_INTI a owl:Class ;
+    rdfs:label "Inhibiteur nucléosidique ou nucléotidique de la transcriptase inverse (INTI)"@fr ;
+    rdfs:comment "Classe d'antirétroviraux qui inhibe la transcriptase inverse du VIH au moyen d'analogues nucléosidiques ou nucléotidiques."@fr ;
+    rdfs:subClassOf :Antiretroviral .
 
-#################################################################
-#    Attributs
-#################################################################
+:Champignon a owl:Class ;
+    rdfs:label "Champignon"@fr ;
+    rdfs:comment "Organisme fongique dont certaines espèces peuvent provoquer des infections."@fr ;
+    rdfs:subClassOf :Agent_Infectieux .
 
-######## Maladie #########
+:Infection_Virale a owl:Class ;
+    rdfs:label "Infection virale"@fr ;
+    rdfs:comment "Infection provoquée par un virus."@fr ;
+    rdfs:subClassOf :Maladie_Infectieuse ;
+    owl:equivalentClass [ a owl:Restriction ;
+            owl:onProperty :a_pour_agent_infectieux ;
+            owl:someValuesFrom :Virus ] .
 
-######## Traitement #########
+:Mode_Transmission a owl:Class ;
+    rdfs:label "Mode de transmission"@fr ;
+    rdfs:comment "Modalité par laquelle un agent infectieux ou une maladie transmissible se propage."@fr .
 
-######## Biologie #########
+:Parasite a owl:Class ;
+    rdfs:label "Parasite"@fr ;
+    rdfs:comment "Organisme vivant aux dépens d'un hôte et susceptible de provoquer une infection."@fr ;
+    rdfs:subClassOf :Agent_Infectieux .
 
-######## Patient #########
+:Symptome_Respiratoire a owl:Class ;
+    rdfs:label "Symptôme respiratoire"@fr ;
+    rdfs:comment "Symptôme concernant la respiration ou les voies respiratoires."@fr ;
+    rdfs:subClassOf :Symptome .
 
-#################################################################
-#    Axiomes
-#################################################################
+:Traitement a owl:Class ;
+    rdfs:label "Traitement"@fr ;
+    rdfs:comment "Ensemble des mesures thérapeutiques mises en œuvre pour prévenir, contrôler ou traiter une maladie."@fr .
 
-######## Maladie #########
+:Bacterie a owl:Class ;
+    rdfs:label "Bactérie"@fr ;
+    rdfs:comment "Micro-organisme unicellulaire dont certaines espèces peuvent provoquer des infections."@fr ;
+    rdfs:subClassOf :Agent_Infectieux .
 
-:Maladie_Transmissible rdf:type owl:Class ;
-    owl:equivalentClass [ rdf:type owl:Restriction ;
-        owl:onProperty :a_pour_mode_transmission ;
-        owl:someValuesFrom :Mode_Transmission ] ;
-    owl:disjointWith :Maladie_Non_Transmissible .
+:Protocole_ARV a owl:Class ;
+    rdfs:label "Protocole antirétroviral"@fr ;
+    rdfs:comment "Schéma thérapeutique définissant les médicaments antirétroviraux à utiliser dans la prise en charge de l'infection par le VIH."@fr ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty :a_comme_antiretroviral ;
+            owl:someValuesFrom :Antiretroviral ],
+        [ a owl:Restriction ;
+            owl:minQualifiedCardinality "3"^^xsd:nonNegativeInteger ;
+            owl:onClass :Antiretroviral ;
+            owl:onProperty :a_comme_antiretroviral ] .
 
-:Maladie_Non_Transmissible rdf:type owl:Class ;
-    owl:disjointWith :Maladie_Transmissible .                                                           
+:Symptome a owl:Class ;
+    rdfs:label "Symptôme"@fr ;
+    rdfs:comment "Manifestation d'un trouble ou d'une maladie ressentie et rapportée par le patient."@fr ;
+    rdfs:subClassOf :Manifestation_Clinique .
 
-:Maladie_Infectieuse rdf:type owl:Class ;
-    owl:equivalentClass [ rdf:type owl:Restriction ;
-        owl:onProperty :a_pour_agent_infectieux ;
-        owl:someValuesFrom :Agent_Infectieux ] .
+:a_pour_agent_infectieux a owl:ObjectProperty ;
+    rdfs:label "a pour agent infectieux"@fr ;
+    rdfs:comment "Relie une maladie infectieuse à l'agent infectieux qui peut en être la cause."@fr ;
+    rdfs:domain :Maladie_Infectieuse ;
+    rdfs:range :Agent_Infectieux .
 
-:Infection_Bacterienne rdf:type owl:Class ;
-    owl:equivalentClass [ rdf:type owl:Restriction ;
-        owl:onProperty :a_pour_agent_infectieux ;
-        owl:someValuesFrom :Bacterie ] .                                                                                       
+:Agent_Infectieux a owl:Class ;
+    rdfs:label "Agent infectieux"@fr ;
+    rdfs:comment "Micro-organisme ou agent biologique capable de provoquer une infection."@fr .
 
-:Infection_Fongique rdf:type owl:Class ;
-    owl:equivalentClass [ rdf:type owl:Restriction ;
-        owl:onProperty :a_pour_agent_infectieux ;
-        owl:someValuesFrom :Champignon ] .                                                                         
+:Symptome_Digestif a owl:Class ;
+    rdfs:label "Symptôme digestif"@fr ;
+    rdfs:comment "Symptôme concernant le système digestif."@fr ;
+    rdfs:subClassOf :Symptome .
 
-:Infection_Parasitaire rdf:type owl:Class ;
-    owl:equivalentClass [ rdf:type owl:Restriction ;
-        owl:onProperty :a_pour_agent_infectieux ;
-        owl:someValuesFrom :Parasite ] .                                                      
+:Virus a owl:Class ;
+    rdfs:label "Virus"@fr ;
+    rdfs:comment "Agent infectieux qui se multiplie dans les cellules d'un hôte."@fr ;
+    rdfs:subClassOf :Agent_Infectieux .
 
-:Infection_Virale rdf:type owl:Class ;
-    owl:equivalentClass [ rdf:type owl:Restriction ;
-        owl:onProperty :a_pour_agent_infectieux ;
-        owl:someValuesFrom :Virus ] .   
-                                                                                            
-:Maladie_Co_Infectieuse rdf:type owl:Class ;
-    owl:subClassOf [ rdf:type owl:Restriction ;
-        owl:onProperty :est_une_co_infection ;
-        owl:someValuesFrom :Infection_VIH ] .                                                                
+:Antiretroviral a owl:Class ;
+    rdfs:label "Médicament antirétroviral"@fr ;
+    rdfs:comment "Médicament utilisé pour inhiber la réplication du VIH ou agir dans le cadre de la prévention de l'infection."@fr ;
+    rdfs:subClassOf :Medicament .
 
-:Maladie_Comorbidite rdf:type owl:Class ;
-    owl:subClassOf [ rdf:type owl:Restriction ;
-        owl:onProperty :est_une_comorbidite ;
-        owl:someValuesFrom :Infection_VIH ] .       
+:Infection_VIH a owl:Class ;
+    rdfs:label "Infection par le VIH"@fr ;
+    rdfs:comment "Infection provoquée par le virus de l'immunodéficience humaine (VIH)."@fr ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty :a_pour_stade ;
+            owl:someValuesFrom :Stade ],
+        :Infection_Virale .
 
-:Maladie_Opportuniste rdf:type owl:Class ;
-    owl:subClassOf [ rdf:type owl:Restriction ;
-        owl:onProperty :est_une_opportuniste ;
-        owl:someValuesFrom :Stade ] . 
+:Maladie_Non_Transmissible a owl:Class ;
+    rdfs:label "Maladie non transmissible"@fr ;
+    rdfs:comment "Maladie qui ne se transmet pas d'un individu à un autre."@fr ;
+    rdfs:subClassOf :Maladie ;
+    owl:disjointWith :Maladie_Transmissible .
 
-:Infection_VIH rdf:type owl:Class ;
-    rdfs:subClassOf [ rdf:type owl:Restriction ;
-        owl:onProperty :a_pour_stade ;
-        owl:someValuesFrom :Stade ] . 
+:Manifestation_Clinique a owl:Class ;
+    rdfs:label "Manifestation clinique"@fr ;
+    rdfs:comment "Signe ou symptôme observable ou rapporté au cours d'une maladie."@fr .
 
-:Stade_3 rdf:type owl:Class ;
-    rdfs:subClassOf [ rdf:type owl:Restriction ;
-        owl:onProperty :se_manifeste_par ;
-        owl:someValuesFrom :Manifestation_Clinique ] . 
+:Patient a owl:Class ;
+    rdfs:label "Patient"@fr ;
+    rdfs:comment "Personne vivant avec le VIH ou prise en charge dans le cadre du dispositif de suivi médical."@fr .
 
-:Stade_4 rdf:type owl:Class ;
-    rdfs:subClassOf  [ rdf:type owl:Restriction ;
-            owl:onProperty :se_manifeste_par ;
-            owl:someValuesFrom :Manifestation_Clinique 
-        ] , 
-        [ rdf:type owl:Restriction ;
-            owl:onProperty :a_pour_opportuniste ;
-            owl:someValuesFrom :Maladie_Opportuniste 
-        ] .   
+:Reference a owl:Class ;
+    rdfs:label "Référence médicale"@fr ;
+    rdfs:comment "Document ou démarche permettant d'orienter un patient vers un autre professionnel ou établissement de santé pour assurer la continuité de sa prise en charge."@fr ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onClass :Patient ;
+            owl:onProperty :concerne_patient ;
+            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+            owl:onClass :Personnel_Sante ;
+            owl:onProperty :est_envoye_par ;
+            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+            owl:onClass :Personnel_Sante ;
+            owl:onProperty :est_recu_par ;
+            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ] .
 
-######## Traitement #########
+:Signe a owl:Class ;
+    rdfs:label "Signe clinique"@fr ;
+    rdfs:comment "Manifestation objectivable constatée par un professionnel de santé lors de l'évaluation clinique."@fr ;
+    rdfs:subClassOf :Manifestation_Clinique .
 
-:Traitement_Infection_VIH rdf:type owl:Class ;
-    rdfs:subClassOf [ rdf:type owl:Restriction ;
-        owl:onProperty :a_pour_protocole_ARV ;
-        owl:someValuesFrom :Protocole_ARV ] . 
+:Symptome_Neurologique a owl:Class ;
+    rdfs:label "Symptôme neurologique"@fr ;
+    rdfs:comment "Symptôme concernant le système nerveux."@fr ;
+    rdfs:subClassOf :Symptome .
 
-:Protocole_ARV rdf:type owl:Class ;
-    rdfs:subClassOf [ rdf:type owl:Restriction ;
-        owl:onProperty :a_comme_antiretroviral ;
-        owl:someValuesFrom :Antiretroviral ] . 
+:Maladie a owl:Class ;
+    rdfs:label "Maladie"@fr ;
+    rdfs:comment "État pathologique pouvant affecter un individu et être pris en compte dans le suivi médical des personnes vivant avec le VIH."@fr .
 
-:Protocole_ARV rdf:type owl:Class ;
-    rdfs:subClassOf [ rdf:type owl:Restriction ;
-        owl:onProperty :a_comme_antiretroviral ;
-        owl:minQualifiedCardinality "3"^^xsd:nonNegativeInteger ;
-        owl:onClass :Antiretroviral ] .   
+:Maladie_Infectieuse a owl:Class ;
+    rdfs:label "Maladie infectieuse"@fr ;
+    rdfs:comment "Maladie provoquée par un agent infectieux, tel qu'une bactérie, un champignon, un parasite ou un virus."@fr ;
+    rdfs:subClassOf :Maladie ;
+    owl:equivalentClass [ a owl:Restriction ;
+            owl:onProperty :a_pour_agent_infectieux ;
+            owl:someValuesFrom :Agent_Infectieux ] .
 
-######## Biologie #########
+:Personnel_Sante a owl:Class ;
+    rdfs:label "Personnel de santé"@fr ;
+    rdfs:comment "Professionnel de santé participant à la prise en charge, au suivi ou à l'orientation du patient."@fr .
 
-######## Patient #########
+:Stade a owl:Class ;
+    rdfs:label "Stade clinique de l'infection par le VIH"@fr ;
+    rdfs:comment "Stade décrivant l'évolution clinique de l'infection par le VIH selon la classification retenue."@fr .
 
-:Reference rdf:type owl:Class ;
-    rdfs:subClassOf [ rdf:type owl:Restriction ;
-        owl:onProperty :concerne_patient ;
-        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-        owl:onClass :Patient 
-    ],
-    [ rdf:type owl:Restriction ;
-        owl:onProperty :est_envoye_par ;
-        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-        owl:onClass :Personnel_Sante
-    ] ,
-    [ rdf:type owl:Restriction ;
-        owl:onProperty :est_recu_par ;
-        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-        owl:onClass :Personnel_Sante
-    ] .
+:Examen_Biologique a owl:Class ;
+    rdfs:label "Examen biologique"@fr ;
+    rdfs:comment "Examen ou mesure biologique réalisé dans le cadre du dépistage, du diagnostic, du suivi ou de l'évaluation de l'état de santé d'une personne vivant avec le VIH."@fr .
 
-#################################################################
-# Relations entre sous-domaines    
-#################################################################
-
-:a_pour_maladie rdf:type owl:ObjectProperty ;
-    rdfs:domain :Patient ;
-    rdfs:range :Maladie ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
-
-:a_pour_infection_VIH rdf:type owl:ObjectProperty ;
-    rdfs:subPropertyOf :a_pour_maladie ;
-    rdfs:domain :Patient ;
-    rdfs:range :Infection_VIH ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
-
-:a_pour_examen rdf:type owl:ObjectProperty ;
-    rdfs:domain :Patient ;
-    rdfs:range :Examen_Biologique ;
-    owl:inverseOf :est_examen_de ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
-
-:est_examen_de rdf:type owl:ObjectProperty ;
-    rdfs:domain :Examen_Biologique ;
-    rdfs:range :Patient ;
-    owl:inverseOf :a_pour_examen ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
-
-:a_pour_traitement rdf:type owl:ObjectProperty ;
-    rdfs:domain :Patient ;
-    rdfs:range :Traitement ;
-    owl:inverseOf :est_traitement_de ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
-
-:est_traitement_de rdf:type owl:ObjectProperty ;
-    rdfs:domain :Traitement ;
-    rdfs:range :Patient ;
-    owl:inverseOf :a_pour_traitement ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
-
-:traite_maladie rdf:type owl:ObjectProperty ;
-    rdfs:domain :Traitement ;
-    rdfs:range :Maladie ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
-
-:traite_infection_VIH rdf:type owl:ObjectProperty ;
-    rdfs:subPropertyOf :traite_maladie ;
-    rdfs:domain :Traitement_Infection_VIH ;
-    rdfs:range :Infection_VIH ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
-
-:examine_maladie rdf:type owl:ObjectProperty ;
-    rdfs:domain :Examen_Biologique ;
-    rdfs:range :Maladie ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
-
-:examine_infection_VIH rdf:type owl:ObjectProperty ;
-    rdfs:subPropertyOf :examine_maladie ;
-    rdfs:domain :Examen_Infection_VIH ;
-    rdfs:range :Infection_VIH ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         

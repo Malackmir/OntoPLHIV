@@ -13,273 +13,654 @@
 
 ### Maladie ###
 :Maladie rdf:type owl:Class ;
-    rdfs:label "Maladie."@fr ;
-    rdfs:comment "État pathologique affectant un individu et pouvant être pris en compte dans le suivi médical des personnes vivant avec le VIH."@fr .
+    rdfs:label "Maladie"@fr ;
+    rdfs:comment "État pathologique pouvant affecter un individu et être pris en compte dans le suivi médical des personnes vivant avec le VIH."@fr .
 
     ### Maladie Transmissible ###
     :Maladie_Transmissible rdf:type owl:Class ;
         rdfs:subClassOf :Maladie_Infectieuse ;
         owl:disjointWith :Maladie_Non_Transmissible ;
-        rdfs:comment "C'est une maladie transmissible."@fr ;
-        rdfs:label "Maladie Transmissible."@fr .
+        rdfs:comment "Maladie susceptible de se transmettre d'un individu à un autre ou par un autre mode de transmission."@fr ;
+        rdfs:label "Maladie transmissible"@fr .
 
     ### Maladie Non Transmissible ###
     :Maladie_Non_Transmissible rdf:type owl:Class ;
         rdfs:subClassOf :Maladie ;
         owl:disjointWith :Maladie_Transmissible ;
-        rdfs:comment "C'est une maladie non transmissible."@fr ;
-        rdfs:label "Maladie Non Transmissible."@fr .
+        rdfs:comment "Maladie qui ne se transmet pas d'un individu à un autre."@fr ;
+        rdfs:label "Maladie non transmissible"@fr .
 
-            :Cancer rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Non_Transmissible ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                 
+    ### Cancers ###
+    :Cancer rdf:type owl:Class ;
+        rdfs:subClassOf :Maladie_Non_Transmissible ;
+        rdfs:comment "Maladie caractérisée par une prolifération incontrôlée de cellules anormales pouvant envahir les tissus voisins ou se propager à distance."@fr ;
+        rdfs:label "Cancer"@fr .
 
-            :Diabete rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Non_Transmissible ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                      
+        :Cancer_Col_Uterin rdf:type owl:Class ;
+            rdfs:subClassOf :Cancer ;
+            rdfs:comment "Cancer qui se développe au niveau du col de l'utérus."@fr ;
+            rdfs:label "Cancer du col de l'utérus"@fr .
 
-            :Maladie_Cardiovasculaire rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Non_Transmissible ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                      
+        :Cancer_Anal rdf:type owl:Class ;
+            rdfs:subClassOf :Cancer ;
+            rdfs:comment "Cancer qui se développe au niveau du canal anal ou de la marge anale."@fr ;
+            rdfs:label "Cancer anal"@fr .
 
-            :Maladie_Inflammatoire rdf:type owl:Class ;
-                rdfs:subClassOf :Maladie_Non_Transmissible ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                                                                                
+        :Lymphome_Non_Hodgkinien rdf:type owl:Class ;
+            rdfs:subClassOf :Cancer ;
+            rdfs:comment "Groupe de cancers qui se développent à partir des lymphocytes."@fr ;
+            rdfs:label "Lymphome non hodgkinien"@fr .
+
+        :Sarcome_Kaposi rdf:type owl:Class ;
+            rdfs:subClassOf :Cancer ;
+            rdfs:comment "Tumeur associée à l'herpèsvirus humain 8, pouvant apparaître notamment chez les personnes immunodéprimées."@fr ;
+            rdfs:label "Sarcome de Kaposi"@fr .
+
+    ### Diabète ###
+    :Diabete rdf:type owl:Class ;
+        rdfs:subClassOf :Maladie_Non_Transmissible ;
+        rdfs:comment "Maladie métabolique caractérisée par une hyperglycémie chronique."@fr ;
+        rdfs:label "Diabète"@fr .
+
+        :Diabete_Type_1 rdf:type owl:Class ;
+            rdfs:subClassOf :Diabete ;
+            rdfs:comment "Forme de diabète généralement liée à une destruction auto-immune des cellules bêta du pancréas."@fr ;
+            rdfs:label "Diabète de type 1"@fr .
+
+        :Diabete_Type_2 rdf:type owl:Class ;
+            rdfs:subClassOf :Diabete ;
+            rdfs:comment "Forme de diabète caractérisée principalement par une résistance à l'insuline et une insuffisance progressive de sa sécrétion."@fr ;
+            rdfs:label "Diabète de type 2"@fr .
+
+    ### Maladies cardiovasculaires ###
+    :Maladie_Cardiovasculaire rdf:type owl:Class ;
+        rdfs:subClassOf :Maladie_Non_Transmissible ;
+        rdfs:comment "Maladie affectant le cœur ou les vaisseaux sanguins."@fr ;
+        rdfs:label "Maladie cardiovasculaire"@fr .
+
+        :Hypertension_Arterielle rdf:type owl:Class ;
+            rdfs:subClassOf :Maladie_Cardiovasculaire ;
+            rdfs:comment "Affection caractérisée par une élévation persistante de la pression artérielle."@fr ;
+            rdfs:label "Hypertension artérielle"@fr .
+
+        :Cardiopathie_Ischemique rdf:type owl:Class ;
+            rdfs:subClassOf :Maladie_Cardiovasculaire ;
+            rdfs:comment "Maladie cardiaque résultant d'un apport insuffisant de sang oxygéné au muscle cardiaque."@fr ;
+            rdfs:label "Cardiopathie ischémique"@fr .
+
+        :Insuffisance_Cardiaque rdf:type owl:Class ;
+            rdfs:subClassOf :Maladie_Cardiovasculaire ;
+            rdfs:comment "Syndrome dans lequel le cœur ne parvient pas à assurer un débit sanguin adapté aux besoins de l'organisme."@fr ;
+            rdfs:label "Insuffisance cardiaque"@fr .
+
+    ### Maladies inflammatoires ###
+    :Maladie_Inflammatoire rdf:type owl:Class ;
+        rdfs:subClassOf :Maladie_Non_Transmissible ;
+        rdfs:comment "Maladie caractérisée par une réaction inflammatoire anormale, persistante ou excessive, qui n'est pas nécessairement due à une infection."@fr ;
+        rdfs:label "Maladie inflammatoire"@fr .
+
+        :Arthrite_Rhumatoide rdf:type owl:Class ;
+            rdfs:subClassOf :Maladie_Inflammatoire ;
+            rdfs:comment "Maladie inflammatoire chronique pouvant affecter plusieurs articulations."@fr ;
+            rdfs:label "Arthrite rhumatoïde"@fr .
+
+        :Lupus_Erythemateux_Systemique rdf:type owl:Class ;
+            rdfs:subClassOf :Maladie_Inflammatoire ;
+            rdfs:comment "Maladie auto-immune systémique pouvant toucher plusieurs organes."@fr ;
+            rdfs:label "Lupus érythémateux systémique"@fr .
+
+    ### Autres maladies non transmissibles ###
+    :Maladie_Renale_Chronique rdf:type owl:Class ;
+        rdfs:subClassOf :Maladie_Non_Transmissible ;
+        rdfs:comment "Altération persistante de la structure ou de la fonction des reins."@fr ;
+        rdfs:label "Maladie rénale chronique"@fr .
+
+    :Maladie_Respiratoire_Chronique rdf:type owl:Class ;
+        rdfs:subClassOf :Maladie_Non_Transmissible ;
+        rdfs:comment "Maladie chronique affectant les voies respiratoires ou les poumons."@fr ;
+        rdfs:label "Maladie respiratoire chronique"@fr .
+
+    :Maladie_Neurologique_Non_Infectieuse rdf:type owl:Class ;
+        rdfs:subClassOf :Maladie_Non_Transmissible ;
+        rdfs:comment "Maladie du système nerveux qui n'est pas causée par un agent infectieux."@fr ;
+        rdfs:label "Maladie neurologique non infectieuse"@fr .                                                                              
 
     ### Maladie Infectieuse ###
     :Maladie_Infectieuse rdf:type owl:Class ;
         rdfs:subClassOf :Maladie ;
-        rdfs:comment "C'est une maladie infectieuse."@fr ;
-        rdfs:label "Maladie Infectieuse."@fr .
+        rdfs:comment "Maladie provoquée par un agent infectieux, tel qu'une bactérie, un champignon, un parasite ou un virus."@fr ;
+        rdfs:label "Maladie infectieuse"@fr .
 
             ### Infection Bacterienne ###
             :Infection_Bacterienne rdf:type owl:Class ;
                 rdfs:subClassOf :Maladie_Infectieuse ;
-                rdfs:comment "C'est une infection causée par une bacterie."@fr ;
-                rdfs:label "Infection Bacterienne."@fr .                                                                                         
+                rdfs:comment "Infection provoquée par une bactérie."@fr ;
+                rdfs:label "Infection bactérienne"@fr .
+
+                :Tuberculose rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Bacterienne ;
+                    rdfs:comment "Maladie infectieuse principalement causée par Mycobacterium tuberculosis, pouvant toucher les poumons et d'autres organes."@fr ;
+                    rdfs:label "Tuberculose"@fr .
+
+                :Pneumonie_Bacterienne rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Bacterienne ;
+                    rdfs:comment "Infection bactérienne du tissu pulmonaire."@fr ;
+                    rdfs:label "Pneumonie bactérienne"@fr .
+
+                :Salmonellose rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Bacterienne ;
+                    rdfs:comment "Infection causée par des bactéries du genre Salmonella."@fr ;
+                    rdfs:label "Salmonellose"@fr .
+
+                :Syphilis rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Bacterienne ;
+                    rdfs:comment "Infection sexuellement transmissible causée par Treponema pallidum."@fr ;
+                    rdfs:label "Syphilis"@fr .                                                                                  
 
             ### Infection Fongique ###
             :Infection_Fongique rdf:type owl:Class ;
                 rdfs:subClassOf :Maladie_Infectieuse ;
-                rdfs:comment "C'est une infection causée par un champignon."@fr ;
-                rdfs:label "Infection Fongique."@fr .                                                                          
+                rdfs:comment "Infection provoquée par un champignon."@fr ;
+                rdfs:label "Infection fongique"@fr .
+
+                :Candidose rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Fongique ;
+                    rdfs:comment "Infection causée par des champignons du genre Candida."@fr ;
+                    rdfs:label "Candidose"@fr .
+
+                :Cryptococcose rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Fongique ;
+                    rdfs:comment "Infection causée par des champignons du genre Cryptococcus, pouvant notamment provoquer une méningite chez les personnes immunodéprimées."@fr ;
+                    rdfs:label "Cryptococcose"@fr .
+
+                :Pneumocystose rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Fongique ;
+                    rdfs:comment "Infection pulmonaire opportuniste causée par Pneumocystis jirovecii."@fr ;
+                    rdfs:label "Pneumocystose"@fr .
+
+                :Aspergillose rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Fongique ;
+                    rdfs:comment "Infection ou affection liée à des champignons du genre Aspergillus."@fr ;
+                    rdfs:label "Aspergillose"@fr .                                                                       
 
             ### Infection Parasitaire ###
             :Infection_Parasitaire rdf:type owl:Class ;
                 rdfs:subClassOf :Maladie_Infectieuse ;
-                rdfs:comment "C'est une infection causée par un parasite."@fr ;
-                rdfs:label "Infection Parasitaire."@fr .                                                         
+                rdfs:comment "Infection provoquée par un parasite."@fr ;
+                rdfs:label "Infection parasitaire"@fr .
+
+                :Toxoplasmose rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Parasitaire ;
+                    rdfs:comment "Infection causée par Toxoplasma gondii, pouvant entraîner une atteinte cérébrale chez les personnes immunodéprimées."@fr ;
+                    rdfs:label "Toxoplasmose"@fr .
+
+                :Paludisme rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Parasitaire ;
+                    rdfs:comment "Maladie parasitaire transmise principalement par la piqûre de moustiques Anopheles infectés."@fr ;
+                    rdfs:label "Paludisme"@fr .
+
+                :Leishmaniose rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Parasitaire ;
+                    rdfs:comment "Maladie parasitaire causée par des protozoaires du genre Leishmania."@fr ;
+                    rdfs:label "Leishmaniose"@fr .                                                      
 
             ### Infection Virale ###
             :Infection_Virale rdf:type owl:Class ;
                 rdfs:subClassOf :Maladie_Infectieuse ;
-                rdfs:comment "C'est une infection causée par un virus."@fr ;
-                rdfs:label "Infection Virale."@fr .
+                rdfs:comment "Infection provoquée par un virus."@fr ;
+                rdfs:label "Infection virale"@fr .
 
 
-                    ### Infection VIH ###
-                    :Infection_VIH rdf:type owl:Class ;
-                        rdfs:subClassOf :Infection_Virale ; 
-                        rdfs:comment "C'est la maladie du VIH/SIDA."@fr ;
-                        rdfs:label "Infection VIH."@fr .                                                                                                                                  
+                ### Infection VIH ###
+                :Infection_VIH rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Virale ; 
+                    rdfs:comment "Infection provoquée par le virus de l'immunodéficience humaine (VIH)."@fr ;
+                    rdfs:label "Infection par le VIH"@fr .
+
+                :Hepatite_B rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Virale ;
+                    rdfs:comment "Infection du foie causée par le virus de l'hépatite B."@fr ;
+                    rdfs:label "Hépatite B"@fr .
+
+                :Hepatite_C rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Virale ;
+                    rdfs:comment "Infection du foie causée par le virus de l'hépatite C."@fr ;
+                    rdfs:label "Hépatite C"@fr .
+
+                :Herpes_Zoster rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Virale ;
+                    rdfs:comment "Maladie due à la réactivation du virus varicelle-zona."@fr ;
+                    rdfs:label "Zona"@fr .
+
+                :Infection_Cytomegalovirus rdf:type owl:Class ;
+                    rdfs:subClassOf :Infection_Virale ;
+                    rdfs:comment "Infection causée par le cytomégalovirus, susceptible de provoquer des complications chez les personnes immunodéprimées."@fr ;
+                    rdfs:label "Infection à cytomégalovirus"@fr .                                                                                                                                
 
     ### Maladie Co Infectieuse ###
     :Maladie_Co_Infectieuse rdf:type owl:Class ;
         rdfs:subClassOf :Maladie_Infectieuse ;
-        rdfs:comment "C'est une maladie infectieuse qui co existe avec la maladie du VIH/SIDA."@fr ;
-        rdfs:label "Maladie Co Infectieuse."@fr .                                         
+        rdfs:comment "Infection concomitante à l'infection par le VIH, provoquée par un autre agent infectieux."@fr ;
+        rdfs:label "Co-infection associée au VIH"@fr .
 
     ### Maladie Comorbidite ###
     :Maladie_Comorbidite rdf:type owl:Class ;
         rdfs:subClassOf :Maladie ;
-        rdfs:comment "C'est une maladie non transmissible qui co existe avec la maladie du VIH/SIDA."@fr ;
-        rdfs:label "Maladie Comorbidité."@fr .       
+        rdfs:comment "Maladie ou affection concomitante à l'infection par le VIH."@fr ;
+        rdfs:label "Comorbidité associée au VIH"@fr .
 
     ### Maladie Opportuniste ###
     :Maladie_Opportuniste rdf:type owl:Class ;
         rdfs:subClassOf :Maladie ;
-        rdfs:comment "C'est une maladie infectieuse qui apparait au Stade SIDA."@fr ;
-        rdfs:label "Maladie Opportuniste."@fr . 
+        rdfs:comment "Maladie survenant plus fréquemment ou sous une forme plus grave lorsque les défenses immunitaires sont affaiblies."@fr ;
+        rdfs:label "Maladie opportuniste"@fr .
                                                                                                                                   
 
 ### Stade OMS ###
 :Stade rdf:type owl:Class ;
-    rdfs:comment "C'est un Stade du VIH/SIDA définit par l'OMS."@fr ;
-    rdfs:label "Stade OMS."@fr .  
+    rdfs:comment "Stade décrivant l'évolution clinique de l'infection par le VIH selon la classification retenue."@fr ;
+    rdfs:label "Stade clinique de l'infection par le VIH"@fr .
 
     ### Stade 1 OMS ###
     :Stade_1 rdf:type owl:Class ;
         rdfs:subClassOf :Stade ;
-        rdfs:comment "C'est la primo infection du VIH/SIDA définit par l'OMS."@fr ;
-        rdfs:label "Stade Primo Infection."@fr .
+        rdfs:comment "Stade clinique correspondant notamment à une infection asymptomatique ou à une adénopathie persistante généralisée selon la classification de l'OMS."@fr ;
+        rdfs:label "Stade 1 de l'OMS"@fr .
 
     ### Stade 2 OMS ###
     :Stade_2 rdf:type owl:Class ;
         rdfs:subClassOf :Stade ;
-        rdfs:comment "C'est la partie asymptomatique du VIH/SIDA définit par l'OMS."@fr ;
-        rdfs:label "Stade Asymptomatique."@fr .
+        rdfs:comment "Stade clinique caractérisé par des symptômes légers selon la classification de l'OMS."@fr ;
+        rdfs:label "Stade 2 de l'OMS"@fr .
 
     ### Stade 3 OMS ###
     :Stade_3 rdf:type owl:Class ;
         rdfs:subClassOf :Stade ;
-        rdfs:comment "C'est la partie symptomatique du VIH/SIDA définit par l'OMS."@fr ;
-        rdfs:label "Stade Symptomatique."@fr .
+        rdfs:comment "Stade clinique caractérisé par des symptômes avancés selon la classification de l'OMS."@fr ;
+        rdfs:label "Stade 3 de l'OMS"@fr .
 
     ### Stade 4 OMS ###
     :Stade_4 rdf:type owl:Class ;
         rdfs:subClassOf :Stade ;
-        rdfs:comment "C'est le Stade SIDA du VIH/SIDA définit par l'OMS."@fr ;
-        rdfs:label "Stade SIDA."@fr .                        
+        rdfs:comment "Stade clinique correspondant à des affections définissant le SIDA selon la classification de l'OMS."@fr ;
+        rdfs:label "Stade 4 de l'OMS (SIDA)"@fr .
 
 ### Mode de Transmission ###
 :Mode_Transmission rdf:type owl:Class ;
-    rdfs:comment "C'est le mode de transmission de la maladie infectieuse."@fr ;
-    rdfs:label "Mode Transmission."@fr .
+    rdfs:comment "Modalité par laquelle un agent infectieux ou une maladie transmissible se propage."@fr ;
+    rdfs:label "Mode de transmission"@fr .
 
     :Transmission_Directe rdf:type owl:Class ;
         rdfs:subClassOf :Mode_Transmission ;
-        rdfs:comment "C'est le mode de transmission directe de la maladie infectieuse."@fr ;
-        rdfs:label "Transmission Directe."@fr .
+        rdfs:comment "Transmission par contact direct entre une source infectieuse et une personne exposée."@fr ;
+        rdfs:label "Transmission directe"@fr .
 
     :Transmission_Indirecte rdf:type owl:Class ;
         rdfs:subClassOf :Mode_Transmission ;
-        rdfs:comment "C'est le mode de transmission indirecte de la maladie infectieuse."@fr ;
-        rdfs:label "Transmission Indirecte."@fr .        
+        rdfs:comment "Transmission par l'intermédiaire d'un vecteur, d'un objet, d'un milieu ou d'un autre support."@fr ;
+        rdfs:label "Transmission indirecte"@fr .
 
 ### Agent de Transmission ###
 :Agent_Infectieux rdf:type owl:Class ;
-    rdfs:comment "C'est l'agent infectieux qui est responsable de la maladie infectieuse."@fr ;
-    rdfs:label "Agent Infectieux."@fr .
+    rdfs:comment "Micro-organisme ou agent biologique capable de provoquer une infection."@fr ;
+    rdfs:label "Agent infectieux"@fr .
 
     ### Agent Bacterie ###
     :Bacterie rdf:type owl:Class ;
         rdfs:subClassOf :Agent_Infectieux ;
-        rdfs:comment "C'est la bacterie qui est responsable de la maladie infectieuse."@fr ;
-        rdfs:label "Agent Bacterie."@fr .
+        rdfs:comment "Micro-organisme unicellulaire dont certaines espèces peuvent provoquer des infections."@fr ;
+        rdfs:label "Bactérie"@fr .
+
+        :Mycobacterium_tuberculosis rdf:type owl:Class ;
+            rdfs:subClassOf :Bacterie ;
+            rdfs:comment "Bactérie responsable de la tuberculose."@fr ;
+            rdfs:label "Mycobacterium tuberculosis"@fr .
+
+        :Streptococcus_pneumoniae rdf:type owl:Class ;
+            rdfs:subClassOf :Bacterie ;
+            rdfs:comment "Bactérie pouvant provoquer notamment des pneumonies et d'autres infections invasives."@fr ;
+            rdfs:label "Streptococcus pneumoniae"@fr .
+
+        :Salmonella rdf:type owl:Class ;
+            rdfs:subClassOf :Bacterie ;
+            rdfs:comment "Genre bactérien comprenant des espèces responsables de salmonelloses."@fr ;
+            rdfs:label "Salmonella"@fr .
+
+        :Treponema_pallidum rdf:type owl:Class ;
+            rdfs:subClassOf :Bacterie ;
+            rdfs:comment "Bactérie responsable de la syphilis."@fr ;
+            rdfs:label "Treponema pallidum"@fr .
+
+        :Haemophilus_influenzae rdf:type owl:Class ;
+            rdfs:subClassOf :Bacterie ;
+            rdfs:comment "Bactérie pouvant provoquer différentes infections respiratoires et invasives."@fr ;
+            rdfs:label "Haemophilus influenzae"@fr .
 
     ### Agent Champignon ###
     :Champignon rdf:type owl:Class ;
         rdfs:subClassOf :Agent_Infectieux ;
-        rdfs:comment "C'est le champignon qui est responsable de la maladie infectieuse."@fr ;
-        rdfs:label "Agent Champignon."@fr .
+        rdfs:comment "Organisme fongique dont certaines espèces peuvent provoquer des infections."@fr ;
+        rdfs:label "Champignon"@fr .
+
+        :Candida_albicans rdf:type owl:Class ;
+            rdfs:subClassOf :Champignon ;
+            rdfs:comment "Espèce fongique fréquemment responsable de candidoses."@fr ;
+            rdfs:label "Candida albicans"@fr .
+
+        :Cryptococcus_neoformans rdf:type owl:Class ;
+            rdfs:subClassOf :Champignon ;
+            rdfs:comment "Champignon pouvant provoquer une cryptococcose, notamment une méningite chez les personnes immunodéprimées."@fr ;
+            rdfs:label "Cryptococcus neoformans"@fr .
+
+        :Pneumocystis_jirovecii rdf:type owl:Class ;
+            rdfs:subClassOf :Champignon ;
+            rdfs:comment "Champignon responsable de la pneumocystose."@fr ;
+            rdfs:label "Pneumocystis jirovecii"@fr .
+
+        :Aspergillus_fumigatus rdf:type owl:Class ;
+            rdfs:subClassOf :Champignon ;
+            rdfs:comment "Espèce fongique pouvant provoquer notamment des aspergilloses pulmonaires."@fr ;
+            rdfs:label "Aspergillus fumigatus"@fr .
 
     ### Agent Parasite ###
     :Parasite rdf:type owl:Class ;
         rdfs:subClassOf :Agent_Infectieux ;
-        rdfs:comment "C'est le parasite qui est responsable de la maladie infectieuse."@fr ;
-        rdfs:label "Agent Parasite."@fr .
+        rdfs:comment "Organisme vivant aux dépens d'un hôte et susceptible de provoquer une infection."@fr ;
+        rdfs:label "Parasite"@fr .
+
+        :Toxoplasma_gondii rdf:type owl:Class ;
+            rdfs:subClassOf :Parasite ;
+            rdfs:comment "Protozoaire responsable de la toxoplasmose."@fr ;
+            rdfs:label "Toxoplasma gondii"@fr .
+
+        :Plasmodium_falciparum rdf:type owl:Class ;
+            rdfs:subClassOf :Parasite ;
+            rdfs:comment "Parasite responsable de la forme la plus grave du paludisme humain dans de nombreux contextes."@fr ;
+            rdfs:label "Plasmodium falciparum"@fr .
+
+        :Leishmania rdf:type owl:Class ;
+            rdfs:subClassOf :Parasite ;
+            rdfs:comment "Genre de protozoaires responsables des leishmanioses."@fr ;
+            rdfs:label "Leishmania"@fr .
+
+        :Cryptosporidium rdf:type owl:Class ;
+            rdfs:subClassOf :Parasite ;
+            rdfs:comment "Genre de parasites protozoaires pouvant provoquer des infections intestinales, notamment chez les personnes immunodéprimées."@fr ;
+            rdfs:label "Cryptosporidium"@fr .
 
     ### Agent Virus ###
     :Virus rdf:type owl:Class ;
         rdfs:subClassOf :Agent_Infectieux ;
-        rdfs:comment "C'est le virus qui est responsable de la maladie infectieuse."@fr ;
-        rdfs:label "Agent Virus."@fr .    
+        rdfs:comment "Agent infectieux qui se multiplie dans les cellules d'un hôte."@fr ;
+        rdfs:label "Virus"@fr .
+
+        :VIH rdf:type owl:Class ;
+            rdfs:subClassOf :Virus ;
+            rdfs:comment "Virus de l'immunodéficience humaine, responsable de l'infection par le VIH."@fr ;
+            rdfs:label "Virus de l'immunodéficience humaine"@fr .
+
+        :Virus_Hepatite_B rdf:type owl:Class ;
+            rdfs:subClassOf :Virus ;
+            rdfs:comment "Virus responsable de l'hépatite B."@fr ;
+            rdfs:label "Virus de l'hépatite B"@fr .
+
+        :Virus_Hepatite_C rdf:type owl:Class ;
+            rdfs:subClassOf :Virus ;
+            rdfs:comment "Virus responsable de l'hépatite C."@fr ;
+            rdfs:label "Virus de l'hépatite C"@fr .
+
+        :Cytomegalovirus rdf:type owl:Class ;
+            rdfs:subClassOf :Virus ;
+            rdfs:comment "Virus de la famille des Herpesviridae pouvant provoquer des complications chez les personnes immunodéprimées."@fr ;
+            rdfs:label "Cytomégalovirus"@fr .
+
+        :Virus_Varicelle_Zona rdf:type owl:Class ;
+            rdfs:subClassOf :Virus ;
+            rdfs:comment "Virus responsable de la varicelle et du zona lors de sa réactivation."@fr ;
+            rdfs:label "Virus varicelle-zona"@fr .
+
+        :Herpesvirus_Humain_8 rdf:type owl:Class ;
+            rdfs:subClassOf :Virus ;
+            rdfs:comment "Virus associé au sarcome de Kaposi."@fr ;
+            rdfs:label "Herpèsvirus humain 8"@fr .
 
 ### Manifestation Clinique Maladie ###
 :Manifestation_Clinique rdf:type owl:Class ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .                                
+    rdfs:comment "Signe ou symptôme observable ou rapporté au cours d'une maladie."@fr ;
+    rdfs:label "Manifestation clinique"@fr .
 
     ### Signe Maladie ###
     :Signe rdf:type owl:Class ;
         rdfs:subClassOf :Manifestation_Clinique ;
-        rdfs:comment "C'est un signe de la maladie du VIH/SIDA."@fr ;
-        rdfs:label "Signe."@fr .     
+        rdfs:comment "Manifestation objectivable constatée par un professionnel de santé lors de l'évaluation clinique."@fr ;
+        rdfs:label "Signe clinique"@fr .
+        
+        :Fievre rdf:type owl:Class ;
+            rdfs:subClassOf :Signe ;
+            rdfs:comment "Élévation de la température corporelle au-dessus des valeurs normales."@fr ;
+            rdfs:label "Fièvre"@fr .
+
+        :Amaigrissement rdf:type owl:Class ;
+            rdfs:subClassOf :Signe ;
+            rdfs:comment "Diminution du poids corporel constatée chez un patient."@fr ;
+            rdfs:label "Amaigrissement"@fr .
+
+        :Adenopathie rdf:type owl:Class ;
+            rdfs:subClassOf :Signe ;
+            rdfs:comment "Augmentation du volume d'un ou de plusieurs ganglions lymphatiques."@fr ;
+            rdfs:label "Adénopathie"@fr .
+
+        :Paleur_Cutanéomuqueuse rdf:type owl:Class ;
+            rdfs:subClassOf :Signe ;
+            rdfs:comment "Pâleur de la peau et des muqueuses pouvant notamment être associée à une anémie."@fr ;
+            rdfs:label "Pâleur cutanéomuqueuse"@fr .
+
+        :Ictere rdf:type owl:Class ;
+            rdfs:subClassOf :Signe ;
+            rdfs:comment "Coloration jaune de la peau et des muqueuses, notamment liée à une accumulation de bilirubine."@fr ;
+            rdfs:label "Ictère"@fr .
+
+        :Lesion_Cutanée rdf:type owl:Class ;
+            rdfs:subClassOf :Signe ;
+            rdfs:comment "Altération visible de la peau associée à une affection."@fr ;
+            rdfs:label "Lésion cutanée"@fr .
+
+        :Candidose_Buccale rdf:type owl:Class ;
+            rdfs:subClassOf :Signe ;
+            rdfs:comment "Manifestation clinique caractérisée par une infection à Candida au niveau de la cavité buccale."@fr ;
+            rdfs:label "Candidose buccale"@fr .
+
+        :Deshydratation rdf:type owl:Class ;
+            rdfs:subClassOf :Signe ;
+            rdfs:comment "État résultant d'un déficit en eau de l'organisme, évalué à partir de signes cliniques et du contexte."@fr ;
+            rdfs:label "Déshydratation"@fr .   
 
     ### Symptome Maladie ###
     :Symptome rdf:type owl:Class ;
         rdfs:subClassOf :Manifestation_Clinique ;
-        rdfs:comment "C'est un symptome d'une maladie."@fr ;
-        rdfs:label "Symptome."@fr .     
+        rdfs:comment "Manifestation d'un trouble ou d'une maladie ressentie et rapportée par le patient."@fr ;
+        rdfs:label "Symptôme"@fr .
 
         ### Symptome Respiratoire ###
         :Symptome_Respiratoire rdf:type owl:Class ;
             rdfs:subClassOf :Symptome ;
-            rdfs:comment "C'est un symptome respiratoire d'une maladie."@fr ;
-            rdfs:label "Symptome."@fr .   
+            rdfs:comment "Symptôme concernant la respiration ou les voies respiratoires."@fr ;
+            rdfs:label "Symptôme respiratoire"@fr .
 
             :Hemoptysie rdf:type owl:Class ;
                 rdfs:subClassOf :Symptome_Respiratoire ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                               
+                rdfs:comment "Émission de sang provenant des voies respiratoires lors d'un effort de toux."@fr ;
+                rdfs:label "Hémoptysie"@fr .
 
             :Toux_Chronique rdf:type owl:Class ;
                 rdfs:subClassOf :Symptome_Respiratoire ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                       
+                rdfs:comment "Toux persistante ou prolongée pouvant être associée à une affection respiratoire."@fr ;
+                rdfs:label "Toux chronique"@fr .
 
             :Dyspnee rdf:type owl:Class ;
                 rdfs:subClassOf :Symptome_Respiratoire ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                                                             
+                rdfs:comment "Sensation de difficulté respiratoire ou d'essoufflement."@fr ;
+                rdfs:label "Dyspnée"@fr .
+
+            :Douleur_Thoracique rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Respiratoire ;
+                rdfs:comment "Douleur ressentie au niveau du thorax, pouvant avoir différentes origines."@fr ;
+                rdfs:label "Douleur thoracique"@fr .
+
+            :Expectoration rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Respiratoire ;
+                rdfs:comment "Émission de sécrétions provenant des voies respiratoires lors de la toux."@fr ;
+                rdfs:label "Expectoration"@fr .                                                            
 
         ### Symptome Digestif ###
         :Symptome_Digestif rdf:type owl:Class ;
             rdfs:subClassOf :Symptome ;
-            rdfs:comment "C'est un symptome digestif d'une maladie."@fr ;
-            rdfs:label "Symptome."@fr .   
+            rdfs:comment "Symptôme concernant le système digestif."@fr ;
+            rdfs:label "Symptôme digestif"@fr .
 
             :Dysphagie rdf:type owl:Class ;
                 rdfs:subClassOf :Symptome_Digestif ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                           
+                rdfs:comment "Difficulté à avaler les aliments ou les liquides."@fr ;
+                rdfs:label "Dysphagie"@fr .
 
             :Vomissements rdf:type owl:Class ;
                 rdfs:subClassOf :Symptome_Digestif ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                       
+                rdfs:comment "Rejet actif du contenu de l'estomac par la bouche."@fr ;
+                rdfs:label "Vomissements"@fr .
 
             :Diarrhee_Chronique rdf:type owl:Class ;
                 rdfs:subClassOf :Symptome_Digestif ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                          
+                rdfs:comment "Épisodes de diarrhée persistants ou récurrents sur une période prolongée."@fr ;
+                rdfs:label "Diarrhée chronique"@fr .
 
             :Anorexie rdf:type owl:Class ;
                 rdfs:subClassOf :Symptome_Digestif ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                                            
+                rdfs:comment "Perte ou diminution importante de l'appétit."@fr ;
+                rdfs:label "Anorexie"@fr .
+
+            :Nausees rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Digestif ;
+                rdfs:comment "Sensation désagréable donnant envie de vomir."@fr ;
+                rdfs:label "Nausées"@fr .
+
+            :Douleur_Abdominale rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Digestif ;
+                rdfs:comment "Douleur ressentie au niveau de l'abdomen."@fr ;
+                rdfs:label "Douleur abdominale"@fr .
+
+            :Difficulte_Alimentaire rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Digestif ;
+                rdfs:comment "Difficulté rapportée par le patient lors de la prise alimentaire."@fr ;
+                rdfs:label "Difficulté alimentaire"@fr .                                           
 
         ### Symptome Dermatologique ###
         :Symptome_Dermatologique rdf:type owl:Class ;
             rdfs:subClassOf :Symptome ;
-            rdfs:comment "C'est un symptome d'une maladie."@fr ;
-            rdfs:label "Symptome."@fr .   
+            rdfs:comment "Symptôme concernant la peau ou ses annexes."@fr ;
+            rdfs:label "Symptôme dermatologique"@fr .
+
+            :Prurit rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Dermatologique ;
+                rdfs:comment "Sensation de démangeaison provoquant le besoin de se gratter."@fr ;
+                rdfs:label "Prurit"@fr .
+
+            :Eruption_Cutanée rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Dermatologique ;
+                rdfs:comment "Apparition de lésions cutanées multiples ou localisées."@fr ;
+                rdfs:label "Éruption cutanée"@fr .
+
+            :Ulcere_Cutané rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Dermatologique ;
+                rdfs:comment "Perte de substance cutanée pouvant atteindre les tissus sous-jacents."@fr ;
+                rdfs:label "Ulcère cutané"@fr .
+
+            :Alopécie rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Dermatologique ;
+                rdfs:comment "Perte partielle ou complète des cheveux ou des poils."@fr ;
+                rdfs:label "Alopécie"@fr . 
 
         ### Symptome Neurologique ###
         :Symptome_Neurologique rdf:type owl:Class ;
             rdfs:subClassOf :Symptome ;
-            rdfs:comment "C'est un symptome neurologique d'une maladie."@fr ;
-            rdfs:label "Symptome."@fr .    
+            rdfs:comment "Symptôme concernant le système nerveux."@fr ;
+            rdfs:label "Symptôme neurologique"@fr .
 
             :Neuropathies_Peripheriques rdf:type owl:Class ;
                 rdfs:subClassOf :Symptome_Neurologique ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                           
+                rdfs:comment "Affections des nerfs périphériques pouvant provoquer des douleurs, des fourmillements ou une diminution de la sensibilité."@fr ;
+                rdfs:label "Neuropathies périphériques"@fr .
 
             :Cephalee rdf:type owl:Class ;
                 rdfs:subClassOf :Symptome_Neurologique ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                       
+                rdfs:comment "Douleur ressentie au niveau de la tête."@fr ;
+                rdfs:label "Céphalée"@fr .
 
             :Deficit_Moteur rdf:type owl:Class ;
                 rdfs:subClassOf :Symptome_Neurologique ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                          
+                rdfs:comment "Diminution ou perte de la capacité à effectuer un mouvement volontaire."@fr ;
+                rdfs:label "Déficit moteur"@fr .
 
             :Convulsion rdf:type owl:Class ;
                 rdfs:subClassOf :Symptome_Neurologique ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                            
+                rdfs:comment "Épisode de manifestations motrices ou non motrices lié à une activité électrique anormale du cerveau."@fr ;
+                rdfs:label "Convulsion"@fr .
 
             :Coma rdf:type owl:Class ;
                 rdfs:subClassOf :Symptome_Neurologique ;
-                rdfs:comment " ."@fr ;
-                rdfs:label " ."@fr .                                          
+                rdfs:comment "État profond d'altération de la conscience caractérisé par l'absence d'éveil et l'impossibilité de réveiller le patient."@fr ;
+                rdfs:label "Coma"@fr .
 
+            :Paresthesie rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Neurologique ;
+                rdfs:comment "Sensation anormale, telle que des fourmillements ou des picotements."@fr ;
+                rdfs:label "Paresthésie"@fr .
+
+            :Trouble_Cognitif rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Neurologique ;
+                rdfs:comment "Altération d'une ou plusieurs fonctions cognitives, notamment la mémoire, l'attention ou le raisonnement."@fr ;
+                rdfs:label "Trouble cognitif"@fr .
+
+            :Confusion_Mentale rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Neurologique ;
+                rdfs:comment "Altération de l'état mental caractérisée notamment par une désorientation ou une difficulté à organiser la pensée."@fr ;
+                rdfs:label "Confusion mentale"@fr .                                         
+
+        ### Symptômes généraux ###
+        :Symptome_General rdf:type owl:Class ;
+            rdfs:subClassOf :Symptome ;
+            rdfs:comment "Symptôme non limité à un organe précis et pouvant accompagner différentes maladies."@fr ;
+            rdfs:label "Symptôme général"@fr .
+
+            :Fatigue rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_General ;
+                rdfs:comment "Sensation persistante de fatigue ou de manque d'énergie rapportée par le patient."@fr ;
+                rdfs:label "Fatigue"@fr .
+
+            :Sueurs_Nocturnes rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_General ;
+                rdfs:comment "Épisodes de transpiration importante survenant pendant le sommeil."@fr ;
+                rdfs:label "Sueurs nocturnes"@fr .
+
+            :Frissons rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_General ;
+                rdfs:comment "Sensation de froid accompagnée ou non de tremblements."@fr ;
+                rdfs:label "Frissons"@fr .
+
+            :Perte_Appetit rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_General ;
+                rdfs:comment "Diminution de l'envie de manger rapportée par le patient."@fr ;
+                rdfs:label "Perte d'appétit"@fr .
+
+        ### Symptômes ganglionnaires ###
+        :Symptome_Ganglionnaire rdf:type owl:Class ;
+            rdfs:subClassOf :Symptome ;
+            rdfs:comment "Manifestation clinique concernant un ou plusieurs ganglions lymphatiques."@fr ;
+            rdfs:label "Manifestation ganglionnaire"@fr .
+
+            :Douleur_Ganglionnaire rdf:type owl:Class ;
+                rdfs:subClassOf :Symptome_Ganglionnaire ;
+                rdfs:comment "Douleur ressentie au niveau d'un ou de plusieurs ganglions lymphatiques."@fr ;
+                rdfs:label "Douleur ganglionnaire"@fr .
 
 #################################################################
 #    Relations
@@ -289,16 +670,16 @@
 :a_pour_agent_infectieux rdf:type owl:ObjectProperty ;
     rdfs:domain :Maladie_Infectieuse ;
     rdfs:range :Agent_Infectieux ;
-    rdfs:comment "Une maladie infectieuse a un agent infectieux."@fr ;
-    rdfs:label "a pour agent infectieux."@fr .
+    rdfs:comment "Relie une maladie infectieuse à l'agent infectieux qui peut en être la cause."@fr ;
+    rdfs:label "a pour agent infectieux"@fr .
 
 
 ###  :a_pour_co_infection
 :a_pour_co_infection rdf:type owl:ObjectProperty ;
     rdfs:domain :Infection_VIH ;
     rdfs:range :Maladie_Infectieuse ;
-    rdfs:comment "Une maladie du VIH/SIDA co existe avec une maladie infectieuse."@fr ;
-    rdfs:label "a pour co infection."@fr .
+    rdfs:comment "Relie une infection par le VIH à une autre maladie infectieuse concomitante."@fr ;
+    rdfs:label "a pour co-infection"@fr .
 
 
 ###  :a_pour_comorbidite
@@ -306,8 +687,8 @@
     owl:inverseOf :est_une_comorbidite ;
     rdfs:domain :Infection_VIH ;
     rdfs:range :Maladie ;
-    rdfs:comment "Une maladie du VIH/SIDA co existe avec une maladie non transmissible."@fr ;
-    rdfs:label "a pour comorbidite."@fr .
+    rdfs:comment "Relie une infection par le VIH à une maladie ou affection concomitante."@fr ;
+    rdfs:label "a pour comorbidité"@fr .
 
 
 ###  :a_pour_manifestation
@@ -315,16 +696,16 @@
     owl:inverseOf :est_une_manifestation_de ;
     rdfs:domain :Maladie ;
     rdfs:range :Manifestation_Clinique ;
-    rdfs:comment "Une maladie a pour manisfestation clinique."@fr ;
-    rdfs:label "a pour manifestation."@fr .
+    rdfs:comment "Relie une maladie à l'un de ses signes ou symptômes."@fr ;
+    rdfs:label "a pour manifestation clinique"@fr .
 
 
 ###  :a_pour_mode_transmission
 :a_pour_mode_transmission rdf:type owl:ObjectProperty ;
     rdfs:domain :Maladie_Transmissible ;
     rdfs:range :Mode_Transmission ;
-    rdfs:comment "Une maladie transmissible a un mode de transmission."@fr ;
-    rdfs:label "a pour mode transmission."@fr .
+    rdfs:comment "Relie une maladie transmissible à son mode de transmission."@fr ;
+    rdfs:label "a pour mode de transmission"@fr .
 
 
 ###  :a_pour_opportuniste
@@ -332,16 +713,16 @@
     owl:inverseOf :est_une_opportuniste ;
     rdfs:domain :Stade ;
     rdfs:range :Maladie ;
-    rdfs:comment "Le Stade SIDA a une maladie opportuniste."@fr ;
-    rdfs:label "a pour opportuniste."@fr .
+    rdfs:comment "Relie un stade clinique de l'infection par le VIH à une maladie opportuniste associée."@fr ;
+    rdfs:label "est associée à une maladie opportuniste"@fr .
 
 
 ###  :a_pour_stade
 :a_pour_stade rdf:type owl:ObjectProperty ;
     rdfs:domain :Infection_VIH ;
     rdfs:range :Stade ;
-    rdfs:comment "Une maladie du VIH/SIDA a un Stade OMS."@fr ;
-    rdfs:label "a pour stade."@fr .
+    rdfs:comment "Relie l'infection par le VIH à un stade clinique."@fr ;
+    rdfs:label "a pour stade clinique"@fr .
 
 
 ###  :est_un_agent_infectieux
@@ -349,8 +730,8 @@
     owl:inverseOf :a_pour_agent_infectieux ;
     rdfs:domain :Agent_Infectieux ;
     rdfs:range :Maladie_Infectieuse ;
-    rdfs:comment "Un agent infectieux d'une maladie infectieuse."@fr ;
-    rdfs:label "est un agent infectieux."@fr .
+    rdfs:comment "Relation inverse de « a pour agent infectieux » : relie un agent infectieux à la maladie qu'il peut provoquer."@fr ;
+    rdfs:label "est l'agent infectieux de"@fr .
 
 
 ###  :est_un_mode_transmission
@@ -358,8 +739,8 @@
     owl:inverseOf :a_pour_mode_transmission ;
     rdfs:domain :Mode_Transmission ;
     rdfs:range :Maladie_Transmissible ;
-    rdfs:comment "Un mode de transmission d'une maladie transmissible."@fr ;
-    rdfs:label "est un mode transmission."@fr .
+    rdfs:comment "Relation inverse de « a pour mode de transmission » : relie un mode de transmission à la maladie concernée."@fr ;
+    rdfs:label "est le mode de transmission de"@fr .
 
 
 ###  :est_un_stade
@@ -367,8 +748,8 @@
     owl:inverseOf :a_pour_stade ;
     rdfs:domain :Stade ;
     rdfs:range :Infection_VIH ;
-    rdfs:comment "Un Stade OMS d'une maladie du VIH/SIDA."@fr ;
-    rdfs:label "est un stade."@fr .
+    rdfs:comment "Relation inverse de « a pour stade clinique » : relie un stade clinique à l'infection par le VIH concernée."@fr ;
+    rdfs:label "est un stade clinique de"@fr .
 
 
 ###  :est_une_co_infection
@@ -376,24 +757,24 @@
     owl:inverseOf :a_pour_co_infection ;
     rdfs:domain :Maladie_Infectieuse ;
     rdfs:range :Infection_VIH ;
-    rdfs:comment "Une maladie infectieuse co existe avec une maladie du du VIH/SIDA."@fr ;
-    rdfs:label "est une co infection."@fr .
+    rdfs:comment "Relation inverse de « a pour co-infection » : relie une autre infection à l'infection par le VIH concomitante."@fr ;
+    rdfs:label "est une co-infection associée à"@fr .
 
 
 ###  :est_une_comorbidite
 :est_une_comorbidite rdf:type owl:ObjectProperty ;
     rdfs:domain :Maladie ;
     rdfs:range :Infection_VIH ;
-    rdfs:comment "Une maladie transmissible co existe avec une maladie du du VIH/SIDA."@fr ;
-    rdfs:label "est une comorbidite."@fr .
+    rdfs:comment "Relation inverse de « a pour comorbidité » : relie une affection concomitante à l'infection par le VIH."@fr ;
+    rdfs:label "est une comorbidité associée à"@fr .
 
 
 ###  :est_une_manifestation_de
 :est_une_manifestation_de rdf:type owl:ObjectProperty ;
     rdfs:domain :Manifestation_Clinique ;
     rdfs:range :Maladie ;
-    rdfs:comment "Une manisfestation clinique d'une maladie ."@fr ;
-    rdfs:label "est une manifestation de ."@fr .
+    rdfs:comment "Relie un signe ou un symptôme à la maladie dont il constitue une manifestation."@fr ;
+    rdfs:label "est une manifestation clinique de"@fr .
 
 
 ###  :est_une_manifestation_du
@@ -401,24 +782,24 @@
     owl:inverseOf :se_manifeste_par ;
     rdfs:domain :Manifestation_Clinique ;
     rdfs:range :Stade ;
-    rdfs:comment "Une manisfestation clinique d'un stade ."@fr ;
-    rdfs:label "est une manifestation du ."@fr .
+    rdfs:comment "Relie une manifestation clinique à un stade de l'infection par le VIH."@fr ;
+    rdfs:label "est une manifestation clinique du stade"@fr .
 
 
 ###  :est_une_opportuniste
 :est_une_opportuniste rdf:type owl:ObjectProperty ;
     rdfs:domain :Maladie ;
     rdfs:range :Stade ;
-    rdfs:comment "Une maladie opportuniste apparait au Stade SIDA."@fr ;
-    rdfs:label "est une opportuniste."@fr .
+    rdfs:comment "Relie une maladie opportuniste au stade clinique auquel elle est associée."@fr ;
+    rdfs:label "est une maladie opportuniste associée au stade"@fr .
 
 
 ###  :se_manifeste_par
 :se_manifeste_par rdf:type owl:ObjectProperty ;
     rdfs:domain :Stade ;
     rdfs:range :Manifestation_Clinique ;
-    rdfs:comment "Un Stade a une manisfestation clinique."@fr ;
-    rdfs:label "se manifeste par."@fr .
+    rdfs:comment "Relie un stade clinique à un signe ou à un symptôme qui peut lui être associé."@fr ;
+    rdfs:label "se manifeste par"@fr .
 
 #################################################################
 #    Attributs
