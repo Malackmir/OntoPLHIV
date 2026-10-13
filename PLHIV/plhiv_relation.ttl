@@ -11,69 +11,93 @@
 # Relations entre sous-domaines    
 #################################################################
 
+#################################################################
+# Propriétés reliant le patient aux maladies
+#################################################################
+
 :a_pour_maladie rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;
     rdfs:range :Maladie ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
+    rdfs:comment "Indique une maladie diagnostiquée ou identifiée chez un patient dans le cadre de son suivi médical."@fr ;
+    rdfs:label "a pour maladie"@fr .
 
 :a_pour_infection_VIH rdf:type owl:ObjectProperty ;
     rdfs:subPropertyOf :a_pour_maladie ;
     rdfs:domain :Patient ;
     rdfs:range :Infection_VIH ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
+    rdfs:comment "Indique qu'un patient est atteint d'une infection par le virus de l'immunodéficience humaine (VIH)."@fr ;
+    rdfs:label "a pour infection par le VIH"@fr .
+
+
+#################################################################
+# Propriétés reliant le patient aux examens biologiques
+#################################################################
 
 :a_pour_examen rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;
     rdfs:range :Examen_Biologique ;
     owl:inverseOf :est_examen_de ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
+    rdfs:comment "Associe un patient aux examens biologiques réalisés ou prescrits dans le cadre de son suivi médical."@fr ;
+    rdfs:label "a pour examen biologique"@fr .
 
 :est_examen_de rdf:type owl:ObjectProperty ;
     rdfs:domain :Examen_Biologique ;
     rdfs:range :Patient ;
     owl:inverseOf :a_pour_examen ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
+    rdfs:comment "Indique le patient auquel se rapporte un examen biologique réalisé ou prescrit dans le cadre du suivi médical."@fr ;
+    rdfs:label "est un examen biologique de"@fr .
+
+
+#################################################################
+# Propriétés reliant le patient aux traitements
+#################################################################
 
 :a_pour_traitement rdf:type owl:ObjectProperty ;
     rdfs:domain :Patient ;
     rdfs:range :Traitement ;
     owl:inverseOf :est_traitement_de ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
+    rdfs:comment "Associe un patient aux traitements qui lui sont prescrits ou administrés dans le cadre de sa prise en charge médicale."@fr ;
+    rdfs:label "a pour traitement"@fr .
 
 :est_traitement_de rdf:type owl:ObjectProperty ;
     rdfs:domain :Traitement ;
     rdfs:range :Patient ;
     owl:inverseOf :a_pour_traitement ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
+    rdfs:comment "Indique le patient auquel un traitement est prescrit ou administré dans le cadre de sa prise en charge médicale."@fr ;
+    rdfs:label "est un traitement de"@fr .
+
+
+#################################################################
+# Propriétés reliant les traitements aux maladies
+#################################################################
 
 :traite_maladie rdf:type owl:ObjectProperty ;
     rdfs:domain :Traitement ;
     rdfs:range :Maladie ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
+    rdfs:comment "Indique la maladie ciblée par un traitement dans le cadre de sa prise en charge thérapeutique."@fr ;
+    rdfs:label "traite une maladie"@fr .
 
 :traite_infection_VIH rdf:type owl:ObjectProperty ;
     rdfs:subPropertyOf :traite_maladie ;
     rdfs:domain :Traitement_Infection_VIH ;
     rdfs:range :Infection_VIH ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
+    rdfs:comment "Indique qu'un traitement destiné à prendre en charge l'infection par le VIH cible cette infection."@fr ;
+    rdfs:label "traite l'infection par le VIH"@fr .
+
+
+#################################################################
+# Propriétés reliant les examens biologiques aux maladies
+#################################################################
 
 :examine_maladie rdf:type owl:ObjectProperty ;
     rdfs:domain :Examen_Biologique ;
     rdfs:range :Maladie ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
+    rdfs:comment "Associe un examen biologique à une maladie qu'il contribue à dépister, diagnostiquer, caractériser ou surveiller."@fr ;
+    rdfs:label "examine une maladie"@fr .
 
 :examine_infection_VIH rdf:type owl:ObjectProperty ;
     rdfs:subPropertyOf :examine_maladie ;
     rdfs:domain :Examen_Infection_VIH ;
     rdfs:range :Infection_VIH ;
-    rdfs:comment " ."@fr ;
-    rdfs:label " ."@fr .         
+    rdfs:comment "Associe un examen biologique spécifique de l'infection par le VIH à cette infection, notamment pour son dépistage, son diagnostic ou son suivi."@fr ;
+    rdfs:label "examine l'infection par le VIH"@fr .   
