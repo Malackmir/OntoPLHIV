@@ -14,6 +14,7 @@ SOURCES = [
     ONTOLOGY_DIR / "biologie.ttl",
     ONTOLOGY_DIR / "patient.ttl",
     ONTOLOGY_DIR / "traitement.ttl",
+    ONTOLOGY_DIR / "plhiv_relation.ttl",
 ]
 
 # Fichier final

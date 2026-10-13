@@ -803,14 +803,6 @@ plhiv: a owl:Ontology ;
     rdfs:comment "Infection causée par Toxoplasma gondii, pouvant entraîner une atteinte cérébrale chez les personnes immunodéprimées."@fr ;
     rdfs:subClassOf :Infection_Parasitaire .
 
-:Traitement_Infection_VIH a owl:Class ;
-    rdfs:label "Traitement de l’infection par le VIH"@fr ;
-    rdfs:comment "Prise en charge thérapeutique visant à contrôler l’infection par le VIH, notamment au moyen d’un traitement antirétroviral."@fr ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty :a_pour_protocole_ARV ;
-            owl:someValuesFrom :Protocole_ARV ],
-        :Traitement .
-
 :Transmission_Directe a owl:Class ;
     rdfs:label "Transmission directe"@fr ;
     rdfs:comment "Transmission par contact direct entre une source infectieuse et une personne exposée."@fr ;
@@ -917,6 +909,13 @@ plhiv: a owl:Ontology ;
     rdfs:domain :Medicament ;
     rdfs:range :Effet_Secondaire .
 
+:a_pour_infection_VIH a owl:ObjectProperty ;
+    rdfs:label " ."@fr ;
+    rdfs:comment " ."@fr ;
+    rdfs:domain :Patient ;
+    rdfs:range :Infection_VIH ;
+    rdfs:subPropertyOf :a_pour_maladie .
+
 :a_pour_intolerance_medicament a owl:ObjectProperty ;
     rdfs:label "a pour intolérance médicamenteuse"@fr ;
     rdfs:comment "Relie un patient à une intolérance médicamenteuse documentée dans son dossier médical."@fr ;
@@ -976,6 +975,20 @@ plhiv: a owl:Ontology ;
     rdfs:range :Stade ;
     owl:inverseOf :se_manifeste_par .
 
+:examine_infection_VIH a owl:ObjectProperty ;
+    rdfs:label " ."@fr ;
+    rdfs:comment " ."@fr ;
+    rdfs:domain :Examen_Infection_VIH ;
+    rdfs:range :Infection_VIH ;
+    rdfs:subPropertyOf :examine_maladie .
+
+:traite_infection_VIH a owl:ObjectProperty ;
+    rdfs:label " ."@fr ;
+    rdfs:comment " ."@fr ;
+    rdfs:domain :Traitement_Infection_VIH ;
+    rdfs:range :Infection_VIH ;
+    rdfs:subPropertyOf :traite_maladie .
+
 :Arv_IF a owl:Class ;
     rdfs:label "Inhibiteur de fusion (IF)"@fr ;
     rdfs:comment "Classe d'antirétroviraux qui empêche la fusion du VIH avec la membrane de la cellule cible."@fr ;
@@ -1020,11 +1033,32 @@ plhiv: a owl:Ontology ;
     rdfs:comment "Manifestation clinique concernant un ou plusieurs ganglions lymphatiques."@fr ;
     rdfs:subClassOf :Symptome .
 
+:Traitement_Infection_VIH a owl:Class ;
+    rdfs:label "Traitement de l’infection par le VIH"@fr ;
+    rdfs:comment "Prise en charge thérapeutique visant à contrôler l’infection par le VIH, notamment au moyen d’un traitement antirétroviral."@fr ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty :a_pour_protocole_ARV ;
+            owl:someValuesFrom :Protocole_ARV ],
+        :Traitement .
+
 :a_pour_co_infection a owl:ObjectProperty ;
     rdfs:label "a pour co-infection"@fr ;
     rdfs:comment "Relie une infection par le VIH à une autre maladie infectieuse concomitante."@fr ;
     rdfs:domain :Infection_VIH ;
     rdfs:range :Maladie_Infectieuse .
+
+:a_pour_examen a owl:ObjectProperty ;
+    rdfs:label " ."@fr ;
+    rdfs:comment " ."@fr ;
+    rdfs:domain :Patient ;
+    rdfs:range :Examen_Biologique ;
+    owl:inverseOf :est_examen_de .
+
+:a_pour_maladie a owl:ObjectProperty ;
+    rdfs:label " ."@fr ;
+    rdfs:comment " ."@fr ;
+    rdfs:domain :Patient ;
+    rdfs:range :Maladie .
 
 :a_pour_opportuniste a owl:ObjectProperty ;
     rdfs:label "est associée à une maladie opportuniste"@fr ;
@@ -1040,6 +1074,13 @@ plhiv: a owl:Ontology ;
     rdfs:range :Reference ;
     owl:inverseOf :concerne_patient .
 
+:a_pour_traitement a owl:ObjectProperty ;
+    rdfs:label " ."@fr ;
+    rdfs:comment " ."@fr ;
+    rdfs:domain :Patient ;
+    rdfs:range :Traitement ;
+    owl:inverseOf :est_traitement_de .
+
 :envoie_reference a owl:ObjectProperty ;
     rdfs:label "envoie une référence"@fr ;
     rdfs:comment "Relie un professionnel de santé à la référence médicale qu'il envoie."@fr ;
@@ -1047,12 +1088,26 @@ plhiv: a owl:Ontology ;
     rdfs:range :Reference ;
     owl:inverseOf :est_envoye_par .
 
+:est_examen_de a owl:ObjectProperty ;
+    rdfs:label " ."@fr ;
+    rdfs:comment " ."@fr ;
+    rdfs:domain :Examen_Biologique ;
+    rdfs:range :Patient ;
+    owl:inverseOf :a_pour_examen .
+
 :est_suivi_par a owl:ObjectProperty ;
     rdfs:label "est suivi par"@fr ;
     rdfs:comment "Relie un patient au professionnel de santé qui assure son suivi."@fr ;
     rdfs:domain :Patient ;
     rdfs:range :Personnel_Sante ;
     owl:inverseOf :suit_patient .
+
+:est_traitement_de a owl:ObjectProperty ;
+    rdfs:label " ."@fr ;
+    rdfs:comment " ."@fr ;
+    rdfs:domain :Traitement ;
+    rdfs:range :Patient ;
+    owl:inverseOf :a_pour_traitement .
 
 :est_une_co_infection a owl:ObjectProperty ;
     rdfs:label "est une co-infection associée à"@fr ;
@@ -1065,6 +1120,12 @@ plhiv: a owl:Ontology ;
     rdfs:label "est une manifestation clinique de"@fr ;
     rdfs:comment "Relie un signe ou un symptôme à la maladie dont il constitue une manifestation."@fr ;
     rdfs:domain :Manifestation_Clinique ;
+    rdfs:range :Maladie .
+
+:examine_maladie a owl:ObjectProperty ;
+    rdfs:label " ."@fr ;
+    rdfs:comment " ."@fr ;
+    rdfs:domain :Examen_Biologique ;
     rdfs:range :Maladie .
 
 :recoit_reference a owl:ObjectProperty ;
@@ -1080,6 +1141,12 @@ plhiv: a owl:Ontology ;
     rdfs:domain :Personnel_Sante ;
     rdfs:range :Patient ;
     owl:inverseOf :est_suivi_par .
+
+:traite_maladie a owl:ObjectProperty ;
+    rdfs:label " ."@fr ;
+    rdfs:comment " ."@fr ;
+    rdfs:domain :Traitement ;
+    rdfs:range :Maladie .
 
 :Allergie_Environnementale a owl:Class ;
     rdfs:label "Allergie environnementale"@fr ;
@@ -1099,11 +1166,6 @@ plhiv: a owl:Ontology ;
 :Examen_Hepatite_C a owl:Class ;
     rdfs:label "Examen de l'hépatite C"@fr ;
     rdfs:comment "Ensemble des examens contribuant au dépistage et à la confirmation de l'infection par le virus de l'hépatite C."@fr ;
-    rdfs:subClassOf :Examen_Biologique .
-
-:Examen_Infection_VIH a owl:Class ;
-    rdfs:label "Examen de l'infection par le VIH"@fr ;
-    rdfs:comment "Examen biologique contribuant au dépistage, au diagnostic ou au suivi de l'infection par le virus de l'immunodéficience humaine (VIH)."@fr ;
     rdfs:subClassOf :Examen_Biologique .
 
 :Maladie_Inflammatoire a owl:Class ;
@@ -1175,6 +1237,11 @@ plhiv: a owl:Ontology ;
     rdfs:label "Comportement sexuel à risque"@fr ;
     rdfs:comment "Comportement sexuel susceptible d'augmenter l'exposition au VIH ou à d'autres infections sexuellement transmissibles, selon les circonstances."@fr ;
     rdfs:subClassOf :Comportement_Risque .
+
+:Examen_Infection_VIH a owl:Class ;
+    rdfs:label "Examen de l'infection par le VIH"@fr ;
+    rdfs:comment "Examen biologique contribuant au dépistage, au diagnostic ou au suivi de l'infection par le virus de l'immunodéficience humaine (VIH)."@fr ;
+    rdfs:subClassOf :Examen_Biologique .
 
 :Infection_Parasitaire a owl:Class ;
     rdfs:label "Infection parasitaire"@fr ;
@@ -1308,10 +1375,6 @@ plhiv: a owl:Ontology ;
     rdfs:comment "Symptôme concernant la respiration ou les voies respiratoires."@fr ;
     rdfs:subClassOf :Symptome .
 
-:Traitement a owl:Class ;
-    rdfs:label "Traitement"@fr ;
-    rdfs:comment "Ensemble des mesures thérapeutiques mises en œuvre pour prévenir, contrôler ou traiter une maladie."@fr .
-
 :Bacterie a owl:Class ;
     rdfs:label "Bactérie"@fr ;
     rdfs:comment "Micro-organisme unicellulaire dont certaines espèces peuvent provoquer des infections."@fr ;
@@ -1358,14 +1421,6 @@ plhiv: a owl:Ontology ;
     rdfs:comment "Médicament utilisé pour inhiber la réplication du VIH ou agir dans le cadre de la prévention de l'infection."@fr ;
     rdfs:subClassOf :Medicament .
 
-:Infection_VIH a owl:Class ;
-    rdfs:label "Infection par le VIH"@fr ;
-    rdfs:comment "Infection provoquée par le virus de l'immunodéficience humaine (VIH)."@fr ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onProperty :a_pour_stade ;
-            owl:someValuesFrom :Stade ],
-        :Infection_Virale .
-
 :Maladie_Non_Transmissible a owl:Class ;
     rdfs:label "Maladie non transmissible"@fr ;
     rdfs:comment "Maladie qui ne se transmet pas d'un individu à un autre."@fr ;
@@ -1375,10 +1430,6 @@ plhiv: a owl:Ontology ;
 :Manifestation_Clinique a owl:Class ;
     rdfs:label "Manifestation clinique"@fr ;
     rdfs:comment "Signe ou symptôme observable ou rapporté au cours d'une maladie."@fr .
-
-:Patient a owl:Class ;
-    rdfs:label "Patient"@fr ;
-    rdfs:comment "Personne vivant avec le VIH ou prise en charge dans le cadre du dispositif de suivi médical."@fr .
 
 :Reference a owl:Class ;
     rdfs:label "Référence médicale"@fr ;
@@ -1406,9 +1457,9 @@ plhiv: a owl:Ontology ;
     rdfs:comment "Symptôme concernant le système nerveux."@fr ;
     rdfs:subClassOf :Symptome .
 
-:Maladie a owl:Class ;
-    rdfs:label "Maladie"@fr ;
-    rdfs:comment "État pathologique pouvant affecter un individu et être pris en compte dans le suivi médical des personnes vivant avec le VIH."@fr .
+:Traitement a owl:Class ;
+    rdfs:label "Traitement"@fr ;
+    rdfs:comment "Ensemble des mesures thérapeutiques mises en œuvre pour prévenir, contrôler ou traiter une maladie."@fr .
 
 :Maladie_Infectieuse a owl:Class ;
     rdfs:label "Maladie infectieuse"@fr ;
@@ -1422,9 +1473,25 @@ plhiv: a owl:Ontology ;
     rdfs:label "Personnel de santé"@fr ;
     rdfs:comment "Professionnel de santé participant à la prise en charge, au suivi ou à l'orientation du patient."@fr .
 
+:Infection_VIH a owl:Class ;
+    rdfs:label "Infection par le VIH"@fr ;
+    rdfs:comment "Infection provoquée par le virus de l'immunodéficience humaine (VIH)."@fr ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty :a_pour_stade ;
+            owl:someValuesFrom :Stade ],
+        :Infection_Virale .
+
 :Stade a owl:Class ;
     rdfs:label "Stade clinique de l'infection par le VIH"@fr ;
     rdfs:comment "Stade décrivant l'évolution clinique de l'infection par le VIH selon la classification retenue."@fr .
+
+:Maladie a owl:Class ;
+    rdfs:label "Maladie"@fr ;
+    rdfs:comment "État pathologique pouvant affecter un individu et être pris en compte dans le suivi médical des personnes vivant avec le VIH."@fr .
+
+:Patient a owl:Class ;
+    rdfs:label "Patient"@fr ;
+    rdfs:comment "Personne vivant avec le VIH ou prise en charge dans le cadre du dispositif de suivi médical."@fr .
 
 :Examen_Biologique a owl:Class ;
     rdfs:label "Examen biologique"@fr ;
