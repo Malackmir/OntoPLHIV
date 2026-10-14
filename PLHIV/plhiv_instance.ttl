@@ -74,6 +74,6 @@ ex:reference001 a :Reference ;
 
 # Individu volontairement incomplet pour vérifier qu'une forme SHACL détecte
 # une référence sans patient associé. Ne pas interpréter comme donnée clinique.
-ex:referenceIncompleteTest a :Reference ;
-    rdfs:label "Référence incomplète — fixture négative SHACL"@fr ;
-    :a_pour_motif ex:Motif_Service .
+##ex:referenceIncompleteTest a :Reference ;
+    ##rdfs:label "Référence incomplète — fixture négative SHACL"@fr ;
+    ##:a_pour_motif ex:Motif_Service .
