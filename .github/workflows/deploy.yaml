@@ -354,21 +354,6 @@ jobs:
       # ----------------------------------------------
       # 4. CORESET : SHACL, SPARQL ET INFERENCES
       # ----------------------------------------------
-      - name: Installer Corese-Command
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          mkdir -p tools/bin
-
-          curl --fail --location --retry 3 \
-            "https://github.com/Wimmics/corese/releases/download/release-4.5.0/corese-command-4.5.0.jar" \
-            --output tools/bin/corese-command.jar
-
-          test -s tools/bin/corese-command.jar
-
-          java -jar tools/bin/corese-command.jar -V
-
       - name: Executer les tests scientifiques Corese
         shell: bash
         run: |
@@ -376,16 +361,34 @@ jobs:
 
           CORESE="tools/bin/corese-command.jar"
           RESULTS="generated/tests/corese"
+
+          TBOX="PLHIV/plhiv.ttl"
+          ABOX="PLHIV/plhiv_instance.ttl"
           SHAPES="tests/test_shacl.ttl"
-          ONTOLOGY="PLHIV"
+          DATA="$RESULTS/ontoplhiv-data.ttl"
 
           mkdir -p "$RESULTS/shacl"
           mkdir -p "$RESULTS/requetes"
           mkdir -p "$RESULTS/inferences"
 
-          # Vérifier les fichiers requis
+          # 0. Vérifier les fichiers requis
+          test -s "$CORESE" || {
+            echo "::error::JAR Corese absent ou vide : $CORESE"
+            exit 1
+          }
+
+          test -s "$TBOX" || {
+            echo "::error::TBox absente ou vide : $TBOX"
+            exit 1
+          }
+
+          test -s "$ABOX" || {
+            echo "::error::ABox absente ou vide : $ABOX"
+            exit 1
+          }
+
           test -s "$SHAPES" || {
-            echo "::error::Fichier SHACL absent : $SHAPES"
+            echo "::error::Fichier SHACL absent ou vide : $SHAPES"
             exit 1
           }
 
@@ -399,18 +402,54 @@ jobs:
             exit 1
           }
 
-          # 1. VALIDATION SHACL
-          echo "=== Validation SHACL ==="
+          # 1. CONSTRUIRE LE GRAPHE TBOX + ABOX
+          echo "=== Chargement de la TBox et de la ABox ==="
+
+          python - <<'PY'
+          from pathlib import Path
+          from rdflib import Graph
+
+          tbox = Path("PLHIV/plhiv.ttl")
+          abox = Path("PLHIV/plhivinstance.ttl")
+          output = Path("generated/tests/corese/ontoplhiv-data.ttl")
+
+          graph = Graph()
+
+          graph.parse(str(tbox), format="turtle")
+          print(f"TBox chargée : {tbox}")
+
+          graph.parse(str(abox), format="turtle")
+          print(f"ABox chargée : {abox}")
+
+          output.parent.mkdir(parents=True, exist_ok=True)
+          graph.serialize(destination=str(output), format="turtle")
+
+          if not output.is_file() or output.stat().st_size == 0:
+              raise SystemExit("ERREUR : le graphe combiné est vide.")
+
+          print(f"Nombre de triples combinés : {len(graph)}")
+          print(f"Graphe de données produit : {output}")
+          PY
+
+          test -s "$DATA" || {
+            echo "::error::Graphe combiné absent ou vide."
+            exit 1
+          }
+
+          # 2. VALIDATION SHACL SUR LE GRAPHE COMBINÉ
+          echo "=== Validation SHACL TBox + ABox ==="
 
           java -jar "$CORESE" shacl \
-            -i "$ONTOLOGY" \
+            -i "$DATA" \
             -R \
             -s "$SHAPES" \
             -o "$RESULTS/shacl/rapport-shacl.ttl"
 
-          test -s "$RESULTS/shacl/rapport-shacl.ttl"
+          test -s "$RESULTS/shacl/rapport-shacl.ttl" || {
+            echo "::error::Rapport SHACL absent ou vide."
+            exit 1
+          }
 
-          # Échouer si le rapport indique sh:conforms false.
           python - <<'PY'
           from rdflib import Graph, Namespace
           from pathlib import Path
@@ -427,20 +466,32 @@ jobs:
 
           if not conforms:
               raise SystemExit(
-                  "ERREUR : le rapport SHACL ne contient pas "
-                  "sh:conforms."
+                  "ERREUR : le rapport ne contient pas sh:conforms."
               )
 
           if any(str(value).lower() == "false" for value in conforms):
-              raise SystemExit(
-                  "ERREUR : la validation SHACL a échoué."
-              )
+              print("ÉCHEC : violations SHACL détectées.")
+
+              for result in g.subjects(SH.resultSeverity, None):
+                  for predicate, label in [
+                      (SH.focusNode, "Nœud concerné"),
+                      (SH.resultPath, "Propriété"),
+                      (SH.value, "Valeur"),
+                      (SH.sourceShape, "Forme SHACL"),
+                      (SH.sourceConstraintComponent, "Contrainte"),
+                      (SH.resultSeverity, "Sévérité"),
+                      (SH.resultMessage, "Message"),
+                  ]:
+                      for value in g.objects(result, predicate):
+                          print(f"{label} : {value}")
+
+              raise SystemExit(1)
 
           print("Validation SHACL réussie.")
           PY
 
-          # 2. EXECUTION DES REQUETES SPARQL
-          echo "=== Requêtes SPARQL ==="
+          # 3. EXECUTION DES REQUETES SPARQL
+          echo "=== Requêtes SPARQL sur TBox + ABox ==="
 
           COUNT=0
 
@@ -452,12 +503,16 @@ jobs:
 
             java -jar "$CORESE" sparql \
               -q "$file" \
-              -i "$ONTOLOGY" \
+              -i "$DATA" \
               -R \
               -r json \
               -o "$output"
 
-            test -s "$output"
+            test -s "$output" || {
+              echo "::error::Résultat SPARQL absent ou vide : $output"
+              exit 1
+            }
+
             COUNT=$((COUNT + 1))
           done < <(
             find sparql/requetes -type f \
@@ -472,8 +527,8 @@ jobs:
 
           echo "Nombre de requêtes exécutées : $COUNT"
 
-          # 3. REQUETES CONSTRUCT D'INFERENCE
-          echo "=== Production des résultats d'inférence ==="
+          # 4. REQUETES CONSTRUCT D'INFERENCE
+          echo "=== Inférences sur TBox + ABox ==="
 
           COUNT=0
 
@@ -485,12 +540,16 @@ jobs:
 
             java -jar "$CORESE" sparql \
               -q "$file" \
-              -i "$ONTOLOGY" \
+              -i "$DATA" \
               -R \
               -r turtle \
               -o "$output"
 
-            test -s "$output"
+            test -s "$output" || {
+              echo "::error::Résultat d'inférence absent ou vide : $output"
+              exit 1
+            }
+
             COUNT=$((COUNT + 1))
           done < <(
             find sparql/inferences -type f \
@@ -504,8 +563,9 @@ jobs:
 
           echo "Nombre de requêtes d'inférence exécutées : $COUNT"
 
+          # 5. AFFICHER LES LIVRABLES
           echo "=== Livrables Corese ==="
-          find "$RESULTS" -type f -print          
+          find "$RESULTS" -type f -print
 
       # ----------------------------------------------
       # 5. WIDOCO
