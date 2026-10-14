@@ -354,6 +354,30 @@ jobs:
       # ----------------------------------------------
       # 4. CORESET : SHACL, SPARQL ET INFERENCES
       # ----------------------------------------------
+      - name: Installer Corese-Command
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p tools/bin
+
+          curl --fail --show-error --location --retry 3 \
+            "https://github.com/Wimmics/corese/releases/download/release-4.5.0/corese-command-4.5.0.jar" \
+            --output tools/bin/corese-command.jar
+
+          test -s tools/bin/corese-command.jar
+
+          java -jar tools/bin/corese-command.jar -V
+      
+          echo "=== Vérification de Corese ==="
+          pwd
+          ls -lh tools/bin/ || true
+
+          test -s "$CORESE" || {
+            echo "::error::JAR Corese absent ou vide : $CORESE"
+            exit 1
+          }
+      
       - name: Executer les tests scientifiques Corese
         shell: bash
         run: |
@@ -410,7 +434,7 @@ jobs:
           from rdflib import Graph
 
           tbox = Path("PLHIV/plhiv.ttl")
-          abox = Path("PLHIV/plhivinstance.ttl")
+          abox = Path("PLHIV/plhiv_instance.ttl")
           output = Path("generated/tests/corese/ontoplhiv-data.ttl")
 
           graph = Graph()
