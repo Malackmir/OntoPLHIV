@@ -1,0 +1,38 @@
+# OntoPLHIV — règles d'inférence exprimées en SPARQL CONSTRUCT
+# Exécuter comme requête CONSTRUCT dans Corese sur le graphe de l'ontologie
+# et instances.ttl. Le résultat est un graphe dérivé ; il ne modifie pas la source.
+
+PREFIX : <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv#>
+PREFIX ex: <https://ontologie.li3-uasz.com/OntoPLHIV/tests#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+CONSTRUCT {
+  # Règle 1 : matérialiser l'inverse Patient -> examen à partir de Examen -> patient
+  ?patient :a_pour_examen ?examen .
+  # Règle 2 : matérialiser l'inverse Patient -> traitement
+  ?patient :a_pour_traitement ?traitement .
+  # Règle 3 : une maladie liée comme co-infection est classée Maladie_Co_Infectieuse
+  ?maladie rdf:type :Maladie_Co_Infectieuse .
+  # Règle 4 : matérialiser la relation inverse de suivi
+  ?patient :est_suivi_par ?professionnel .
+}
+WHERE {
+  {
+    ?examen :est_examen_de ?patient .
+    ?examen a :Examen_Biologique .
+  }
+  UNION
+  {
+    ?traitement :est_traitement_de ?patient .
+  }
+  UNION
+  {
+    ?infection :a_pour_co_infection ?maladie .
+    ?maladie a :Maladie_Infectieuse .
+  }
+  UNION
+  {
+    ?professionnel :suit_patient ?patient .
+  }
+}

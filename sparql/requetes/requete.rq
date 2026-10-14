@@ -1,0 +1,53 @@
+# OntoPLHIV — requêtes de test SPARQL 1.1
+# Préfixes communs à chaque requête
+PREFIX : <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv#>
+PREFIX ex: <https://ontologie.li3-uasz.com/OntoPLHIV/tests#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# Q1. Patients et infection VIH
+SELECT ?patient ?infection
+WHERE { ?patient a :Patient ; :a_pour_infection_VIH ?infection . }
+
+# Q2. Maladies associées à l'infection VIH (co-infections et comorbidités)
+# Les deux relations sont interrogées séparément pour distinguer leur sémantique.
+SELECT ?infection ?relation ?maladie
+WHERE {
+  { ?infection :a_pour_co_infection ?maladie . BIND("co-infection" AS ?relation) }
+  UNION
+  { ?infection :a_pour_comorbidite ?maladie . BIND("comorbidité" AS ?relation) }
+}
+
+# Q3. Examens biologiques réalisés pour chaque patient
+SELECT ?patient ?examen
+WHERE {
+  ?examen :est_examen_de ?patient .
+  ?examen a :Examen_Biologique .
+}
+
+# Q4. Protocoles et antirétroviraux
+SELECT ?protocole ?antiretroviral
+WHERE { ?protocole :a_comme_antiretroviral ?antiretroviral . }
+
+# Q5. Références et acteurs
+SELECT ?reference ?patient ?emetteur ?destinataire
+WHERE {
+  ?reference a :Reference ; :concerne_patient ?patient .
+  OPTIONAL { ?reference :est_envoye_par ?emetteur }
+  OPTIONAL { ?reference :est_recu_par ?destinataire }
+}
+
+# Q6. Patients suivis par un professionnel de santé
+SELECT ?professionnel ?patient
+WHERE { ?professionnel :suit_patient ?patient . }
+
+# Q7. Vérifier les individus de test et leurs types explicites
+SELECT ?individu ?type
+WHERE {
+  VALUES ?individu { ex:patient001 ex:infectionVIH001 ex:tuberculose001 ex:protocole001 }
+  ?individu rdf:type ?type .
+}
+ORDER BY ?individu ?type
+
+# Important : ce fichier contient plusieurs requêtes SELECT documentées.
+# Exécuter une requête à la fois dans l'éditeur SPARQL de Corese.

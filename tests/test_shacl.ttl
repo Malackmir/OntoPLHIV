@@ -1,0 +1,44 @@
+@prefix : <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv#> .
+@prefix ex: <https://ontologie.li3-uasz.com/OntoPLHIV/tests#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Formes de validation structurelle (SHACL Core).
+# Charger instances.ttl comme données et ce fichier comme graphe de formes.
+
+ex:PatientShape a sh:NodeShape ;
+    sh:targetClass :Patient ;
+    sh:property [
+        sh:path :a_pour_infection_VIH ;
+        sh:class :Infection_VIH ;
+        sh:message "Une infection VIH liée au patient doit être une instance d'Infection_VIH."@fr
+    ] ;
+    sh:property [
+        sh:path :a_pour_reference ;
+        sh:class :Reference ;
+        sh:message "La référence associée doit être une instance de Reference."@fr
+    ] .
+
+ex:ReferenceShape a sh:NodeShape ;
+    sh:targetClass :Reference ;
+    sh:property [
+        sh:path :concerne_patient ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class :Patient ;
+        sh:message "Une référence doit concerner exactement un patient."@fr
+    ] ;
+    sh:property [
+        sh:path :a_pour_motif ;
+        sh:minCount 1 ;
+        sh:message "Une référence doit préciser au moins un motif."@fr
+    ] .
+
+ex:ProtocoleARVShape a sh:NodeShape ;
+    sh:targetClass :Protocole_ARV ;
+    sh:property [
+        sh:path :a_comme_antiretroviral ;
+        sh:minCount 1 ;
+        sh:class :Antiretroviral ;
+        sh:message "Un protocole ARV doit contenir au moins un antirétroviral."@fr
+    ] .

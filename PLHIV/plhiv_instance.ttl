@@ -1,0 +1,79 @@
+@prefix : <https://ontologie.li3-uasz.com/OntoPLHIV/plhiv#> .
+@prefix ex: <https://ontologie.li3-uasz.com/OntoPLHIV/tests#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Jeu de données fictif, destiné uniquement aux tests techniques.
+# Les individus ci-dessous ne représentent aucune personne réelle.
+
+ex:patient001 a :Patient ;
+    rdfs:label "Patient test 001"@fr ;
+    :a_pour_infection_VIH ex:infectionVIH001 ;
+    :a_pour_maladie ex:diabete001, ex:tuberculose001 ;
+    :a_pour_traitement ex:traitementARV001 ;
+    :a_pour_examen ex:cd4_001, ex:chargeVirale_001 ;
+    :a_pour_reference ex:reference001 ;
+    :est_suivi_par ex:medecin001 .
+
+ex:infectionVIH001 a :Infection_VIH ;
+    rdfs:label "Infection VIH du patient test 001"@fr ;
+    :a_pour_stade ex:stade3_001 ;
+    :a_pour_co_infection ex:tuberculose001 ;
+    :a_pour_comorbidite ex:diabete001 .
+
+ex:stade3_001 a :Stade_3 ;
+    rdfs:label "Stade clinique 3 (jeu de test)"@fr ;
+    :se_manifeste_par ex:fievre_001 .
+
+ex:tuberculose001 a :Maladie_Opportuniste, :Maladie_Infectieuse ;
+    rdfs:label "Tuberculose (instance de test)"@fr .
+
+ex:diabete001 a :Diabete_Type_2 ;
+    rdfs:label "Diabète de type 2 (instance de test)"@fr .
+
+ex:fievre_001 a :Fievre ;
+    rdfs:label "Fièvre (manifestation de test)"@fr .
+
+ex:traitementARV001 a :Traitement, :Traitement_Infection_VIH ;
+    rdfs:label "Traitement ARV de test"@fr ;
+    :a_pour_protocole_ARV ex:protocole001 .
+
+ex:protocole001 a :Protocole_ARV, :Protocole_Ligne_1 ;
+    rdfs:label "Protocole de première ligne (test)"@fr ;
+    :a_comme_antiretroviral ex:dolutegravir001, ex:lamivudine001 .
+
+ex:dolutegravir001 a :Antiretroviral, :Dolutegravir ;
+    rdfs:label "Dolutégravir (instance de test)"@fr .
+
+ex:lamivudine001 a :Antiretroviral, :Lamivudine ;
+    rdfs:label "Lamivudine (instance de test)"@fr .
+
+ex:cd4_001 a :Examen_Biologique, :Examen_Infection_VIH, :Examen_CD4 ;
+    rdfs:label "Dénombrement CD4 (test)"@fr ;
+    :est_examen_de ex:patient001 ;
+    :examine_infection_VIH ex:infectionVIH001 .
+
+ex:chargeVirale_001 a :Examen_Biologique, :Examen_Infection_VIH, :Examen_Charge_Virale_VIH ;
+    rdfs:label "Charge virale (test)"@fr ;
+    :est_examen_de ex:patient001 ;
+    :examine_infection_VIH ex:infectionVIH001 .
+
+ex:medecin001 a :Medecin ;
+    rdfs:label "Médecin de suivi (individu fictif)"@fr ;
+    :suit_patient ex:patient001 ;
+    :recoit_reference ex:reference001 .
+
+ex:reference001 a :Reference ;
+    rdfs:label "Référence de test 001"@fr ;
+    :concerne_patient ex:patient001 ;
+    :est_envoye_par ex:medecin001 ;
+    :est_recu_par ex:medecin001 ;
+    :a_pour_motif ex:Motif_Service .
+
+# Individu volontairement incomplet pour vérifier qu'une forme SHACL détecte
+# une référence sans patient associé. Ne pas interpréter comme donnée clinique.
+ex:referenceIncompleteTest a :Reference ;
+    rdfs:label "Référence incomplète — fixture négative SHACL"@fr ;
+    :a_pour_motif ex:Motif_Service .
