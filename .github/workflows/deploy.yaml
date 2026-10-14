@@ -386,6 +386,17 @@ jobs:
           CORESE="tools/bin/corese-command.jar"
           RESULTS="generated/tests/corese"
 
+          echo "=== Vérification de Corese ==="
+          pwd
+          ls -lh tools/bin/
+
+          test -s "$CORESE" || {
+            echo "::error::JAR Corese absent ou vide : $CORESE"
+            exit 1
+          }
+
+          java -jar "$CORESE" -V
+
           TBOX="PLHIV/plhiv.ttl"
           ABOX="PLHIV/plhiv_instance.ttl"
           SHAPES="tests/test_shacl.ttl"
