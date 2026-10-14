@@ -352,6 +352,162 @@ jobs:
           echo "Suite de tests et rapports Themis préparés."
 
       # ----------------------------------------------
+      # 4. CORESET : SHACL, SPARQL ET INFERENCES
+      # ----------------------------------------------
+      - name: Installer Corese-Command
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p tools/bin
+
+          curl --fail --location --retry 3 \
+            "https://github.com/Wimmics/corese/releases/download/release-4.5.0/corese-command-4.5.0.jar" \
+            --output tools/bin/corese-command.jar
+
+          test -s tools/bin/corese-command.jar
+
+          java -jar tools/bin/corese-command.jar -V
+
+      - name: Executer les tests scientifiques Corese
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          CORESE="tools/bin/corese-command.jar"
+          RESULTS="generated/tests/corese"
+          SHAPES="tests/test_shacl.ttl"
+          ONTOLOGY="PLHIV"
+
+          mkdir -p "$RESULTS/shacl"
+          mkdir -p "$RESULTS/requetes"
+          mkdir -p "$RESULTS/inferences"
+
+          # Vérifier les fichiers requis
+          test -s "$SHAPES" || {
+            echo "::error::Fichier SHACL absent : $SHAPES"
+            exit 1
+          }
+
+          test -d "sparql/requetes" || {
+            echo "::error::Dossier sparql/requetes absent."
+            exit 1
+          }
+
+          test -d "sparql/inferences" || {
+            echo "::error::Dossier sparql/inferences absent."
+            exit 1
+          }
+
+          # 1. VALIDATION SHACL
+          echo "=== Validation SHACL ==="
+
+          java -jar "$CORESE" shacl \
+            -i "$ONTOLOGY" \
+            -R \
+            -s "$SHAPES" \
+            -o "$RESULTS/shacl/rapport-shacl.ttl"
+
+          test -s "$RESULTS/shacl/rapport-shacl.ttl"
+
+          # Échouer si le rapport indique sh:conforms false.
+          python - <<'PY'
+          from rdflib import Graph, Namespace
+          from pathlib import Path
+
+          report = Path(
+              "generated/tests/corese/shacl/rapport-shacl.ttl"
+          )
+
+          g = Graph()
+          g.parse(str(report), format="turtle")
+
+          SH = Namespace("http://www.w3.org/ns/shacl#")
+          conforms = list(g.objects(None, SH.conforms))
+
+          if not conforms:
+              raise SystemExit(
+                  "ERREUR : le rapport SHACL ne contient pas "
+                  "sh:conforms."
+              )
+
+          if any(str(value).lower() == "false" for value in conforms):
+              raise SystemExit(
+                  "ERREUR : la validation SHACL a échoué."
+              )
+
+          print("Validation SHACL réussie.")
+          PY
+
+          # 2. EXECUTION DES REQUETES SPARQL
+          echo "=== Requêtes SPARQL ==="
+
+          COUNT=0
+
+          while IFS= read -r -d '' file; do
+            name="$(basename "${file%.*}")"
+            output="$RESULTS/requetes/${name}.json"
+
+            echo "Requête : $file"
+
+            java -jar "$CORESE" sparql \
+              -q "$file" \
+              -i "$ONTOLOGY" \
+              -R \
+              -r json \
+              -o "$output"
+
+            test -s "$output"
+            COUNT=$((COUNT + 1))
+          done < <(
+            find sparql/requetes -type f \
+              \( -iname '*.rq' -o -iname '*.sparql' \) \
+              -print0
+          )
+
+          if [ "$COUNT" -eq 0 ]; then
+            echo "::error::Aucune requête SPARQL trouvée."
+            exit 1
+          fi
+
+          echo "Nombre de requêtes exécutées : $COUNT"
+
+          # 3. REQUETES CONSTRUCT D'INFERENCE
+          echo "=== Production des résultats d'inférence ==="
+
+          COUNT=0
+
+          while IFS= read -r -d '' file; do
+            name="$(basename "${file%.*}")"
+            output="$RESULTS/inferences/${name}.ttl"
+
+            echo "Inférence : $file"
+
+            java -jar "$CORESE" sparql \
+              -q "$file" \
+              -i "$ONTOLOGY" \
+              -R \
+              -r turtle \
+              -o "$output"
+
+            test -s "$output"
+            COUNT=$((COUNT + 1))
+          done < <(
+            find sparql/inferences -type f \
+              \( -iname '*.rq' -o -iname '*.sparql' \) \
+              -print0
+          )
+
+          if [ "$COUNT" -eq 0 ]; then
+            echo "::warning::Aucun fichier d'inférence SPARQL trouvé."
+          fi
+
+          echo "Nombre de requêtes d'inférence exécutées : $COUNT"
+
+          echo "=== Livrables Corese ==="
+          find "$RESULTS" -type f -print          
+
+      # ----------------------------------------------
       # 5. WIDOCO
       # ----------------------------------------------
       - name: Generer la documentation avec Widoco
