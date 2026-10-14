@@ -526,16 +526,111 @@ jobs:
           print("Validation SHACL réussie.")
           PY
 
-          # 3. EXECUTION DES REQUETES SPARQL
+
+          # 3. EXECUTION DES REQUETES SPARQL MULTIPLES
           echo "=== Requêtes SPARQL sur TBox + ABox ==="
 
+          QUERY_DIR="$RUNNER_TEMP/corese-sparql-queries"
+          export QUERY_DIR
+          rm -rf "$QUERY_DIR"
+          mkdir -p "$QUERY_DIR"
+
+          # Extraire les requêtes indépendantes de chaque fichier
+          python - <<'PY'
+          import os
+          import re
+          from pathlib import Path
+
+          source_dir = Path("sparql/requetes")
+          output_dir = Path(os.environ["QUERY_DIR"])
+          output_dir.mkdir(parents=True, exist_ok=True)
+
+          # Détecter les formes de requêtes SPARQL au début d'une ligne.
+          query_pattern = re.compile(
+              r"(?im)^[ \t]*(SELECT|ASK|CONSTRUCT|DESCRIBE)\b"
+          )
+
+          # Extraire les déclarations PREFIX communes.
+          prefix_pattern = re.compile(
+              r"(?im)^[ \t]*PREFIX[ \t]+[^<\r\n]*<[^>\r\n]+>[ \t]*$"
+          )
+
+          total = 0
+
+          files = sorted(
+              p for p in source_dir.rglob("*")
+              if p.is_file()
+              and p.suffix.lower() in {".rq", ".sparql"}
+          )
+
+          if not files:
+              raise SystemExit(
+                  "ERREUR : aucun fichier .rq ou .sparql trouvé."
+              )
+
+          for source in files:
+              text = source.read_text(encoding="utf-8")
+
+              prefixes = list(dict.fromkeys(
+                  m.group(0).strip()
+                  for m in prefix_pattern.finditer(text)
+              ))
+
+              matches = list(query_pattern.finditer(text))
+
+              if not matches:
+                  raise SystemExit(
+                      f"ERREUR : aucune requête SPARQL détectée dans {source}"
+                  )
+
+              relative_name = str(
+                  source.relative_to(source_dir).with_suffix("")
+              ).replace("/", "__").replace("\\", "__")
+
+              for index, match in enumerate(matches):
+                  start = match.start()
+                  end = (
+                      matches[index + 1].start()
+                      if index + 1 < len(matches)
+                      else len(text)
+                  )
+
+                  query = text[start:end].strip()
+
+                  if not query:
+                      raise SystemExit(
+                          f"ERREUR : requête vide dans {source}"
+                      )
+
+                  # Chaque requête reçoit les préfixes communs.
+                  complete_query = "\n".join(prefixes)
+                  complete_query += "\n\n" + query + "\n"
+
+                  destination = output_dir / (
+                      f"{relative_name}_q{index + 1:02d}.rq"
+                  )
+
+                  destination.write_text(
+                      complete_query, encoding="utf-8"
+                  )
+
+                  total += 1
+                  print(
+                      f"Requête extraite : {source} "
+                      f"-> {destination.name}"
+                  )
+
+          print(f"Total de requêtes extraites : {total}")
+          PY
+
+          # Exécuter chaque requête indépendamment avec Corese.
           COUNT=0
 
           while IFS= read -r -d '' file; do
             name="$(basename "${file%.*}")"
             output="$RESULTS/requetes/${name}.json"
 
-            echo "Requête : $file"
+            echo "Exécution Corese : $name"
 
             java -jar "$CORESE" sparql \
               -q "$file" \
@@ -551,17 +646,15 @@ jobs:
 
             COUNT=$((COUNT + 1))
           done < <(
-            find sparql/requetes -type f \
-              \( -iname '*.rq' -o -iname '*.sparql' \) \
-              -print0
+            find "$QUERY_DIR" -type f -name '*.rq' -print0
           )
 
           if [ "$COUNT" -eq 0 ]; then
-            echo "::error::Aucune requête SPARQL trouvée."
+            echo "::error::Aucune requête SPARQL exécutée."
             exit 1
           fi
 
-          echo "Nombre de requêtes exécutées : $COUNT"
+          echo "Nombre de requêtes SPARQL exécutées : $COUNT"
 
           # 4. REQUETES CONSTRUCT D'INFERENCE
           echo "=== Inférences sur TBox + ABox ==="
